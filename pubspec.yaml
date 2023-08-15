@@ -18,6 +18,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   geolocator: ^9.0.2
+  google_maps: ^6.3.0
+  animate_do: ^3.0.2
 
 dev_dependencies:
   flutter_test:

@@ -65,7 +65,7 @@ class _DrawBarState extends State<DrawBar> {
             ListTile(
               textColor: Color(0xff174076),
               iconColor: Color(0xff174076),
-              leading: const Icon(Icons.add_comment_sharp),
+              leading: const Icon(Icons.balance),
               title: const Text(
                 "Bases legales",
                 style: TextStyle(
@@ -79,7 +79,7 @@ class _DrawBarState extends State<DrawBar> {
             ListTile(
               textColor: Color(0xff174076),
               iconColor: Color(0xff174076),
-              leading: const Icon(Icons.person_3_sharp),
+              leading: const Icon(Icons.notifications_active),
               title: const Text(
                 "Notificaciones",
                 style: TextStyle(
@@ -93,7 +93,7 @@ class _DrawBarState extends State<DrawBar> {
             ListTile(
               textColor: Color(0xff174076),
               iconColor: Color(0xff174076),
-              leading: const Icon(Icons.person_3_sharp),
+              leading: const Icon(Icons.ballot_outlined),
               title: const Text(
                 "Encuestas",
                 style: TextStyle(
@@ -108,9 +108,9 @@ class _DrawBarState extends State<DrawBar> {
             ListTile(
               textColor: Color(0xff174076),
               iconColor: Color(0xff174076),
-              leading: const Icon(Icons.person_3_sharp),
+              leading: const Icon(Icons.mark_unread_chat_alt),
               title: const Text(
-                "ChatBot",
+                "Asistente Virtual",
                 style: TextStyle(
                     fontSize: 14,
                     fontFamily: 'Lato',
@@ -122,7 +122,7 @@ class _DrawBarState extends State<DrawBar> {
             ListTile(
               textColor: Color(0xff174076),
               iconColor: Color(0xff174076),
-              leading: const Icon(Icons.person_3_sharp),
+              leading: const Icon(Icons.policy),
               title: const Text(
                 "Politicas de Privacidad",
                 style: TextStyle(
@@ -136,7 +136,7 @@ class _DrawBarState extends State<DrawBar> {
             ListTile(
               textColor: Color(0xff174076),
               iconColor: Color(0xff174076),
-              leading: const Icon(Icons.person_3_sharp),
+              leading: const Icon(Icons.hearing),
               title: const Text(
                 "Ayuda",
                 style: TextStyle(
@@ -159,7 +159,7 @@ class _DrawBarState extends State<DrawBar> {
                     color: Colors.red,
                     fontWeight: FontWeight.bold),
               ),
-              onTap: () => {Navigator.pushNamed(context, '/login')},
+              onTap: () => {Navigator.pushNamed(context, '/')},
             ),
           ],
         ));

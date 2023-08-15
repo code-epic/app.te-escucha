@@ -1,9 +1,13 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
+import 'package:te_escucha/src/gui/emergenciaestado.dart';
 import 'package:te_escucha/src/gui/emergenciamenor.dart';
 import 'package:te_escucha/src/gui/make_report_who.dart';
 import 'package:te_escucha/src/model/const.dart';
+
+import '../bloc/combo.dart';
 
 class MakeReport extends StatefulWidget {
   const MakeReport({super.key});
@@ -18,6 +22,13 @@ class _MakeReportState extends State<MakeReport> {
   String producto = "";
   String descripcion = "";
   String imagen = "tramites/Gente".toLowerCase();
+  CmbKeyValue? cmbReporteEmergencia;
+
+  List<CmbKeyValue> lstReporteEmergencia = <CmbKeyValue>[
+    const CmbKeyValue('1', 'Ubicación Actual'),
+    const CmbKeyValue('2', 'Desde otro lugar'),
+  ];
+
   List<String> lst = [];
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -25,6 +36,9 @@ class _MakeReportState extends State<MakeReport> {
   bool xsolicitud = false;
 
   bool bImg = false;
+  bool bSar = false;
+  bool bSarX = false;
+
   @override
   void initState() {
     super.initState();
@@ -59,9 +73,9 @@ class _MakeReportState extends State<MakeReport> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     texto1(
-                        "Está realizando una solicitud para que podamos atender su caso."),
+                        "Usted debe realizar un reporte para que nuestro equipo pueda atender su caso."),
                     texto2(
-                        "Continue paso a paso por el proceso de trámite, puedes volver atrás a revisar lo que has hecho antes de confirmarla"),
+                        "A continuación, seleccione el tipo de reporte que va a realizar desplegando la lista que se encuentra debajo. Antes de finalizar puede volver atrás para verificar que su solicitud esté correcta"),
                     const SizedBox(
                       height: 5,
                     ),
@@ -83,15 +97,16 @@ class _MakeReportState extends State<MakeReport> {
                               setState(() {
                                 tipo = value!;
                                 xsolicitud = false;
+                                bSar = false;
                                 contenido = false;
-                                if (tipo !=
-                                    'Emergencias de Embarcaciones Menores') {
+                                if (tipo != 'Emergencias de Embarcaciones') {
                                   xsolicitud = true;
                                   bImg = false;
                                   caso = selectList.first;
                                 } else {
                                   imagen = "group/sar";
                                   bImg = true;
+                                  bSar = true;
                                 }
 
                                 mdlOk(context);
@@ -216,7 +231,19 @@ class _MakeReportState extends State<MakeReport> {
                             )),
                       ),
                     ),
-                    if (bImg) Center(child: imagenSeleccion(context, imagen)),
+                    Visibility(
+                      visible: bSar,
+                      child: Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: ReporteEmergencia(width),
+                      ),
+                    ),
+                    if (bImg)
+                      Center(
+                        child: FadeInUp(
+                          child: imagenSeleccion(context, imagen),
+                        ),
+                      ),
                   ],
                 ),
               )),
@@ -317,7 +344,7 @@ class _MakeReportState extends State<MakeReport> {
 
   Positioned buttomNext(BuildContext context) {
     return Positioned(
-        top: MediaQuery.of(context).size.height - 60,
+        top: MediaQuery.of(context).size.height - 80,
         width: MediaQuery.of(context).size.width,
         child: Container(
             padding: const EdgeInsets.all(6.0),
@@ -357,12 +384,20 @@ class _MakeReportState extends State<MakeReport> {
   void nextPage(String tipo, String caso, String producto, String descripcion) {
     if (tipo == "---------------") {
     } else {
-      if (tipo == 'Emergencias de Embarcaciones Menores') {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const EmergenciaMenor(),
-            ));
+      if (tipo == 'Emergencias de Embarcaciones') {
+        if (cmbReporteEmergencia!.id == "2") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const EmergenciaEstado(),
+              ));
+        } else {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const EmergenciaMenor(),
+              ));
+        }
       } else {
         Navigator.push(
           context,
@@ -383,19 +418,24 @@ class _MakeReportState extends State<MakeReport> {
       context: context,
       builder: (BuildContext context) => Dialog(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               texto1(
-                  "INEA te escucha es una APP para atender tus quejas, reclamos, sugerencias y denuncias"),
+                  "\“INEA Te Escucha\” es una herramienta para atender tus quejas y reclamos, sugerencias, denuncias y emergencias de embarcaciones. "),
               const SizedBox(
                 height: 5,
               ),
               texto2(
-                  "Usala con conciencia. El envio de un reporte engañoso puede generar consecuencias legales Esta APP está protegida por la Politica de privacidad y los Terminos de Servicios que aplican"),
-              const SizedBox(height: 35),
+                  "Úsala con conciencia. El envío de un reporte engañoso puede generar consecuencias legales."),
+              const SizedBox(height: 5),
+              texto2(
+                  "Esta herramienta está protegida por la política de privacidad y los términos de servicios que aplican."),
+              texto2(
+                  "Seleccione el tipo de caso, según sea el inconveniente que esté presentando."),
+              const SizedBox(height: 25),
               Ok(context),
             ],
           ),
@@ -418,8 +458,8 @@ class _MakeReportState extends State<MakeReport> {
                     backgroundColor: Color(0xff174076),
                     shadowColor: Color(0xff174076), // background
                     foregroundColor: Colors.white, // foreground
-                    minimumSize: Size(180, 40),
-                    maximumSize: Size(180, 40),
+                    minimumSize: Size(120, 40),
+                    maximumSize: Size(120, 40),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
@@ -440,5 +480,56 @@ class _MakeReportState extends State<MakeReport> {
                 )
               ],
             )));
+  }
+
+  Container ReporteEmergencia(double width) {
+    return Container(
+        padding: const EdgeInsets.only(left: 9, right: 3),
+        height: 40,
+        width: width,
+        decoration: decoracionCombo(),
+        child: DropdownButton<CmbKeyValue>(
+          value: cmbReporteEmergencia,
+          hint:
+              const Text("Seleccione el lugar donde se originó la emergencia"),
+          icon: const Icon(Icons.arrow_drop_down_sharp),
+          elevation: 16,
+          onChanged: (CmbKeyValue? value) {
+            setState(() {
+              cmbReporteEmergencia = value;
+              print(cmbReporteEmergencia!.id);
+            });
+          },
+          underline: Container(),
+          items: lstReporteEmergencia
+              .map((CmbKeyValue? cmb) => DropdownMenuItem<CmbKeyValue>(
+                    value: cmb,
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: textoCombos(cmb),
+                    ),
+                  ))
+              .toList(),
+          isExpanded: true,
+        ));
+  }
+
+  BoxDecoration decoracionCombo() {
+    return BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
+        color: const Color(0xffe7ecf0),
+        border: Border.all(color: const Color(0xff174076)));
+  }
+
+  Text textoCombos(CmbKeyValue? cmb) {
+    return Text(
+      cmb!.name,
+      style: const TextStyle(
+          color: Colors.black,
+          fontStyle: FontStyle.normal,
+          fontSize: 14,
+          fontFamily: 'Roboto',
+          fontWeight: FontWeight.bold),
+    );
   }
 }

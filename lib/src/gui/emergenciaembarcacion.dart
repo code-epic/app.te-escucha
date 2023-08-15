@@ -15,7 +15,22 @@ class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
   @override
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  CmbKeyValue? cmbParentesco;
+  CmbKeyValue? cmbTipoEmbarcaciones;
+
+  List<CmbKeyValue> lstTipoEmbarcaciones = <CmbKeyValue>[
+    const CmbKeyValue('PA', 'PASAJE'),
+    const CmbKeyValue('NU', 'NUCLEARES'),
+    const CmbKeyValue('DE', 'DEPORTIVOS'),
+    const CmbKeyValue('RE', 'RECREO'),
+    const CmbKeyValue('SE', 'SERVICIO'),
+    const CmbKeyValue('PE', 'PESQUERO'),
+    const CmbKeyValue('CI', 'CIENTÍFICO'),
+    const CmbKeyValue('CA', 'DE CARGA'),
+    const CmbKeyValue('TA', 'TANQUERO'),
+    const CmbKeyValue('PL', 'PLATAFORMAS'),
+    const CmbKeyValue('TU', 'TURISMO'),
+    const CmbKeyValue('AN', 'ACCESORIOS DE NAVEGACIÓN'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +58,8 @@ class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
                 const SizedBox(
                   height: 65,
                 ),
-                texto1("Debe Ingresar los datos de la embarcacion."),
-                texto2("Los datos ayudaran a ubicar la embarcación "),
+                texto1("Debe Ingresar los datos de la embarcación."),
+                texto2("Los datos ayudarán a ubicar la embarcación "),
                 const SizedBox(
                   height: 2,
                 ),
@@ -54,9 +69,13 @@ class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
                     style: textPersonal,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
-                      labelText: 'Tipo',
+                      labelText: 'Nombre de la embarcación',
                     ),
                   ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TipoEmbarcaciones(width),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -64,17 +83,7 @@ class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
                     style: textPersonal,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
-                      labelText: 'Matricula',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    style: textPersonal,
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
-                      labelText: 'Nombre',
+                      labelText: 'Matrícula',
                     ),
                   ),
                 ),
@@ -138,7 +147,7 @@ class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              "3/4",
+              "3/5",
               style: TextStyle(
                   color: Colors.grey,
                   fontSize: 14,
@@ -196,14 +205,6 @@ class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
     );
   }
 
-  Text textoCombos(CmbKeyValue? cmb) {
-    return Text(
-      cmb!.name,
-      style: const TextStyle(
-          fontSize: 13, fontFamily: 'Roboto', fontWeight: FontWeight.bold),
-    );
-  }
-
   Padding texto2(String texto) {
     return Padding(
       padding: EdgeInsets.all(5.0),
@@ -235,4 +236,53 @@ class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
     );
   }
 
+  Container TipoEmbarcaciones(double width) {
+    return Container(
+        padding: const EdgeInsets.only(left: 9, right: 3),
+        height: 40,
+        width: width,
+        decoration: decoracionCombo(),
+        child: DropdownButton<CmbKeyValue>(
+          value: cmbTipoEmbarcaciones,
+          hint: const Text("Destinación de la embarcación"),
+          icon: const Icon(Icons.arrow_drop_down_sharp),
+          elevation: 16,
+          onChanged: (CmbKeyValue? value) {
+            setState(() {
+              cmbTipoEmbarcaciones = value;
+              print(cmbTipoEmbarcaciones!.id);
+            });
+          },
+          underline: Container(),
+          items: lstTipoEmbarcaciones
+              .map((CmbKeyValue? cmb) => DropdownMenuItem<CmbKeyValue>(
+                    value: cmb,
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: textoCombos(cmb),
+                    ),
+                  ))
+              .toList(),
+          isExpanded: true,
+        ));
+  }
+
+  BoxDecoration decoracionCombo() {
+    return BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
+        color: const Color(0xffe7ecf0),
+        border: Border.all(color: const Color(0xff174076)));
+  }
+
+  Text textoCombos(CmbKeyValue? cmb) {
+    return Text(
+      cmb!.name,
+      style: const TextStyle(
+          color: Colors.black,
+          fontStyle: FontStyle.normal,
+          fontSize: 14,
+          fontFamily: 'Roboto',
+          fontWeight: FontWeight.bold),
+    );
+  }
 }

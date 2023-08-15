@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/ayuda.dart';
 import 'package:te_escucha/src/gui/baselegal.dart';
 import 'package:te_escucha/src/gui/chat.dart';
+import 'package:te_escucha/src/gui/chat_home.dart';
+import 'package:te_escucha/src/gui/emergenciaembarcacion.dart';
+import 'package:te_escucha/src/gui/emergenciaestado.dart';
+import 'package:te_escucha/src/gui/emergenciafinal.dart';
+import 'package:te_escucha/src/gui/emergenciamenor.dart';
+import 'package:te_escucha/src/gui/emergenciapersonas.dart';
+import 'package:te_escucha/src/gui/emergenciareport.dart';
 import 'package:te_escucha/src/gui/home.dart';
 import 'package:te_escucha/src/gui/inicio.dart';
 import 'package:te_escucha/src/gui/make_report.dart';
+import 'package:te_escucha/src/gui/map_google.dart';
 import 'package:te_escucha/src/gui/politicas.dart';
 
 String title = 'Sistema de Denuncias';
@@ -16,7 +24,7 @@ final List<String> reportList = [
   'Quejas y reclamos',
   'Sugerencias',
   'Denuncias',
-  'Emergencias de Embarcaciones Menores',
+  'Emergencias de Embarcaciones',
 ];
 
 final List<String> selectList = [
@@ -32,6 +40,123 @@ final List<String> servicesIcon = [
   'Capitanias',
   'Pilotaje',
   'Cenave',
+];
+
+class Capitania {
+  late String nombre;
+  late int codigo;
+  late String ubicacion;
+  late double latitud;
+  late double longitud;
+  late double metros;
+  Capitania(
+      {required this.nombre,
+      required this.codigo,
+      required this.ubicacion,
+      required this.latitud,
+      required this.longitud,
+      required this.metros});
+}
+
+List<Capitania> capitania = [
+  Capitania(
+      nombre: 'Maracaibo',
+      codigo: 1,
+      ubicacion: '10.08143147, -71.24393463',
+      latitud: 10.08143147,
+      longitud: -71.24393463,
+      metros: 1),
+  Capitania(
+      nombre: 'Las Piedras',
+      codigo: 2,
+      ubicacion: '11.62668043, -70.23525238',
+      latitud: 11.62668043,
+      longitud: -70.23525238,
+      metros: 2),
+  Capitania(
+      nombre: 'La Guaira',
+      codigo: 3,
+      ubicacion: '10.60976219, -66.33598566',
+      latitud: 10.60976219,
+      longitud: -66.33598566,
+      metros: 1),
+  Capitania(
+      nombre: 'Puerto la Cruz',
+      codigo: 4,
+      ubicacion: '10.08569897, -64.88718510',
+      latitud: 10.08569897,
+      longitud: -64.88718510,
+      metros: 1),
+  Capitania(
+      nombre: 'Carupano',
+      codigo: 5,
+      ubicacion: '11.99829562, -62.80471265',
+      latitud: 11.99829562,
+      longitud: -62.80471265,
+      metros: 1),
+  Capitania(
+      nombre: 'Pampatar',
+      codigo: 6,
+      ubicacion: '16.72847600, -64.10784200',
+      latitud: 16.72847600,
+      longitud: -64.10784200,
+      metros: 1),
+  Capitania(
+      nombre: 'Puerto Cabello',
+      codigo: 7,
+      ubicacion: '11.35479391, -68.73470000',
+      latitud: 11.35479391,
+      longitud: -68.73470000,
+      metros: 1),
+  Capitania(
+      nombre: 'Puerto Sucre',
+      codigo: 8,
+      ubicacion: '10.39058741, -64.50009406',
+      latitud: 10.39058741,
+      longitud: -64.50009406,
+      metros: 1),
+  Capitania(
+      nombre: 'Ciudad Bolívar',
+      codigo: 9,
+      ubicacion: '7.64056063, -66.41784668',
+      latitud: 7.64056063,
+      longitud: -66.41784668,
+      metros: 1),
+  Capitania(
+      nombre: 'Guiria',
+      codigo: 10,
+      ubicacion: '10.00874860, -61.97113037',
+      latitud: 10.00874860,
+      longitud: -61.97113037,
+      metros: 1),
+  Capitania(
+      nombre: 'Ciudad Guayana',
+      codigo: 11,
+      ubicacion: '8.34059431, -62.71888733',
+      latitud: 8.34059431,
+      longitud: -62.71888733,
+      metros: 1),
+  Capitania(
+      nombre: 'Carenero',
+      codigo: 12,
+      ubicacion: '10.57489706, -66.04740143',
+      latitud: 10.57489706,
+      longitud: -66.04740143,
+      metros: 1),
+  Capitania(
+      nombre: 'La Vela de Coro',
+      codigo: 13,
+      ubicacion: '11.76040000, -68.95150000',
+      latitud: 11.76040000,
+      longitud: -68.95150000,
+      metros: 1),
+  Capitania(
+      nombre: 'La Ceiba',
+      codigo: 14,
+      ubicacion: '9.20378212, -71.21543884',
+      latitud: 9.20378212,
+      longitud: -71.21543884,
+      metros: 1),
 ];
 
 final List<String> procedureIcon = [
@@ -138,13 +263,15 @@ definirTipo(String tipo) {
 }
 
 final routers = {
-  '/': (context) => const Inicio(),
+  '/': (context) => const MakeReport(),
   '/home': (context) => const Home(),
-  '/chat': (context) => const ChatUI(),
+  '/maps': (context) => const MapGoogle(),
+  '/chat': (context) => const ChatHome(),
   '/ayuda': (context) => const Ayuda(),
   '/baselegal': (context) => const BaseLegal(),
   '/makereport': (context) => const MakeReport(),
   '/politicas': (context) => const Politicas(),
+  '/emergencia': (context) => const EmergenciaPersona(),
 };
 
 const cmbGeneral = TextStyle(
@@ -162,6 +289,13 @@ var boxDecoration = BoxDecoration(
 const textHome = TextStyle(
     color: Colors.black,
     fontSize: 14,
+    fontFamily: 'Roboto',
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.bold);
+
+const textHomeNumber = TextStyle(
+    color: Colors.black,
+    fontSize: 12,
     fontFamily: 'Roboto',
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.bold);

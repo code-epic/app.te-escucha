@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/emergenciaembarcacion.dart';
 import 'package:te_escucha/src/model/const.dart';
 
 import '../bloc/combo.dart';
+import 'package:intl/intl.dart';
 
 class EmergenciaMenor extends StatefulWidget {
   const EmergenciaMenor({super.key});
@@ -12,18 +15,18 @@ class EmergenciaMenor extends StatefulWidget {
 }
 
 class _EmergenciaMenorState extends State<EmergenciaMenor> {
+  TextEditingController dateinput = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   CmbKeyValue? cmbParentesco;
+  bool blOtro = false;
 
   List<CmbKeyValue> lstParentesco = <CmbKeyValue>[
-    const CmbKeyValue('0', 'SELECCIONE * '),
-    const CmbKeyValue('0', 'MADRE '),
-    const CmbKeyValue('0', 'PADRE '),
-    const CmbKeyValue('0', 'ESPOSA '),
-    const CmbKeyValue('0', 'HIJA '),
-    const CmbKeyValue('0', 'VECINO '),
-    const CmbKeyValue('0', 'OTRO '),
+    const CmbKeyValue('1', 'MADRE / PADRE '),
+    const CmbKeyValue('2', 'ESPOSA / ESPOSO '),
+    const CmbKeyValue('3', 'HIJA / HIJO'),
+    const CmbKeyValue('4', 'VECINO / VECINA'),
+    const CmbKeyValue('5', 'OTRO '),
   ];
 
   @override
@@ -53,11 +56,14 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
                   height: 65,
                 ),
                 texto1(
-                    "Está realizando una solicitud para que podamos atender su caso."),
-                texto2(
-                    "Continue paso a paso por el proceso de trámite, puedes volver atrás a revisar lo que has hecho antes de confirmarla"),
+                    "Usted debe realizar un reporte para que nuestro equipo pueda atender su caso."),
                 const SizedBox(
-                  height: 2,
+                  height: 5,
+                ),
+                texto2(
+                    "Ingrese los datos de la persona que está realizando el reporte."),
+                const SizedBox(
+                  height: 5,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -65,21 +71,85 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
                     style: textPersonal,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
-                      labelText: 'Cédula',
+                      labelText: 'Cédula ',
                     ),
+                  ),
+                ),
+                TextFormField(
+                  controller: dateinput,
+                  style: textPersonal,
+                  decoration: InputDecoration(
+                    border: const UnderlineInputBorder(),
+                    labelText: 'Fecha de Nacimiento',
+                    prefixIcon: const Icon(
+                      Icons.calendar_month,
+                    ),
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: () {
+                        print("Hola");
+                      },
+                    ),
+                  ),
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        locale: const Locale("es", "ES"),
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(
+                            1950), //DateTime.now() - not to allow to choose before today.
+                        lastDate: DateTime(2025));
+
+                    if (pickedDate != null) {
+                      print(
+                          pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                      String formattedDate =
+                          DateFormat('dd/MM/yyyy').format(pickedDate);
+                      print(
+                          formattedDate); //formatted date output using intl package =>  2021-03-16
+                      //you can implement different kind of Date Format here according to your requirement
+
+                      setState(() {
+                        dateinput.text =
+                            formattedDate; //set output date to TextField value.
+                      });
+                    } else {
+                      print("Date is not selected");
+                    }
+                  },
+                ),
+                TextFormField(
+                  style: textPersonal,
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    labelText: 'Nombre completo',
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Parentesco(width),
                 ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Visibility(
+                  visible: blOtro,
+                  child: TextFormField(
+                    style: textPersonal,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'Especifique vínculo',
+                    ),
+                  ),
+                ),
+                texto1("Otros números telefónicos de contacto."),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
                     style: textPersonal,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
-                      labelText: 'Telefono movil #1',
+                      labelText: 'Teléfono #1',
                     ),
                   ),
                 ),
@@ -89,7 +159,7 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
                     style: textPersonal,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
-                      labelText: 'Telefono Movil 2',
+                      labelText: 'Teléfono #2',
                     ),
                   ),
                 ),
@@ -195,11 +265,16 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
         decoration: decoracionCombo(),
         child: DropdownButton<CmbKeyValue>(
           value: cmbParentesco,
+          hint: const Text("Parentesco con los tripulantes"),
           icon: const Icon(Icons.arrow_drop_down_sharp),
           elevation: 16,
           onChanged: (CmbKeyValue? value) {
             setState(() {
+              blOtro = false;
               cmbParentesco = value;
+              if (cmbParentesco!.id == '5') {
+                blOtro = true;
+              }
             });
           },
           underline: Container(),

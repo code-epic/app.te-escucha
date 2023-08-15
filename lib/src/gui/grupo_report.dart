@@ -262,7 +262,7 @@ class _GrupoReportState extends State<GrupoReport> {
 
   Positioned buttomNext(BuildContext context, Map<String, String> persona) {
     return Positioned(
-        top: MediaQuery.of(context).size.height - 60,
+        top: MediaQuery.of(context).size.height - 80,
         width: MediaQuery.of(context).size.width,
         child: Container(
             padding: const EdgeInsets.all(6.0),

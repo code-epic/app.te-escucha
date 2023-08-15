@@ -68,14 +68,12 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
-                      child: imagenSeleccion(context, imagen),
-                    ),
+                    // Center(
+                    //   child: imagenSeleccion(context, imagen),
+                    // ),
                     texto1(
-                        "Está realizando un reclamo por un incidente que tuviste con un trámite de " +
-                            contenido),
-                    texto2(
-                        "Elige la fecha en la que ocurrieron los hechos ponle titulo y una descripción a tu reporte"),
+                        "Está realizando un reclamo por un incidente que tuviste"),
+                    texto2("Elige la fecha en la que ocurrieron los hechos"),
                     const SizedBox(
                       height: 8,
                     ),
@@ -130,23 +128,9 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
                     const SizedBox(
                       height: 8,
                     ),
-                    TextFormField(
-                      style: textPersonal,
-                      decoration: const InputDecoration(
-                        filled: true,
-                        fillColor: Color(0xffe7ecf0),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(width: 0.1),
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        labelText: 'Escribir un título (*)',
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
+
                     texto2(
-                        "Especifica los hechos de manera clara y precisa, respondiendo a las siguientes interrogantes ¿Qué paso?, ¿Dónde?, ¿Cuándo?  "),
+                        "Especifica los hechos de manera clara y precisa, respondiendo a las siguientes interrogantes: ¿qué paso?, ¿dónde? y ¿cuándo? "),
                     const SizedBox(
                       height: 8,
                     ),
@@ -154,7 +138,7 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
                       style: textPersonal,
                       textAlign: TextAlign.justify,
                       textAlignVertical: TextAlignVertical.top,
-                      maxLines: 5,
+                      maxLines: 8,
                       decoration: const InputDecoration(
                         filled: true,
                         fillColor: Color(0xffe7ecf0),
@@ -249,7 +233,7 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
 
   Positioned buttomNext(BuildContext context) {
     return Positioned(
-        top: MediaQuery.of(context).size.height - 60,
+        top: MediaQuery.of(context).size.height - 80,
         width: MediaQuery.of(context).size.width,
         child: Container(
             padding: const EdgeInsets.all(6.0),

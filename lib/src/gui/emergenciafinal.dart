@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:te_escucha/src/gui/emergenciapersonas.dart';
 import 'package:te_escucha/src/model/const.dart';
 
 import '../bloc/combo.dart';
@@ -42,8 +43,8 @@ class _EmergenciaFinalState extends State<EmergenciaFinal> {
                 const SizedBox(
                   height: 65,
                 ),
-                texto1("Datos para la busqueda."),
-                texto2("Los datos ayudaran a ubicar la embarcación "),
+                texto1("Datos para la búsqueda."),
+                texto2("Los datos ayudarán a ubicar la embarcación "),
                 const SizedBox(
                   height: 2,
                 ),
@@ -53,7 +54,7 @@ class _EmergenciaFinalState extends State<EmergenciaFinal> {
                     style: textPersonal,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
-                      labelText: 'Lugar y hora de salida',
+                      labelText: 'Lugar de la salida',
                     ),
                   ),
                 ),
@@ -63,7 +64,27 @@ class _EmergenciaFinalState extends State<EmergenciaFinal> {
                     style: textPersonal,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
-                      labelText: 'Lugar y hora estimada de retorno',
+                      labelText: 'Fecha y hora de la salida',
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    style: textPersonal,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'Lugar de retorno',
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    style: textPersonal,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'Fecha y hora estimada de retorno',
                     ),
                   ),
                 ),
@@ -179,16 +200,10 @@ class _EmergenciaFinalState extends State<EmergenciaFinal> {
   }
 
   void nextPage() {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //       builder: (context) => MakeReportWho(
-    //             tipo: tipo,
-    //             caso: caso,
-    //             producto: producto,
-    //             descripcion: descripcion,
-    //           )),
-    // );
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const EmergenciaPersona()),
+    );
   }
 
   Text textoCombos(CmbKeyValue? cmb) {

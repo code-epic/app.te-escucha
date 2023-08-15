@@ -220,7 +220,7 @@ class _MakeReportWhoState extends State<MakeReportWho> {
     return const Padding(
       padding: EdgeInsets.all(5.0),
       child: Text(
-        "¿Para quién está realizando este reporte?.",
+        "¿Para quién está realizando este reporte?",
         textAlign: TextAlign.justify,
         style: TextStyle(
             color: Colors.black,
@@ -234,7 +234,7 @@ class _MakeReportWhoState extends State<MakeReportWho> {
 
   Positioned buttomNext(BuildContext context) {
     return Positioned(
-        top: MediaQuery.of(context).size.height - 60,
+        top: MediaQuery.of(context).size.height - 80,
         width: MediaQuery.of(context).size.width,
         child: Container(
             padding: const EdgeInsets.all(6.0),

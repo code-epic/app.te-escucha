@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/chat.dart';
+import 'package:te_escucha/src/gui/chat_home.dart';
 import 'package:te_escucha/src/gui/drawbar.dart';
 import 'package:te_escucha/src/gui/make_report.dart';
+import 'package:te_escucha/src/gui/map_google.dart';
 import 'package:te_escucha/src/model/cehttpclient.dart';
 import 'package:te_escucha/src/model/const.dart';
 
@@ -21,11 +23,20 @@ class _HomeState extends State<Home> {
       extendBodyBehindAppBar: true,
       key: scaffoldKey,
       drawer: const DrawBar(),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          // Add your onPressed code here!
+          makeReport();
+        },
+        label: const Text('Crear reporte'),
+        backgroundColor: Color.fromARGB(255, 58, 82, 161),
+        icon: const Icon(Icons.add),
+      ),
       appBar: AppBar(
         backgroundColor: const Color(0xff174076),
         elevation: 0.0,
         title: const Text(
-          "Hola, Saludos",
+          "Hola, saludos",
           style: TextStyle(
               color: Colors.white,
               fontSize: 13,
@@ -43,17 +54,20 @@ class _HomeState extends State<Home> {
         ),
         actions: <Widget>[
           IconButton(
+            icon: const Icon(Icons.mark_unread_chat_alt),
+            tooltip: "Chatbot",
+            onPressed: () {
+              ChatBot();
+            },
+          ),
+          IconButton(
             icon: const Icon(
-              Icons.add,
+              Icons.settings,
               color: Colors.white,
             ),
             onPressed: () {
               makeReport();
             },
-          ),
-          IconButton(
-            icon: Image.asset("assets/group/sobre.png"),
-            onPressed: () {},
           ),
           const SizedBox(
             width: 15,
@@ -91,11 +105,22 @@ class _HomeState extends State<Home> {
               padding: EdgeInsets.all(15),
               child: Column(
                 children: [
-                  LstBuzon('servicios/capitanias', 'minenviadomensaje_leido',
-                      'Enviado', Color(0xffe7ecf0), Color(0xff174076)),
-                  LstBuzon('servicios/cenave', 'enprocesomensaje_noleido',
-                      'En proceso', Color(0xffb7c4d5), Color(0xffb7c4d5)),
                   LstBuzon(
+                      'Capitania de Puertos',
+                      'servicios/capitanias',
+                      'minenviadomensaje_leido',
+                      'Enviado',
+                      Color(0xffe7ecf0),
+                      Color(0xff174076)),
+                  LstBuzon(
+                      'CENAVE',
+                      'servicios/cenave',
+                      'enprocesomensaje_noleido',
+                      'En proceso',
+                      Color(0xffb7c4d5),
+                      Color(0xffb7c4d5)),
+                  LstBuzon(
+                      'Pilotaje',
                       'servicios/pilotaje',
                       'finalizadoconexitomensaje_noleido',
                       'Finalizado',
@@ -104,22 +129,22 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-            Container(
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.all(20),
-                color: Colors.transparent,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      child: imagen(),
-                      onTap: () {
-                        //obtenerEstados();
-                      },
-                    )
-                  ],
-                ))
+            // Container(
+            //     width: MediaQuery.of(context).size.width,
+            //     padding: EdgeInsets.all(20),
+            //     color: Colors.transparent,
+            //     child: Column(
+            //       mainAxisAlignment: MainAxisAlignment.end,
+            //       crossAxisAlignment: CrossAxisAlignment.end,
+            //       children: [
+            //         GestureDetector(
+            //           child: imagen(),
+            //           onTap: () {
+            //             //obtenerEstados();
+            //           },
+            //         )
+            //       ],
+            //     ))
           ],
         ),
         const Positioned(
@@ -147,8 +172,8 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Container LstBuzon(
-      String img, String status, String txtStatus, Color fondo, Color border) {
+  Container LstBuzon(String titulo, String img, String status, String txtStatus,
+      Color fondo, Color border) {
     return Container(
       padding: const EdgeInsets.all(1.0),
       child: Column(
@@ -173,27 +198,34 @@ class _HomeState extends State<Home> {
                 Container(
                   padding: const EdgeInsets.all(4),
                   width: MediaQuery.of(context).size.width - 210,
-                  child: const Column(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Fecha 21/04/2023",
+                        "$titulo",
                         style: textHome,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(
                         "Contenido loret ipsun dolore ips contaut laskduwl",
                         style: textDescrip,
                       ),
-                      SizedBox(
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "Fecha: 23/07/1985",
+                        style: textDescrip,
+                      ),
+                      const SizedBox(
                         height: 10,
                       ),
                       Text(
                         "N. de Reporte 00010000120",
-                        style: textHome,
+                        style: textHomeNumber,
                       )
                     ],
                   ),
@@ -204,10 +236,6 @@ class _HomeState extends State<Home> {
                   children: [
                     const SizedBox(
                       height: 2,
-                    ),
-                    const Text(
-                      "Estatus",
-                      style: textHome,
                     ),
                     Container(
                       padding: const EdgeInsets.all(1),
@@ -258,10 +286,17 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void Chat() {
+  void MapaGoogle() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const ChatUI()),
+      MaterialPageRoute(builder: (context) => const MapGoogle()),
+    );
+  }
+
+  void ChatBot() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ChatHome()),
     );
   }
 

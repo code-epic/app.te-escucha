@@ -21,22 +21,46 @@ class Inicio extends StatefulWidget {
 }
 
 class _InicioState extends State<Inicio> {
-  List<dynamic> lst = [];
   late Position _position;
+  late double distanceInMeters;
+  String strCapitania = "-----";
+
+  late Capitania xCapitania;
 
   _getCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     setState(() {
       _position = position;
-      print(position);
+      calculateDistance(position.latitude, position.longitude);
     });
+  }
+
+  Future calculateDistance(double latitud, double longitud) async {
+    for (var i = 0; i < capitania.length; i++) {
+      final capitaniasDistancia = Geolocator.distanceBetween(
+          latitud, longitud, capitania[i].latitud, capitania[i].longitud);
+      capitania[i].metros = capitaniasDistancia;
+    }
+
+    capitania.sort((a, b) => a.metros.compareTo(b.metros));
+
+    xCapitania = Capitania(
+        nombre: capitania[0].nombre,
+        codigo: 1,
+        ubicacion: capitania[0].ubicacion,
+        latitud: capitania[0].latitud,
+        longitud: capitania[0].longitud,
+        metros: 1);
+    print(xCapitania.nombre);
   }
 
   @override
   void initState() {
     super.initState();
     _getCurrentLocation();
+
+    //calculateDistance();
   }
 
   @override
@@ -56,29 +80,37 @@ class _InicioState extends State<Inicio> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            logoInea(),
+            // logoInea(),
             SizedBox(
-              height: MediaQuery.of(context).size.height - 270,
+              height: MediaQuery.of(context).size.height,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [centro(context)],
+                children: [
+                  GestureDetector(
+                    child: centro(context),
+                    onTap: () {
+                      homePage();
+                    },
+                  )
+                ],
               ),
             ),
-            GestureDetector(
-              child: SizedBox(
-                width: ancho - 10,
-                child: const Image(
-                  image: AssetImage('assets/group/chatbot.png'),
-                  width: 164,
-                  height: 164,
-                  alignment: Alignment.topRight,
-                ),
-              ),
-              onTap: () {
-                chatPage();
-              },
-            )
+
+            // GestureDetector(
+            //   child: SizedBox(
+            //     width: ancho - 10,
+            //     child: const Image(
+            //       image: AssetImage('assets/group/chatbot.png'),
+            //       width: 164,
+            //       height: 164,
+            //       alignment: Alignment.topRight,
+            //     ),
+            //   ),
+            //   onTap: () {
+            //     chatPage();
+            //   },
+            // )
           ],
         ),
       ),
@@ -98,15 +130,15 @@ class _InicioState extends State<Inicio> {
             SizedBox(
               width: MediaQuery.of(context).size.width - 135,
             ),
-            GestureDetector(
-              child: Image(
-                image: AssetImage("assets/group/sobre.png"),
-                width: 36,
-              ),
-              onTap: () {
-                homePage();
-              },
-            )
+            // GestureDetector(
+            //   child: Image(
+            //     image: AssetImage("assets/group/sobre.png"),
+            //     width: 36,
+            //   ),
+            //   onTap: () {
+            //     homePage();
+            //   },
+            // )
           ],
         ));
   }
@@ -118,7 +150,7 @@ class _InicioState extends State<Inicio> {
       children: [
         const Image(
           image: AssetImage("assets/group/logo_app.png"),
-          width: 100,
+          width: 140,
         ),
         const SizedBox(
           height: 30,
@@ -152,7 +184,7 @@ class _InicioState extends State<Inicio> {
                     nextPage();
                   },
                   child: const Text(
-                    'CREA TU SOLICITUD',
+                    'CREA TU REPORTE',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,

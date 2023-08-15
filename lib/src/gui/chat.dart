@@ -65,7 +65,7 @@ class _ChatUIState extends State<ChatUI> {
                         child: TextField(
                       style: TextStyle(fontFamily: 'lato', fontSize: 13),
                       decoration: InputDecoration(
-                          hintText: "Realiza tu pregunta",
+                          hintText: "Escribe tu pregunta",
                           border: InputBorder.none),
                     )),
                     Icon(
@@ -89,9 +89,9 @@ class _ChatUIState extends State<ChatUI> {
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: Color(0xff174076),
-      title: Row(children: [
-        const BackButton(),
-        const CircleAvatar(
+      title: const Row(children: [
+        BackButton(),
+        CircleAvatar(
           backgroundImage: AssetImage("assets/group/chatbot.png"),
         ),
         SizedBox(width: 8),
@@ -109,6 +109,22 @@ class _ChatUIState extends State<ChatUI> {
           ],
         )
       ]),
+    );
+  }
+
+  Column centro(BuildContext context) {
+    return const Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Image(
+          image: AssetImage("assets/group/chatbot.png"),
+          width: 140,
+        ),
+        SizedBox(
+          height: 30,
+        ),
+      ],
     );
   }
 }

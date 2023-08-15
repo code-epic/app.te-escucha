@@ -109,7 +109,7 @@ class _PersonalReportState extends State<PersonalReport> {
     dateinput.text = "";
     // const msj = widget.tipo + widget.caso + widget.producto;
 
-    obtenerEstados();
+    // obtenerEstados();
   }
 
   @override
@@ -205,56 +205,56 @@ class _PersonalReportState extends State<PersonalReport> {
                         labelText: 'Edad',
                       ),
                     ),
-                    TextFormField(
-                      style: textPersonal,
-                      decoration: const InputDecoration(
-                        border: UnderlineInputBorder(),
-                        labelText: 'Email',
-                        // suffixIcon: Icon(
-                        //   Icons.email_outlined,
-                        // ),
-                      ),
-                    ),
-                    TextFormField(
-                      style: textPersonal,
-                      decoration: const InputDecoration(
-                        border: UnderlineInputBorder(),
-                        labelText: 'Teléfono',
-                        // suffixIcon: Icon(
-                        //   Icons.phone_android_rounded,
-                        // ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Estado(width),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Municipio(width),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Parroquia(width),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    TextFormField(
-                      style: textPersonal,
-                      maxLines: 4,
-                      decoration: const InputDecoration(
-                        filled: true,
-                        fillColor: Color(0xffe7ecf0),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(width: 0.1),
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        labelText: 'Direccion',
-                      ),
-                    ),
+                    // TextFormField(
+                    //   style: textPersonal,
+                    //   decoration: const InputDecoration(
+                    //     border: UnderlineInputBorder(),
+                    //     labelText: 'Email',
+                    //     // suffixIcon: Icon(
+                    //     //   Icons.email_outlined,
+                    //     // ),
+                    //   ),
+                    // ),
+                    // TextFormField(
+                    //   style: textPersonal,
+                    //   decoration: const InputDecoration(
+                    //     border: UnderlineInputBorder(),
+                    //     labelText: 'Teléfono',
+                    //     // suffixIcon: Icon(
+                    //     //   Icons.phone_android_rounded,
+                    //     // ),
+                    //   ),
+                    // ),
+                    // const SizedBox(
+                    //   height: 10,
+                    // ),
+                    // setEstado(width),
+                    // const SizedBox(
+                    //   height: 10,
+                    // ),
+                    // setMunicipio(width),
+                    // const SizedBox(
+                    //   height: 10,
+                    // ),
+                    // setParroquia(width),
+                    // const SizedBox(
+                    //   height: 15,
+                    // ),
+                    // TextFormField(
+                    //   style: textPersonal,
+                    //   maxLines: 4,
+                    //   decoration: const InputDecoration(
+                    //     filled: true,
+                    //     fillColor: Color(0xffe7ecf0),
+                    //     contentPadding:
+                    //         EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                    //     border: OutlineInputBorder(
+                    //       borderSide: BorderSide(width: 0.1),
+                    //       borderRadius: BorderRadius.all(Radius.circular(20)),
+                    //     ),
+                    //     labelText: 'Direccion',
+                    //   ),
+                    // ),
                   ],
                 ),
               )),
@@ -262,7 +262,7 @@ class _PersonalReportState extends State<PersonalReport> {
         ]));
   }
 
-  Container Estado(double width) {
+  Container setEstado(double width) {
     return Container(
         padding: const EdgeInsets.only(left: 9, right: 3),
         height: 40,
@@ -292,7 +292,7 @@ class _PersonalReportState extends State<PersonalReport> {
         ));
   }
 
-  Container Municipio(double width) {
+  Container setMunicipio(double width) {
     return Container(
         padding: const EdgeInsets.only(left: 9, right: 3),
         height: 40,
@@ -322,7 +322,7 @@ class _PersonalReportState extends State<PersonalReport> {
         ));
   }
 
-  Container Parroquia(double width) {
+  Container setParroquia(double width) {
     return Container(
         padding: const EdgeInsets.only(left: 9, right: 3),
         height: 40,
@@ -408,14 +408,12 @@ class _PersonalReportState extends State<PersonalReport> {
   }
 
   Positioned titulo() {
-    return Positioned(
+    return const Positioned(
       top: 20,
       left: 45,
-      child: Container(
-        child: const Text(
-          "Reporte personal",
-          style: textStyle,
-        ),
+      child: Text(
+        "Reporte personal",
+        style: textStyle,
       ),
     );
   }
@@ -430,12 +428,12 @@ class _PersonalReportState extends State<PersonalReport> {
   }
 
   Positioned paginador() {
-    return Positioned(
+    return const Positioned(
         top: 54,
         right: 15,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: const [
+          children: [
             Text(
               "3/4",
               style: TextStyle(
