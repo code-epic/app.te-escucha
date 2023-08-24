@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/chat.dart';
 import 'package:te_escucha/src/gui/chat_home.dart';
@@ -6,6 +7,7 @@ import 'package:te_escucha/src/gui/make_report.dart';
 import 'package:te_escucha/src/gui/map_google.dart';
 import 'package:te_escucha/src/model/cehttpclient.dart';
 import 'package:te_escucha/src/model/const.dart';
+import 'package:te_escucha/src/gui/inicio.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -69,6 +71,15 @@ class _HomeState extends State<Home> {
               makeReport();
             },
           ),
+          IconButton(
+            icon: const Icon(
+              Icons.logout_outlined,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              initPage();
+            },
+          ),
           const SizedBox(
             width: 15,
           )
@@ -92,81 +103,118 @@ class _HomeState extends State<Home> {
   }
 
   Stack StackBody() {
-    return Stack(
-      children: [
-        Column(
+    return Stack(children: [
+      Container(
+        width: MediaQuery.of(context).size.width,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/group/wallpaper.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+      Padding(
+        padding: EdgeInsets.all(15),
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          verticalDirection: VerticalDirection.down,
           children: [
             Container(
               height: 60,
-              color: Colors.grey.shade200,
+              color: Colors.transparent,
             ),
-            Padding(
-              padding: EdgeInsets.all(15),
-              child: Column(
-                children: [
-                  LstBuzon(
-                      'Capitania de Puertos',
-                      'servicios/capitanias',
-                      'minenviadomensaje_leido',
-                      'Enviado',
-                      Color(0xffe7ecf0),
-                      Color(0xff174076)),
-                  LstBuzon(
-                      'CENAVE',
-                      'servicios/cenave',
-                      'enprocesomensaje_noleido',
-                      'En proceso',
-                      Color(0xffb7c4d5),
-                      Color(0xffb7c4d5)),
-                  LstBuzon(
-                      'Pilotaje',
-                      'servicios/pilotaje',
-                      'finalizadoconexitomensaje_noleido',
-                      'Finalizado',
-                      Color(0xffb7c4d5),
-                      Color(0xffb7c4d5)),
-                ],
-              ),
+            Column(
+              children: [
+                GestureDetector(
+                  child: FadeInUp(
+                    child: centro(context),
+                    duration: Duration(seconds: 2),
+                  ),
+                  onTap: () {
+                    // chatPage();
+                  },
+                )
+              ],
             ),
-            // Container(
-            //     width: MediaQuery.of(context).size.width,
-            //     padding: EdgeInsets.all(20),
-            //     color: Colors.transparent,
-            //     child: Column(
-            //       mainAxisAlignment: MainAxisAlignment.end,
-            //       crossAxisAlignment: CrossAxisAlignment.end,
-            //       children: [
-            //         GestureDetector(
-            //           child: imagen(),
-            //           onTap: () {
-            //             //obtenerEstados();
-            //           },
-            //         )
-            //       ],
-            //     ))
+            // LstBuzon(
+            //     'Capitania de Puertos',
+            //     'servicios/capitanias',
+            //     'minenviadomensaje_leido',
+            //     'Enviado',
+            //     Color(0xffe7ecf0),
+            //     Color(0xff174076)),
+            // LstBuzon('CENAVE', 'servicios/cenave', 'enprocesomensaje_noleido',
+            //     'En proceso', Color(0xffb7c4d5), Color(0xffb7c4d5)),
+            // LstBuzon(
+            //     'Pilotaje',
+            //     'servicios/pilotaje',
+            //     'finalizadoconexitomensaje_noleido',
+            //     'Finalizado',
+            //     Color(0xffb7c4d5),
+            //     Color(0xffb7c4d5),
+            // ),
           ],
         ),
-        const Positioned(
-          top: 13,
-          left: 30,
-          child: Text(
-            "Notificaciones",
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 14,
-                fontFamily: 'Roboto',
-                fontStyle: FontStyle.normal,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
-        const Positioned(
-          top: 10,
-          right: 20,
-          child: Icon(
-            Icons.settings,
-            color: Colors.grey,
-          ),
+      ),
+    ]
+
+        // children: [
+        //   Column(
+        //     mainAxisAlignment: MainAxisAlignment.start,
+        //     children: [
+
+        //       // Container(
+        //       //     width: MediaQuery.of(context).size.width,
+        //       //     padding: EdgeInsets.all(20),
+        //       //     color: Colors.transparent,
+        //       //     child: Column(
+        //       //       mainAxisAlignment: MainAxisAlignment.end,
+        //       //       crossAxisAlignment: CrossAxisAlignment.end,
+        //       //       children: [
+        //       //         GestureDetector(
+        //       //           child: imagen(),
+        //       //           onTap: () {
+        //       //             //obtenerEstados();
+        //       //           },
+        //       //         )
+        //       //       ],
+        //       //     ))
+        //     ],
+        //   ),
+        //   const Positioned(
+        //     top: 13,
+        //     left: 30,
+        //     child: Text(
+        //       "Notificaciones",
+        //       style: TextStyle(
+        //           color: Colors.black,
+        //           fontSize: 14,
+        //           fontFamily: 'Roboto',
+        //           fontStyle: FontStyle.normal,
+        //           fontWeight: FontWeight.bold),
+        //     ),
+        //   ),
+        //   const Positioned(
+        //     top: 10,
+        //     right: 20,
+        //     child: Icon(
+        //       Icons.settings,
+        //       color: Colors.grey,
+        //     ),
+        //   ),
+        // ],
+        );
+  }
+
+  Column centro(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Image(
+          image: AssetImage("assets/group/chatbot.png"),
+          width: 300,
         ),
       ],
     );
@@ -188,11 +236,22 @@ class _HomeState extends State<Home> {
               ),
               child: Row(children: [
                 Container(
-                  padding: const EdgeInsets.all(4.0),
+                  padding: const EdgeInsets.all(2.0),
                   width: 100,
                   height: 100,
-                  child: Image(
-                    image: AssetImage('assets/$img.png'),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Image(
+                        image: AssetImage('assets/$img' + '_st.png'),
+                      ),
+                      const Text(
+                        "000-100",
+                        style: textNumber,
+                      ),
+                    ],
                   ),
                 ),
                 Container(
@@ -207,10 +266,10 @@ class _HomeState extends State<Home> {
                         style: textHome,
                       ),
                       const SizedBox(
-                        height: 5,
+                        height: 10,
                       ),
                       Text(
-                        "Contenido loret ipsun dolore ips contaut laskduwl",
+                        "Quejas y Reclamos",
                         style: textDescrip,
                       ),
                       const SizedBox(
@@ -220,13 +279,6 @@ class _HomeState extends State<Home> {
                         "Fecha: 23/07/1985",
                         style: textDescrip,
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "N. de Reporte 00010000120",
-                        style: textHomeNumber,
-                      )
                     ],
                   ),
                 ),
@@ -234,13 +286,10 @@ class _HomeState extends State<Home> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(
-                      height: 2,
-                    ),
                     Container(
                       padding: const EdgeInsets.all(1),
-                      width: 52,
-                      height: 52,
+                      width: 64,
+                      height: 64,
                       child: Image(
                         image: AssetImage('assets/estatus/$status.png'),
                       ),
@@ -290,6 +339,13 @@ class _HomeState extends State<Home> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const MapGoogle()),
+    );
+  }
+
+  void initPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Inicio()),
     );
   }
 

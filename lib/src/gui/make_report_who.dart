@@ -28,8 +28,8 @@ class _MakeReportWhoState extends State<MakeReportWho> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print('descripcion ->' + widget.descripcion);
-    print(widget.descripcion);
+    // print('descripcion ->' + widget.descripcion);
+    // print(widget.descripcion);
   }
 
   @override
@@ -79,31 +79,6 @@ class _MakeReportWhoState extends State<MakeReportWho> {
                     const SizedBox(
                       height: 8,
                     ),
-                    GestureDetector(
-                      child: reporte_personal(
-                          width,
-                          "terceros",
-                          "Reporte de tercero",
-                          "Utiliza esta opcion como registrador para reportar un incidente a nombre de otra persona"),
-                      onTap: () {
-                        nextPage(1, widget.tipo, widget.caso, widget.producto,
-                            widget.descripcion);
-                      },
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    GestureDetector(
-                      child: reporte_personal(
-                          width,
-                          "comunal",
-                          "Reporte colectivo",
-                          "Como registrador crea reportes a nombre de un grupo de personas ten a mano las cedulas de por lo menos 5 personas afectadas"),
-                      onTap: () {
-                        grupoPage(1, widget.tipo, widget.caso, widget.producto,
-                            widget.descripcion);
-                      },
-                    )
                   ],
                 ),
               )),
@@ -191,12 +166,12 @@ class _MakeReportWhoState extends State<MakeReportWho> {
   }
 
   Positioned paginador() {
-    return Positioned(
+    return const Positioned(
         top: 54,
         right: 15,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: const [
+          children: [
             Text(
               "2/4",
               style: TextStyle(

@@ -1,5 +1,15 @@
 file:///home/crash/.pub-cache/hosted/pub.dev/_flutterfire_internals-1.3.3/lib/_flutterfire_internals.dart
 file:///home/crash/.pub-cache/hosted/pub.dev/_flutterfire_internals-1.3.3/lib/src/exception.dart
+file:///home/crash/.pub-cache/hosted/pub.dev/animate_do-3.0.2/lib/animate_do.dart
+file:///home/crash/.pub-cache/hosted/pub.dev/animate_do-3.0.2/lib/src/animate_do_attention_seekers.dart
+file:///home/crash/.pub-cache/hosted/pub.dev/animate_do-3.0.2/lib/src/animate_do_bounces.dart
+file:///home/crash/.pub-cache/hosted/pub.dev/animate_do-3.0.2/lib/src/animate_do_elastics.dart
+file:///home/crash/.pub-cache/hosted/pub.dev/animate_do-3.0.2/lib/src/animate_do_fadeouts.dart
+file:///home/crash/.pub-cache/hosted/pub.dev/animate_do-3.0.2/lib/src/animate_do_fades.dart
+file:///home/crash/.pub-cache/hosted/pub.dev/animate_do-3.0.2/lib/src/animate_do_flips.dart
+file:///home/crash/.pub-cache/hosted/pub.dev/animate_do-3.0.2/lib/src/animate_do_slides.dart
+file:///home/crash/.pub-cache/hosted/pub.dev/animate_do-3.0.2/lib/src/animate_do_specials.dart
+file:///home/crash/.pub-cache/hosted/pub.dev/animate_do-3.0.2/lib/src/animate_do_zooms.dart
 file:///home/crash/.pub-cache/hosted/pub.dev/archive-3.3.7/lib/archive.dart
 file:///home/crash/.pub-cache/hosted/pub.dev/archive-3.3.7/lib/src/archive.dart
 file:///home/crash/.pub-cache/hosted/pub.dev/archive-3.3.7/lib/src/archive_file.dart
@@ -952,6 +962,7 @@ file:///home/crash/dev/flutter/app.te-escucha/lib/src/bloc/combo.dart
 file:///home/crash/dev/flutter/app.te-escucha/lib/src/gui/ayuda.dart
 file:///home/crash/dev/flutter/app.te-escucha/lib/src/gui/baselegal.dart
 file:///home/crash/dev/flutter/app.te-escucha/lib/src/gui/chat.dart
+file:///home/crash/dev/flutter/app.te-escucha/lib/src/gui/chat_home.dart
 file:///home/crash/dev/flutter/app.te-escucha/lib/src/gui/comprobante.dart
 file:///home/crash/dev/flutter/app.te-escucha/lib/src/gui/drawbar.dart
 file:///home/crash/dev/flutter/app.te-escucha/lib/src/gui/emergenciaembarcacion.dart
@@ -973,6 +984,7 @@ file:///home/crash/dev/flutter/app.te-escucha/lib/src/gui/tercero_report.dart
 file:///home/crash/dev/flutter/app.te-escucha/lib/src/model/cehttpclient.dart
 file:///home/crash/dev/flutter/app.te-escucha/lib/src/model/chatmessage.dart
 file:///home/crash/dev/flutter/app.te-escucha/lib/src/model/const.dart
+file:///home/crash/dev/flutter/app.te-escucha/lib/src/model/solicitud.dart
 file:///home/crash/snap/flutter/common/flutter/bin/cache/flutter_web_sdk/kernel/dart2js_platform.dill
 file:///home/crash/snap/flutter/common/flutter/packages/flutter/lib/animation.dart
 file:///home/crash/snap/flutter/common/flutter/packages/flutter/lib/cupertino.dart

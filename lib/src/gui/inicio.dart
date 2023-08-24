@@ -12,6 +12,7 @@ import 'package:te_escucha/src/model/chatmessage.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../model/const.dart';
+import '../model/solicitud.dart';
 
 class Inicio extends StatefulWidget {
   const Inicio({super.key});
@@ -21,47 +22,50 @@ class Inicio extends StatefulWidget {
 }
 
 class _InicioState extends State<Inicio> {
-  late Position _position;
-  late double distanceInMeters;
-  String strCapitania = "-----";
+  // late Position _position;
+  // late double distanceInMeters;
+  // String strCapitania = "-----";
 
-  late Capitania xCapitania;
+  // List<dynamic> lst = [];
 
-  _getCurrentLocation() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    setState(() {
-      _position = position;
-      calculateDistance(position.latitude, position.longitude);
-    });
-  }
+  // late Capitania xCapitania;
 
-  Future calculateDistance(double latitud, double longitud) async {
-    for (var i = 0; i < capitania.length; i++) {
-      final capitaniasDistancia = Geolocator.distanceBetween(
-          latitud, longitud, capitania[i].latitud, capitania[i].longitud);
-      capitania[i].metros = capitaniasDistancia;
-    }
+  // _getCurrentLocation() async {
+  //   Position position = await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.high);
+  //   setState(() {
+  //     _position = position;
+  //     calculateDistance(position.latitude, position.longitude);
+  //   });
+  // }
 
-    capitania.sort((a, b) => a.metros.compareTo(b.metros));
+  // Future calculateDistance(double latitud, double longitud) async {
+  //   for (var i = 0; i < capitania.length; i++) {
+  //     final capitaniasDistancia = Geolocator.distanceBetween(
+  //         latitud, longitud, capitania[i].latitud, capitania[i].longitud);
+  //     capitania[i].metros = capitaniasDistancia;
+  //   }
 
-    xCapitania = Capitania(
-        nombre: capitania[0].nombre,
-        codigo: 1,
-        ubicacion: capitania[0].ubicacion,
-        latitud: capitania[0].latitud,
-        longitud: capitania[0].longitud,
-        metros: 1);
-    print(xCapitania.nombre);
-  }
+  //   capitania.sort((a, b) => a.metros.compareTo(b.metros));
 
-  @override
-  void initState() {
-    super.initState();
-    _getCurrentLocation();
+  //   xCapitania = Capitania(
+  //       nombre: capitania[0].nombre,
+  //       codigo: 1,
+  //       ubicacion: capitania[0].ubicacion,
+  //       latitud: capitania[0].latitud,
+  //       longitud: capitania[0].longitud,
+  //       metros: 1);
+  //   print(xCapitania.nombre);
+  // }
 
-    //calculateDistance();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  // _getCurrentLocation();
+
+  //calculateDistance();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -148,11 +152,11 @@ class _InicioState extends State<Inicio> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Image(
+        Image(
           image: AssetImage("assets/group/logo_app.png"),
           width: 140,
         ),
-        const SizedBox(
+        SizedBox(
           height: 30,
         ),
         buttomNext(context)
@@ -181,10 +185,10 @@ class _InicioState extends State<Inicio> {
                     ),
                   ),
                   onPressed: () {
-                    nextPage();
+                    homePage();
                   },
                   child: const Text(
-                    'CREA TU REPORTE',
+                    'Ir a inicio',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,

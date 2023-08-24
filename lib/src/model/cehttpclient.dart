@@ -29,9 +29,10 @@ class CeHttpClient {
   }
 
   static Future xPOST(String path, Map<String, dynamic> xdata) async {
+    print('https://localhost$path');
     try {
       final response = await http.post(
-        Uri.parse('https://code-epic.com$path'),
+        Uri.parse('https://localhost$path'),
         headers: {
           'Content-type': 'application/json;charset=utf-8',
           HttpHeaders.authorizationHeader: 'Bearer $token',

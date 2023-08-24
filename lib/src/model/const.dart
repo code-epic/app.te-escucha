@@ -3,12 +3,7 @@ import 'package:te_escucha/src/gui/ayuda.dart';
 import 'package:te_escucha/src/gui/baselegal.dart';
 import 'package:te_escucha/src/gui/chat.dart';
 import 'package:te_escucha/src/gui/chat_home.dart';
-import 'package:te_escucha/src/gui/emergenciaembarcacion.dart';
-import 'package:te_escucha/src/gui/emergenciaestado.dart';
-import 'package:te_escucha/src/gui/emergenciafinal.dart';
-import 'package:te_escucha/src/gui/emergenciamenor.dart';
 import 'package:te_escucha/src/gui/emergenciapersonas.dart';
-import 'package:te_escucha/src/gui/emergenciareport.dart';
 import 'package:te_escucha/src/gui/home.dart';
 import 'package:te_escucha/src/gui/inicio.dart';
 import 'package:te_escucha/src/gui/make_report.dart';
@@ -17,7 +12,7 @@ import 'package:te_escucha/src/gui/politicas.dart';
 
 String title = 'Sistema de Denuncias';
 
-String sPath = '/devel/api/crud:89089080';
+String sPath = '/devel/api/crud:541f2bd069277d053a45cac13099e185.sse';
 
 final List<String> reportList = [
   "---------------",
@@ -226,7 +221,7 @@ definirTipo(String tipo) {
     case 'Remolcadores':
       cadena = "Remolcadores";
       break;
-    case 'Capitania de Puertos':
+    case 'Capitanias de Puertos':
       cadena = "Capitanias";
       break;
     case 'Pilotaje':
@@ -263,7 +258,7 @@ definirTipo(String tipo) {
 }
 
 final routers = {
-  '/': (context) => const MakeReport(),
+  '/': (context) => const Inicio(),
   '/home': (context) => const Home(),
   '/maps': (context) => const MapGoogle(),
   '/chat': (context) => const ChatHome(),
@@ -305,6 +300,13 @@ const textStatus = TextStyle(
     fontSize: 13,
     fontFamily: 'Roboto',
     fontStyle: FontStyle.normal);
+
+const textNumber = TextStyle(
+    color: Colors.black,
+    fontSize: 13,
+    fontFamily: 'Roboto',
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.bold);
 
 const textDescrip = TextStyle(
     color: Colors.black54,

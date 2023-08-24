@@ -16,16 +16,16 @@ class _DrawBarState extends State<DrawBar> {
           padding: EdgeInsets.zero,
           children: [
             const UserAccountsDrawerHeader(
-              accountName: Text('Espacios Acuaticos',
+              accountName: Text('Instituto Nacional de los Espacios Acuáticos',
                   style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 13,
                       fontFamily: 'Lato',
                       color: Colors.white,
                       fontWeight: FontWeight.bold)),
               accountEmail: Text(
                 'soporte@inea.gob.ve',
                 style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 13,
                     fontFamily: 'Lato',
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
@@ -124,7 +124,7 @@ class _DrawBarState extends State<DrawBar> {
               iconColor: Color(0xff174076),
               leading: const Icon(Icons.policy),
               title: const Text(
-                "Politicas de Privacidad",
+                "Políticas de Privacidad",
                 style: TextStyle(
                     fontSize: 14,
                     fontFamily: 'Lato',

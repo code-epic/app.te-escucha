@@ -4,7 +4,9 @@ import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:te_escucha/src/gui/emergenciaestado.dart';
 import 'package:te_escucha/src/gui/emergenciamenor.dart';
+import 'package:te_escucha/src/gui/home.dart';
 import 'package:te_escucha/src/gui/make_report_who.dart';
+import 'package:te_escucha/src/gui/personal_report.dart';
 import 'package:te_escucha/src/model/const.dart';
 
 import '../bloc/combo.dart';
@@ -55,8 +57,9 @@ class _MakeReportState extends State<MakeReport> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0.0,
-          leading: const BackButton(
+          leading: BackButton(
             color: Color(0xff174076),
+            onPressed: () => {homePage()},
           ),
         ),
         body: Stack(children: [
@@ -202,7 +205,7 @@ class _MakeReportState extends State<MakeReport> {
                                 // This is called when the user selects an item.
                                 setState(() {
                                   producto = value!;
-                                  print(caso);
+                                  //print(caso);
                                   if (caso == "Servicios") {
                                     imagen = "$caso/$value".toLowerCase();
                                   } else {
@@ -279,14 +282,23 @@ class _MakeReportState extends State<MakeReport> {
   }
 
   SizedBox imagenSeleccion(BuildContext context, String img) {
+    String imagenx = 'assets/$img.png';
+    double intW = 172;
+    double intH = 172;
+
+    if (img == 'group/sar') {
+      imagenx = 'assets/$img.gif';
+      intW = 220;
+      intH = 220;
+    }
     return SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Container(
           padding: const EdgeInsets.all(8.0),
-          width: 172,
-          height: 172,
+          width: intW,
+          height: intH,
           child: Image(
-            image: AssetImage('assets/$img.png'),
+            image: AssetImage(imagenx),
           ),
         ));
   }
@@ -402,7 +414,8 @@ class _MakeReportState extends State<MakeReport> {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => MakeReportWho(
+              builder: (context) => PersonalReport(
+                    accion: 0,
                     tipo: tipo,
                     caso: caso,
                     producto: producto,
@@ -490,14 +503,13 @@ class _MakeReportState extends State<MakeReport> {
         decoration: decoracionCombo(),
         child: DropdownButton<CmbKeyValue>(
           value: cmbReporteEmergencia,
-          hint:
-              const Text("Seleccione el lugar donde se originó la emergencia"),
+          hint: const Text("Lugar dónde se originó la emergencia"),
           icon: const Icon(Icons.arrow_drop_down_sharp),
           elevation: 16,
           onChanged: (CmbKeyValue? value) {
             setState(() {
               cmbReporteEmergencia = value;
-              print(cmbReporteEmergencia!.id);
+              //print(cmbReporteEmergencia!.id);
             });
           },
           underline: Container(),
@@ -530,6 +542,13 @@ class _MakeReportState extends State<MakeReport> {
           fontSize: 14,
           fontFamily: 'Roboto',
           fontWeight: FontWeight.bold),
+    );
+  }
+
+  void homePage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const Home()),
     );
   }
 }

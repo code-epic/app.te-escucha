@@ -31,6 +31,10 @@ class PersonalReport extends StatefulWidget {
 
 class _PersonalReportState extends State<PersonalReport> {
   TextEditingController dateinput = TextEditingController();
+  TextEditingController cedula = TextEditingController();
+  TextEditingController edad = TextEditingController();
+  TextEditingController nombre = TextEditingController();
+
   Map<String, String> prsCliente = {};
 
   CmbKeyValue? cmbEstado;
@@ -104,10 +108,17 @@ class _PersonalReportState extends State<PersonalReport> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
+  void dispose() {
+    // Limpia el controller cuando se elimina el widget
+    cedula.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
+    //widget tipo, descripcion, caso
     super.initState();
     dateinput.text = "";
-    // const msj = widget.tipo + widget.caso + widget.producto;
 
     // obtenerEstados();
   }
@@ -143,6 +154,7 @@ class _PersonalReportState extends State<PersonalReport> {
                     texto1(),
                     TextFormField(
                       style: textPersonal,
+                      controller: cedula,
                       decoration: const InputDecoration(
                         border: UnderlineInputBorder(),
                         labelText: 'Cédula',
@@ -193,6 +205,7 @@ class _PersonalReportState extends State<PersonalReport> {
                     ),
                     TextFormField(
                       style: textPersonal,
+                      controller: nombre,
                       decoration: const InputDecoration(
                         border: UnderlineInputBorder(),
                         labelText: 'Nombre completo',
@@ -200,6 +213,7 @@ class _PersonalReportState extends State<PersonalReport> {
                     ),
                     TextFormField(
                       style: textPersonal,
+                      controller: edad,
                       decoration: const InputDecoration(
                         border: UnderlineInputBorder(),
                         labelText: 'Edad',
@@ -491,6 +505,13 @@ class _PersonalReportState extends State<PersonalReport> {
                     ),
                   ),
                   onPressed: () {
+                    print(cedula.text);
+                    persona = {
+                      "cedula": cedula.text,
+                      "fecha": dateinput.text,
+                      "nombre": nombre.text,
+                    };
+
                     nextPage(widget.accion, widget.tipo, widget.caso,
                         widget.producto, persona, widget.descripcion);
                   },

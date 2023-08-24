@@ -28,9 +28,11 @@ class MakeReportMsg extends StatefulWidget {
 
 class _MakeReportMsgState extends State<MakeReportMsg> {
   TextEditingController dateinput = TextEditingController();
+  TextEditingController xdescripcion = TextEditingController();
   List<String> lst = [];
   String imagen = "tramites/Gente".toLowerCase();
   String contenido = "";
+  Map<String, String> prsCliente = {};
 
   @override
   void initState() {
@@ -38,6 +40,12 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
     dateinput.text = "";
     imagen = widget.producto;
     contenido = widget.descripcion;
+    print(widget.tipo);
+    print(widget.producto);
+    print(widget.caso);
+    print(widget.accion);
+    print(widget.persona);
+    print(widget.descripcion);
   }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -136,6 +144,7 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
                     ),
                     TextFormField(
                       style: textPersonal,
+                      controller: xdescripcion,
                       textAlign: TextAlign.justify,
                       textAlignVertical: TextAlignVertical.top,
                       maxLines: 8,
@@ -190,12 +199,12 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
   }
 
   Positioned paginador() {
-    return Positioned(
+    return const Positioned(
         top: 54,
         right: 15,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: const [
+          children: [
             Text(
               "4/4",
               style: TextStyle(
@@ -253,8 +262,21 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
                     ),
                   ),
                   onPressed: () {
+                    String cedula = widget.persona['cedula'].toString();
+                    String nombre = widget.persona['nombre'].toString();
+                    String fecha = widget.persona['fecha'].toString();
+
+                    prsCliente = {
+                      "cedula": cedula,
+                      "nombre": nombre,
+                      "fecha": fecha,
+                      "evento": dateinput.text,
+                      "descripcion": xdescripcion.text,
+                      "categoria": definirTipo(widget.descripcion)
+                    };
+
                     nextPage(0, widget.tipo, widget.caso, widget.producto,
-                        widget.persona);
+                        prsCliente);
                   },
                   child: const Text(
                     'SIGUIENTE',

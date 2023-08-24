@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/home.dart';
 import 'package:te_escucha/src/gui/personal_report.dart';
 import 'package:te_escucha/src/model/const.dart';
+
+import '../model/cehttpclient.dart';
+import '../model/solicitud.dart';
 
 class MakeComprobante extends StatefulWidget {
   final int accion;
@@ -25,12 +30,88 @@ class MakeComprobante extends StatefulWidget {
 class _MakeComprobanteState extends State<MakeComprobante> {
   List<String> lst = [];
   String imagen = "tramites/Gente".toLowerCase();
+  late WKF_IDocumento document;
+
+  late WKF_IDocumentoDetalle detalle;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  Future _setDocumento(String valores) async {
+    Map<String, dynamic> data = {
+      'funcion': 'WKF_IDocumento',
+      'parametros': '',
+      'valores': valores
+    };
+    var response = await CeHttpClient.xPOST(sPath, data);
+    var json = jsonDecode(response);
+    print(json);
+
+    String wkfDoc = json['msj'].toString();
+    String cedula = widget.persona['cedula'].toString();
+    String nombre = widget.persona['nombre'].toString();
+    List<String> fecha = widget.persona['fecha'].toString().split('/');
+    List<String> evento = widget.persona['evento'].toString().split('/');
+    String descripcion = widget.persona['descripcion'].toString();
+
+    detalle = WKF_IDocumentoDetalle(
+      wfdocumento: int.parse(wkfDoc),
+      privacidad: 1,
+      ncontrol: wkfDoc,
+      fcreacion: '${evento[2]}-${evento[1]}-${evento[0]}',
+      forigen: '${fecha[2]}-${fecha[1]}-${fecha[0]}',
+      norigen: nombre,
+      salida: cedula,
+      tipo: widget.tipo,
+      remitente: 'correo@hotmail.com',
+      unidad: widget.caso,
+      comando: '',
+      contenido: descripcion,
+      instrucciones: 'instrucciones',
+      codigo: 'codigo',
+      nexpediente: 'nexpediente',
+      archivo: 'archivo',
+      creador: 'correo',
+    );
+
+    data = {
+      'funcion': 'WKF_IDocumentoDetalle',
+      'parametros': '',
+      'valores': jsonEncode(detalle.toJson())
+    };
+    var xresponse = await CeHttpClient.xPOST(sPath, data);
+    var xjson = jsonDecode(xresponse);
+
+    print(xjson);
+
+    setState(() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Home()),
+      );
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     imagen = widget.producto;
+    print(widget.tipo);
+    print(widget.producto);
+    print(widget.caso);
+    print(widget.accion);
+    print(widget.persona);
+  }
+
+  void setDocWKF() {
+    int estaDestino = getEstadoWKF(widget.persona['categoria'].toString());
+    document = WKF_IDocumento(
+        nombre: widget.tipo,
+        workflow: 2,
+        observacion: widget.producto,
+        estado: estaDestino,
+        estatus: 1,
+        usuario: 'contol@hotmail.com');
+
+    _setDocumento(jsonEncode(document.toJson()));
   }
 
   @override
@@ -110,12 +191,12 @@ class _MakeComprobanteState extends State<MakeComprobante> {
   }
 
   Positioned paginador() {
-    return Positioned(
+    return const Positioned(
         top: 54,
         right: 15,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: const [
+          children: [
             Text(
               "4/4",
               style: TextStyle(
@@ -191,9 +272,6 @@ class _MakeComprobanteState extends State<MakeComprobante> {
   }
 
   void nextPage() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const Home()),
-    );
+    setDocWKF();
   }
 }
