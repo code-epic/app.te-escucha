@@ -155,6 +155,7 @@ class _PersonalReportState extends State<PersonalReport> {
                     TextFormField(
                       style: textPersonal,
                       controller: cedula,
+                      keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                         border: UnderlineInputBorder(),
                         labelText: 'Cédula',
@@ -471,7 +472,7 @@ class _PersonalReportState extends State<PersonalReport> {
     return const Padding(
       padding: EdgeInsets.all(5.0),
       child: Text(
-        "Datos",
+        "Complete los siguientes datos personales. Recuerde que el reporte lo está efectuando a título propio.",
         textAlign: TextAlign.justify,
         style: TextStyle(
             color: Colors.black,
@@ -516,7 +517,7 @@ class _PersonalReportState extends State<PersonalReport> {
                         widget.producto, persona, widget.descripcion);
                   },
                   child: const Text(
-                    'SIGUIENTE',
+                    'Siguiente',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,

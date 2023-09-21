@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:googleapis/datastore/v1.dart';
 import 'package:te_escucha/src/gui/ayuda.dart';
 import 'package:te_escucha/src/gui/baselegal.dart';
 import 'package:te_escucha/src/gui/chat.dart';
@@ -8,14 +9,16 @@ import 'package:te_escucha/src/gui/home.dart';
 import 'package:te_escucha/src/gui/inicio.dart';
 import 'package:te_escucha/src/gui/make_report.dart';
 import 'package:te_escucha/src/gui/map_google.dart';
+import 'package:te_escucha/src/gui/perfil.dart';
 import 'package:te_escucha/src/gui/politicas.dart';
+import 'package:te_escucha/src/gui/splashscreen.dart';
 
 String title = 'Sistema de Denuncias';
 
 String sPath = '/devel/api/crud:541f2bd069277d053a45cac13099e185.sse';
 
 final List<String> reportList = [
-  "---------------",
+  "Seleccione",
   'Quejas y reclamos',
   'Sugerencias',
   'Denuncias',
@@ -23,13 +26,13 @@ final List<String> reportList = [
 ];
 
 final List<String> selectList = [
-  "---------------",
+  "Seleccione",
   'Trámites',
   'Servicios',
 ];
 
 final List<String> servicesIcon = [
-  "---------------",
+  "Seleccione",
   'Lanchaje',
   'Remolcadores',
   'Capitanias',
@@ -155,7 +158,7 @@ List<Capitania> capitania = [
 ];
 
 final List<String> procedureIcon = [
-  "---------------",
+  "Seleccione",
   'Certificacion',
   'Empresas',
   'Gente',
@@ -258,8 +261,10 @@ definirTipo(String tipo) {
 }
 
 final routers = {
-  '/': (context) => const Inicio(),
-  '/home': (context) => const Home(),
+  '/': (context) => const SplashScreen(),
+  '/incio': (context) => const Inicio(),
+  '/homw': (context) => const Home(),
+  '/perfil': (context) => const Perfil(),
   '/maps': (context) => const MapGoogle(),
   '/chat': (context) => const ChatHome(),
   '/ayuda': (context) => const Ayuda(),
@@ -280,6 +285,12 @@ var boxDecoration = BoxDecoration(
     borderRadius: BorderRadius.all(Radius.circular(15)),
     color: Color(0xffe7ecf0),
     border: Border.all(color: Color(0xff174076)));
+
+const txtDraw = TextStyle(
+    fontSize: 13,
+    fontFamily: 'Lato',
+    color: Colors.white,
+    fontWeight: FontWeight.bold);
 
 const textHome = TextStyle(
     color: Colors.black,
@@ -317,6 +328,14 @@ const textDescrip = TextStyle(
 const textPersonal = TextStyle(
     // backgroundColor: Color(0xffe7ecf0),
     color: Colors.grey,
+    fontSize: 13,
+    fontFamily: 'Roboto',
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.bold);
+
+const xtextPersonal = TextStyle(
+    // backgroundColor: Color(0xFFF0F7FC),
+    color: Color(0xff11192c),
     fontSize: 13,
     fontFamily: 'Roboto',
     fontStyle: FontStyle.normal,

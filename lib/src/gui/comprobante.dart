@@ -30,88 +30,18 @@ class MakeComprobante extends StatefulWidget {
 class _MakeComprobanteState extends State<MakeComprobante> {
   List<String> lst = [];
   String imagen = "tramites/Gente".toLowerCase();
-  late WKF_IDocumento document;
 
-  late WKF_IDocumentoDetalle detalle;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
-  Future _setDocumento(String valores) async {
-    Map<String, dynamic> data = {
-      'funcion': 'WKF_IDocumento',
-      'parametros': '',
-      'valores': valores
-    };
-    var response = await CeHttpClient.xPOST(sPath, data);
-    var json = jsonDecode(response);
-    print(json);
-
-    String wkfDoc = json['msj'].toString();
-    String cedula = widget.persona['cedula'].toString();
-    String nombre = widget.persona['nombre'].toString();
-    List<String> fecha = widget.persona['fecha'].toString().split('/');
-    List<String> evento = widget.persona['evento'].toString().split('/');
-    String descripcion = widget.persona['descripcion'].toString();
-
-    detalle = WKF_IDocumentoDetalle(
-      wfdocumento: int.parse(wkfDoc),
-      privacidad: 1,
-      ncontrol: wkfDoc,
-      fcreacion: '${evento[2]}-${evento[1]}-${evento[0]}',
-      forigen: '${fecha[2]}-${fecha[1]}-${fecha[0]}',
-      norigen: nombre,
-      salida: cedula,
-      tipo: widget.tipo,
-      remitente: 'correo@hotmail.com',
-      unidad: widget.caso,
-      comando: '',
-      contenido: descripcion,
-      instrucciones: 'instrucciones',
-      codigo: 'codigo',
-      nexpediente: 'nexpediente',
-      archivo: 'archivo',
-      creador: 'correo',
-    );
-
-    data = {
-      'funcion': 'WKF_IDocumentoDetalle',
-      'parametros': '',
-      'valores': jsonEncode(detalle.toJson())
-    };
-    var xresponse = await CeHttpClient.xPOST(sPath, data);
-    var xjson = jsonDecode(xresponse);
-
-    print(xjson);
-
-    setState(() {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const Home()),
-      );
-    });
-  }
 
   @override
   void initState() {
     super.initState();
     imagen = widget.producto;
-    print(widget.tipo);
-    print(widget.producto);
-    print(widget.caso);
-    print(widget.accion);
-    print(widget.persona);
-  }
-
-  void setDocWKF() {
-    int estaDestino = getEstadoWKF(widget.persona['categoria'].toString());
-    document = WKF_IDocumento(
-        nombre: widget.tipo,
-        workflow: 2,
-        observacion: widget.producto,
-        estado: estaDestino,
-        estatus: 1,
-        usuario: 'contol@hotmail.com');
-
-    _setDocumento(jsonEncode(document.toJson()));
+    // print(widget.tipo);
+    // print(widget.producto);
+    // print(widget.caso);
+    // print(widget.accion);
+    // print(widget.persona);
   }
 
   @override
@@ -142,6 +72,15 @@ class _MakeComprobanteState extends State<MakeComprobante> {
                     Center(
                       child: imagenSeleccion(context, imagen),
                     ),
+
+                    texto1("Datos personales"),
+                    texto2("Cédula: "),
+                    texto2("Nombre completo: "),
+                    texto2("Edad: "),
+                    texto2("Correo: "),
+                    texto2("Teléfono: "),
+                    texto1("Detalle del reporte"),
+                    const Divider(color: Color(0xff02509c)),
                     texto1("Tipo de reporte"),
                     texto2(widget.tipo),
                     texto1("Categoría"),
@@ -150,14 +89,6 @@ class _MakeComprobanteState extends State<MakeComprobante> {
                     // texto2("Gente de Mar"),
                     texto1("Nro. Reporte"),
                     texto2("0000000001"),
-                    texto1("Reporte personal"),
-                    const Divider(color: Color(0xff02509c)),
-                    texto2("Cédula: "),
-                    texto2("Nombre completo: "),
-                    texto2("Edad: "),
-                    texto2("Correo: "),
-                    texto2("Teléfono: "),
-                    texto1("Detalle del reporte"),
                     const Divider(color: Color(0xff02509c)),
                   ],
                 ),
@@ -257,7 +188,7 @@ class _MakeComprobanteState extends State<MakeComprobante> {
                     nextPage();
                   },
                   child: const Text(
-                    'OK',
+                    'Ok',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
@@ -272,6 +203,6 @@ class _MakeComprobanteState extends State<MakeComprobante> {
   }
 
   void nextPage() {
-    setDocWKF();
+    nextPage();
   }
 }

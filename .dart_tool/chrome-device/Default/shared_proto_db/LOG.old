@@ -1,4 +1,9 @@
-2023/08/24-14:07:14.626 2218a Reusing MANIFEST /tmp/flutter_tools.MMEWNP/flutter_tools_chrome_device.YYKSAC/Default/shared_proto_db/MANIFEST-000001
-2023/08/24-14:07:14.626 2218a Recovering log #4
-2023/08/24-14:07:14.626 2218a Reusing old log /tmp/flutter_tools.MMEWNP/flutter_tools_chrome_device.YYKSAC/Default/shared_proto_db/000004.log 
-2023/08/24-14:07:14.627 2218a Delete type=0 #3
+2023/09/20-15:39:58.845 6a2d2 Reusing MANIFEST /tmp/flutter_tools.UAKNAF/flutter_tools_chrome_device.UELCVO/Default/shared_proto_db/MANIFEST-000001
+2023/09/20-15:39:58.845 6a2d2 Recovering log #10
+2023/09/20-15:39:58.847 6a2d2 Reusing old log /tmp/flutter_tools.UAKNAF/flutter_tools_chrome_device.UELCVO/Default/shared_proto_db/000010.log 
+2023/09/20-15:39:58.847 6a2d2 Delete type=0 #7
+2023/09/20-15:39:58.847 6a2d2 Delete type=0 #4
+2023/09/20-15:39:58.847 6a2d2 Delete type=0 #3
+2023/09/20-15:41:13.937 6a2d2 Level-0 table #14: started
+2023/09/20-15:41:13.938 6a2d2 Level-0 table #14: 126428 bytes OK
+2023/09/20-15:41:13.938 6a2d2 Delete type=0 #10

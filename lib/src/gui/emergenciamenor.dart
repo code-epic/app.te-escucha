@@ -16,6 +16,15 @@ class EmergenciaMenor extends StatefulWidget {
 
 class _EmergenciaMenorState extends State<EmergenciaMenor> {
   TextEditingController dateinput = TextEditingController();
+  TextEditingController cedula = TextEditingController();
+  TextEditingController edad = TextEditingController();
+  TextEditingController nombre = TextEditingController();
+  TextEditingController parentesco = TextEditingController();
+  TextEditingController otro = TextEditingController();
+  TextEditingController tel1 = TextEditingController();
+  TextEditingController tel2 = TextEditingController();
+
+  Map<String, String> prsCliente = {};
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   CmbKeyValue? cmbParentesco;
@@ -68,6 +77,7 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    controller: cedula,
                     style: textPersonal,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
@@ -75,54 +85,61 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
                     ),
                   ),
                 ),
-                TextFormField(
-                  controller: dateinput,
-                  style: textPersonal,
-                  decoration: InputDecoration(
-                    border: const UnderlineInputBorder(),
-                    labelText: 'Fecha de Nacimiento',
-                    prefixIcon: const Icon(
-                      Icons.calendar_month,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: dateinput,
+                    style: textPersonal,
+                    decoration: InputDecoration(
+                      border: const UnderlineInputBorder(),
+                      labelText: 'Fecha de Nacimiento',
+                      prefixIcon: const Icon(
+                        Icons.calendar_month,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.search),
+                        onPressed: () {
+                          print("Hola");
+                        },
+                      ),
                     ),
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: () {
-                        print("Hola");
-                      },
-                    ),
+                    onTap: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          locale: const Locale("es", "ES"),
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(
+                              1950), //DateTime.now() - not to allow to choose before today.
+                          lastDate: DateTime(2025));
+
+                      if (pickedDate != null) {
+                        print(
+                            pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                        String formattedDate =
+                            DateFormat('dd/MM/yyyy').format(pickedDate);
+                        print(
+                            formattedDate); //formatted date output using intl package =>  2021-03-16
+                        //you can implement different kind of Date Format here according to your requirement
+
+                        setState(() {
+                          dateinput.text =
+                              formattedDate; //set output date to TextField value.
+                        });
+                      } else {
+                        print("Date is not selected");
+                      }
+                    },
                   ),
-                  onTap: () async {
-                    DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        locale: const Locale("es", "ES"),
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(
-                            1950), //DateTime.now() - not to allow to choose before today.
-                        lastDate: DateTime(2025));
-
-                    if (pickedDate != null) {
-                      print(
-                          pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                      String formattedDate =
-                          DateFormat('dd/MM/yyyy').format(pickedDate);
-                      print(
-                          formattedDate); //formatted date output using intl package =>  2021-03-16
-                      //you can implement different kind of Date Format here according to your requirement
-
-                      setState(() {
-                        dateinput.text =
-                            formattedDate; //set output date to TextField value.
-                      });
-                    } else {
-                      print("Date is not selected");
-                    }
-                  },
                 ),
-                TextFormField(
-                  style: textPersonal,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Nombre completo',
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: nombre,
+                    style: textPersonal,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'Nombre completo',
+                    ),
                   ),
                 ),
                 Padding(
@@ -198,7 +215,7 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              "2/4",
+              "2/5",
               style: TextStyle(
                   color: Colors.grey,
                   fontSize: 14,
@@ -208,53 +225,6 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
             ),
           ],
         ));
-  }
-
-  Positioned buttomNext(BuildContext context) {
-    return Positioned(
-        top: MediaQuery.of(context).size.height - 60,
-        width: MediaQuery.of(context).size.width,
-        child: Container(
-            padding: const EdgeInsets.all(6.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff174076),
-                    shadowColor: Color(0xff174076), // background
-                    foregroundColor: Colors.white, // foreground
-                    minimumSize: Size(180, 40),
-                    maximumSize: Size(180, 40),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                    ),
-                  ),
-                  onPressed: () {
-                    debugPrint('Probando');
-                    nextPage();
-                  },
-                  child: const Text(
-                    'SIGUIENTE',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontFamily: 'Roboto',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.bold),
-                  ),
-                )
-              ],
-            )));
-  }
-
-  void nextPage() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const EmergenciaEmbarcacion()),
-    );
   }
 
   Container Parentesco(double width) {
@@ -334,6 +304,53 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
             fontStyle: FontStyle.normal,
             fontWeight: FontWeight.bold),
       ),
+    );
+  }
+
+  Positioned buttomNext(BuildContext context) {
+    return Positioned(
+        top: MediaQuery.of(context).size.height - 60,
+        width: MediaQuery.of(context).size.width,
+        child: Container(
+            padding: const EdgeInsets.all(6.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff174076),
+                    shadowColor: Color(0xff174076), // background
+                    foregroundColor: Colors.white, // foreground
+                    minimumSize: Size(180, 40),
+                    maximumSize: Size(180, 40),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
+                  ),
+                  onPressed: () {
+                    debugPrint('Probando');
+                    nextPage();
+                  },
+                  child: const Text(
+                    'Siguiente',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontFamily: 'Roboto',
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.bold),
+                  ),
+                )
+              ],
+            )));
+  }
+
+  void nextPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const EmergenciaEmbarcacion()),
     );
   }
 }

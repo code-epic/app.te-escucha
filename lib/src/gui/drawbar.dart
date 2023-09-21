@@ -1,4 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:te_escucha/src/gui/home.dart';
+import 'package:te_escucha/src/model/const.dart';
+import 'package:te_escucha/src/model/localstoragehelper.dart';
+import 'package:te_escucha/src/model/user_perfil.dart';
 
 class DrawBar extends StatefulWidget {
   const DrawBar({super.key});
@@ -8,6 +13,34 @@ class DrawBar extends StatefulWidget {
 }
 
 class _DrawBarState extends State<DrawBar> {
+  late UserPerfil Usuario = UserPerfil(
+      nombre: 'Inea Te Escucha', correo: 'correo@inea.gob.ve', foto: '');
+
+  Future<UserPerfil> getCurrentUserEmail() async {
+    final user = FirebaseAuth.instance.currentUser;
+    String? xnombre = user?.displayName;
+    String? xcorreo = user?.email;
+    String? xfoto = user?.photoURL;
+
+    return UserPerfil(
+        nombre: xnombre.toString(),
+        correo: xcorreo.toString(),
+        foto: xfoto.toString());
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (LocalStorageHelper().getValue('token_wkf_inea') == null) {
+    } else {
+      getCurrentUserEmail().then((value) {
+        setState(() {
+          Usuario = value;
+        });
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -15,37 +48,30 @@ class _DrawBarState extends State<DrawBar> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const UserAccountsDrawerHeader(
-              accountName: Text('Instituto Nacional de los Espacios Acuáticos',
-                  style: TextStyle(
-                      fontSize: 13,
-                      fontFamily: 'Lato',
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold)),
+            UserAccountsDrawerHeader(
+              accountName: Text(Usuario.nombre, style: txtDraw),
               accountEmail: Text(
-                'soporte@inea.gob.ve',
-                style: TextStyle(
-                    fontSize: 13,
-                    fontFamily: 'Lato',
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
+                Usuario.correo,
+                style: txtDraw,
               ),
               currentAccountPicture: CircleAvatar(
                   backgroundColor: Color(0xff174076),
                   child: ClipOval(
-                    child: Image(
-                      image: AssetImage('assets/group/logo_inea.png'),
-                      width: 80,
-                      height: 80,
-                      fit: BoxFit.cover,
-                    ),
+                    child: Usuario.foto != "null"
+                        ? Image.network(
+                            Usuario.foto,
+                            width: 100.0,
+                            height: 100.0,
+                          )
+                        : const Image(
+                            image: AssetImage('assets/group/logo_inea.png'),
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                          ),
                   )),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color(0xff174076),
-                // image: DecorationImage(
-                //   image: AssetImage('assets/images/fondo.jpg'),
-                //   fit: BoxFit.cover,
-                // ),
               ),
             ),
             ListTile(
@@ -60,7 +86,7 @@ class _DrawBarState extends State<DrawBar> {
                     color: Color(0xff174076),
                     fontWeight: FontWeight.bold),
               ),
-              onTap: () => {Navigator.pushNamed(context, '/')},
+              onTap: () => {homePage()},
             ),
             ListTile(
               textColor: Color(0xff174076),
@@ -163,6 +189,12 @@ class _DrawBarState extends State<DrawBar> {
             ),
           ],
         ));
-    ;
+  }
+
+  void homePage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const Home()),
+    );
   }
 }

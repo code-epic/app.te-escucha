@@ -286,7 +286,7 @@ class _GrupoReportState extends State<GrupoReport> {
                         persona, widget.descripcion);
                   },
                   child: const Text(
-                    'SIGUIENTE',
+                    'Siguiente',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,

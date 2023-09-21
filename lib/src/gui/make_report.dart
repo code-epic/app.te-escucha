@@ -19,7 +19,7 @@ class MakeReport extends StatefulWidget {
 }
 
 class _MakeReportState extends State<MakeReport> {
-  String tipo = "---------------";
+  String tipo = "Seleccione";
   String caso = selectList.first;
   String producto = "";
   String descripcion = "";
@@ -78,7 +78,7 @@ class _MakeReportState extends State<MakeReport> {
                     texto1(
                         "Usted debe realizar un reporte para que nuestro equipo pueda atender su caso."),
                     texto2(
-                        "A continuación, seleccione el tipo de reporte que va a realizar desplegando la lista que se encuentra debajo. Antes de finalizar puede volver atrás para verificar que su solicitud esté correcta"),
+                        "A continuación, seleccione el tipo de reporte que va a realizar empleando la lista desplegable"),
                     const SizedBox(
                       height: 5,
                     ),
@@ -102,7 +102,11 @@ class _MakeReportState extends State<MakeReport> {
                                 xsolicitud = false;
                                 bSar = false;
                                 contenido = false;
-                                if (tipo != 'Emergencias de Embarcaciones') {
+                                if (tipo == 'Denuncias') {
+                                  imagen = "group/denuncias";
+                                  bImg = true;
+                                } else if (tipo !=
+                                    'Emergencias de Embarcaciones') {
                                   xsolicitud = true;
                                   bImg = false;
                                   caso = selectList.first;
@@ -112,7 +116,13 @@ class _MakeReportState extends State<MakeReport> {
                                   bSar = true;
                                 }
 
-                                mdlOk(context);
+                                if (tipo == 'Seleccione') {
+                                  xsolicitud = false;
+                                  bSar = false;
+                                  contenido = false;
+                                } else {
+                                  mdlOk(context);
+                                }
                               });
                             },
                             underline: Container(),
@@ -137,7 +147,7 @@ class _MakeReportState extends State<MakeReport> {
                     Visibility(
                       visible: xsolicitud,
                       child: texto2(
-                          "Seleccione según sea el caso en donde esta presentando inconveniente o dificultad"),
+                          "Seleccione el tipo de solicitud en la que presenta inconveniente y especifique la temática."),
                     ),
                     Visibility(
                       visible: xsolicitud,
@@ -159,7 +169,7 @@ class _MakeReportState extends State<MakeReport> {
                                 setState(() {
                                   caso = value!;
                                   lst = [];
-                                  producto = "---------------";
+                                  producto = "Seleccione";
                                   if (value == "Trámites") {
                                     lst = procedureIcon;
                                   } else if (value == "Servicios") {
@@ -238,7 +248,7 @@ class _MakeReportState extends State<MakeReport> {
                       visible: bSar,
                       child: Padding(
                         padding: EdgeInsets.all(5.0),
-                        child: ReporteEmergencia(width),
+                        child: reporteEmergencia(width),
                       ),
                     ),
                     if (bImg)
@@ -344,7 +354,7 @@ class _MakeReportState extends State<MakeReport> {
       child: Text(
         texto,
         textAlign: TextAlign.justify,
-        style: TextStyle(
+        style: const TextStyle(
             color: Colors.black,
             fontSize: 13,
             fontFamily: 'Roboto',
@@ -379,7 +389,7 @@ class _MakeReportState extends State<MakeReport> {
                     nextPage(tipo, caso, imagen, descripcion);
                   },
                   child: const Text(
-                    'SIGUIENTE',
+                    'Siguiente',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
@@ -394,7 +404,7 @@ class _MakeReportState extends State<MakeReport> {
   }
 
   void nextPage(String tipo, String caso, String producto, String descripcion) {
-    if (tipo == "---------------") {
+    if (tipo == "Seleccione") {
     } else {
       if (tipo == 'Emergencias de Embarcaciones') {
         if (cmbReporteEmergencia!.id == "2") {
@@ -436,18 +446,15 @@ class _MakeReportState extends State<MakeReport> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              texto1(
-                  "\“INEA Te Escucha\” es una herramienta para atender tus quejas y reclamos, sugerencias, denuncias y emergencias de embarcaciones. "),
+              texto2(
+                  "\"INEA Te Escucha\" es una herramienta tecnológica que responde a la política del 1x10 del Buen Gobierno, a través de la cual podrá hacer sus quejas y reclamos, sugerencias, denuncias y reportar emergencias de embarcaciones de manera formal. De esta manera la Casa del Sector Acuático podrá procesarlas y verificarlas de forma inmediata, dependiendo de la localidad y el tipo de requerimiento. Para ello, no se precisa que la persona esté inscrita con su 1×10 en el Sistema Patria."),
               const SizedBox(
                 height: 5,
               ),
               texto2(
-                  "Úsala con conciencia. El envío de un reporte engañoso puede generar consecuencias legales."),
+                  "Te sugerimos leer nuestra Política de Privacidad y los Términos de Seguridad."),
               const SizedBox(height: 5),
-              texto2(
-                  "Esta herramienta está protegida por la política de privacidad y los términos de servicios que aplican."),
-              texto2(
-                  "Seleccione el tipo de caso, según sea el inconveniente que esté presentando."),
+              texto2("¡Seamos parte de la solución!"),
               const SizedBox(height: 25),
               Ok(context),
             ],
@@ -495,7 +502,7 @@ class _MakeReportState extends State<MakeReport> {
             )));
   }
 
-  Container ReporteEmergencia(double width) {
+  Container reporteEmergencia(double width) {
     return Container(
         padding: const EdgeInsets.only(left: 9, right: 3),
         height: 40,

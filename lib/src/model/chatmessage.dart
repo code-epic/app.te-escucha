@@ -47,9 +47,10 @@ class Chat extends StatelessWidget {
         children: [
           Container(
               margin: EdgeInsets.only(top: 5),
-              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+              padding: EdgeInsets.symmetric(horizontal: 9, vertical: 9),
               decoration: BoxDecoration(
-                  color: Colors.green, borderRadius: BorderRadius.circular(30)),
+                  color: chat.isAuthor ? Color(0xff83cacc) : Color(0xffb7c4d5),
+                  borderRadius: BorderRadius.circular(10)),
               child: Text(chat.text))
         ]);
   }

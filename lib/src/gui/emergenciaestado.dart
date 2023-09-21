@@ -18,6 +18,7 @@ class _EmergenciaEstadoState extends State<EmergenciaEstado> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   CmbKeyValue? cmbEstado;
+  CmbKeyValue? cmbCiudad;
   CmbKeyValue? cmbMunicipio;
   CmbKeyValue? cmbParroquia;
 
@@ -27,9 +28,14 @@ class _EmergenciaEstadoState extends State<EmergenciaEstado> {
     const CmbKeyValue('0', 'Estado* ')
   ];
 
+  List<CmbKeyValue> lstCiudad = <CmbKeyValue>[
+    const CmbKeyValue('0', 'Ciudad* ')
+  ];
+
   List<CmbKeyValue> lstMunicipio = <CmbKeyValue>[
     const CmbKeyValue('0', 'Municipio* ')
   ];
+
   List<CmbKeyValue> lstParroquia = <CmbKeyValue>[
     const CmbKeyValue('0', 'Parroquia* ')
   ];
@@ -43,12 +49,28 @@ class _EmergenciaEstadoState extends State<EmergenciaEstado> {
     var json = jsonDecode(response);
     lst = json['Cuerpo'];
     setState(() {
-      print('Control de notas');
       cmbEstado = lstEstados[0];
       cmbMunicipio = lstMunicipio[0];
       cmbParroquia = lstParroquia[0];
       for (var e in lst) {
         lstEstados.add(CmbKeyValue(e['id_estado'], e['estado']));
+      }
+    });
+  }
+
+  Future obtenerCidudad() async {
+    const Map<String, dynamic> data = {
+      'funcion': 'ListarCiudad',
+      'parametros': ''
+    };
+    var response = await CeHttpClient.xPOST(sPath, data);
+    var json = jsonDecode(response);
+    lst = json['Cuerpo'];
+    setState(() {
+      cmbCiudad = lstCiudad[0];
+
+      for (var e in lst) {
+        lstCiudad.add(CmbKeyValue(e['id_ciudad'], e['ciudad']));
       }
     });
   }
@@ -126,6 +148,10 @@ class _EmergenciaEstadoState extends State<EmergenciaEstado> {
                 const SizedBox(
                   height: 10,
                 ),
+                setCiudad(width),
+                const SizedBox(
+                  height: 10,
+                ),
                 setMunicipio(width),
                 const SizedBox(
                   height: 10,
@@ -177,7 +203,7 @@ class _EmergenciaEstadoState extends State<EmergenciaEstado> {
         top: 40,
         width: MediaQuery.of(context).size.width,
         child: const Image(
-          image: AssetImage('assets/group/load_4.png'),
+          image: AssetImage('assets/group/load_1.png'),
         ));
   }
 
@@ -189,7 +215,7 @@ class _EmergenciaEstadoState extends State<EmergenciaEstado> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              "5/5",
+              "1/5",
               style: TextStyle(
                   color: Colors.grey,
                   fontSize: 14,
@@ -226,7 +252,7 @@ class _EmergenciaEstadoState extends State<EmergenciaEstado> {
                     nextPage();
                   },
                   child: const Text(
-                    'SIGUIENTE',
+                    'Siguiente',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
@@ -305,6 +331,37 @@ class _EmergenciaEstadoState extends State<EmergenciaEstado> {
           },
           underline: Container(),
           items: lstEstados
+              .map((CmbKeyValue? cmb) => DropdownMenuItem<CmbKeyValue>(
+                    value: cmb,
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: textoCombos(cmb),
+                    ),
+                  ))
+              .toList(),
+          isExpanded: true,
+        ));
+  }
+
+  Container setCiudad(double width) {
+    return Container(
+        padding: const EdgeInsets.only(left: 9, right: 3),
+        height: 40,
+        width: width,
+        decoration: decoracionCombo(),
+        child: DropdownButton<CmbKeyValue>(
+          value: cmbCiudad,
+          hint: Text("Ciudad *"),
+          icon: const Icon(Icons.arrow_drop_down_sharp),
+          elevation: 16,
+          onChanged: (CmbKeyValue? value) {
+            setState(() {
+              cmbCiudad = value;
+              obtenerMunicipios(value!.id);
+            });
+          },
+          underline: Container(),
+          items: lstCiudad
               .map((CmbKeyValue? cmb) => DropdownMenuItem<CmbKeyValue>(
                     value: cmb,
                     child: Container(

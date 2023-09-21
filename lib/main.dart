@@ -1,9 +1,10 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:te_escucha/src/model/cehttpclient.dart';
 import 'package:te_escucha/src/model/const.dart';
+
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -14,9 +15,17 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
-  CeHttpClient.configureDio();
+
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: 'AIzaSyCUGHiFdbR9u6tAcIDieJuOodLKa6RPbGA',
+          appId: '1:334220154678:web:8d62e84539db47866c4597',
+          messagingSenderId: '334220154678',
+          projectId: 'inea-875c7'));
+
   runApp(const MyApp());
 }
 

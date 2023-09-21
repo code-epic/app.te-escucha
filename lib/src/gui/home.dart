@@ -1,13 +1,20 @@
+import 'dart:convert';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:te_escucha/src/gui/cbuzon.dart';
 import 'package:te_escucha/src/gui/chat.dart';
 import 'package:te_escucha/src/gui/chat_home.dart';
 import 'package:te_escucha/src/gui/drawbar.dart';
 import 'package:te_escucha/src/gui/make_report.dart';
 import 'package:te_escucha/src/gui/map_google.dart';
+import 'package:te_escucha/src/gui/perfil.dart';
+import 'package:te_escucha/src/model/buzon.dart';
 import 'package:te_escucha/src/model/cehttpclient.dart';
 import 'package:te_escucha/src/model/const.dart';
 import 'package:te_escucha/src/gui/inicio.dart';
+
+import '../model/localstoragehelper.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -18,6 +25,41 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  late List<Buzon> lst = [];
+
+  Future<List<Buzon>> getDocWKF(String correo) async {
+    Map<String, dynamic> data = {
+      'funcion': 'WKF_CDocumentoRemitente',
+      'parametros': correo,
+      'valores': ''
+    };
+    var response = await CeHttpClient.xPOST(sPath, data);
+    var json = jsonDecode(response);
+    var datos = json['Cuerpo'];
+    List<Buzon> registro = [];
+
+    for (var e in datos) {
+      registro.add(Buzon.fromJson(e));
+    }
+    return registro;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // btnLogin = false;
+    // print(LocalStorageHelper().getValue('token_wkf_inea'));
+    if (LocalStorageHelper().getValue('token_wkf_inea') == null) {
+      initPage();
+    } else {
+      getDocWKF('correo@hotmail.com').then((value) {
+        setState(() {
+          lst.addAll(value);
+        });
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,16 +101,17 @@ class _HomeState extends State<Home> {
             icon: const Icon(Icons.mark_unread_chat_alt),
             tooltip: "Chatbot",
             onPressed: () {
-              ChatBot();
+              chatBot();
             },
           ),
           IconButton(
+            tooltip: "Perfil",
             icon: const Icon(
               Icons.settings,
               color: Colors.white,
             ),
             onPressed: () {
-              makeReport();
+              pefilPage();
             },
           ),
           IconButton(
@@ -85,134 +128,48 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
-      body: StackBody(),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     // Add your onPressed code here!
-      //   },
-      //   backgroundColor: Colors.transparent,
-      //   child: IconButton(
-      //     icon: Image.asset("assets/group/chatbot.png"),
-      //     iconSize: 256,
-      //     onPressed: () {
-      //       Chat();
-      //     },
-      //   ),
-      // ),
+      body: stackBody(),
     );
   }
 
-  Stack StackBody() {
-    return Stack(children: [
-      Container(
-        width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/group/wallpaper.png"),
-            fit: BoxFit.cover,
-          ),
+  Container stackBody() {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/group/fondo_baselegal.png"),
+          fit: BoxFit.cover,
         ),
       ),
-      Padding(
-        padding: EdgeInsets.all(15),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          verticalDirection: VerticalDirection.down,
-          children: [
-            Container(
-              height: 60,
-              color: Colors.transparent,
-            ),
-            Column(
-              children: [
-                GestureDetector(
-                  child: FadeInUp(
-                    child: centro(context),
-                    duration: Duration(seconds: 2),
-                  ),
-                  onTap: () {
-                    // chatPage();
-                  },
-                )
-              ],
-            ),
-            // LstBuzon(
-            //     'Capitania de Puertos',
-            //     'servicios/capitanias',
-            //     'minenviadomensaje_leido',
-            //     'Enviado',
-            //     Color(0xffe7ecf0),
-            //     Color(0xff174076)),
-            // LstBuzon('CENAVE', 'servicios/cenave', 'enprocesomensaje_noleido',
-            //     'En proceso', Color(0xffb7c4d5), Color(0xffb7c4d5)),
-            // LstBuzon(
-            //     'Pilotaje',
-            //     'servicios/pilotaje',
-            //     'finalizadoconexitomensaje_noleido',
-            //     'Finalizado',
-            //     Color(0xffb7c4d5),
-            //     Color(0xffb7c4d5),
-            // ),
-          ],
-        ),
-      ),
-    ]
-
-        // children: [
-        //   Column(
-        //     mainAxisAlignment: MainAxisAlignment.start,
-        //     children: [
-
-        //       // Container(
-        //       //     width: MediaQuery.of(context).size.width,
-        //       //     padding: EdgeInsets.all(20),
-        //       //     color: Colors.transparent,
-        //       //     child: Column(
-        //       //       mainAxisAlignment: MainAxisAlignment.end,
-        //       //       crossAxisAlignment: CrossAxisAlignment.end,
-        //       //       children: [
-        //       //         GestureDetector(
-        //       //           child: imagen(),
-        //       //           onTap: () {
-        //       //             //obtenerEstados();
-        //       //           },
-        //       //         )
-        //       //       ],
-        //       //     ))
-        //     ],
-        //   ),
-        //   const Positioned(
-        //     top: 13,
-        //     left: 30,
-        //     child: Text(
-        //       "Notificaciones",
-        //       style: TextStyle(
-        //           color: Colors.black,
-        //           fontSize: 14,
-        //           fontFamily: 'Roboto',
-        //           fontStyle: FontStyle.normal,
-        //           fontWeight: FontWeight.bold),
-        //     ),
-        //   ),
-        //   const Positioned(
-        //     top: 10,
-        //     right: 20,
-        //     child: Icon(
-        //       Icons.settings,
-        //       color: Colors.grey,
-        //     ),
-        //   ),
-        // ],
-        );
+      child: ListView.builder(
+          scrollDirection: Axis.vertical,
+          padding:
+              const EdgeInsets.only(top: 80, left: 10, right: 10, bottom: 80),
+          itemCount: lst.length,
+          itemBuilder: ((context, index) => CBuzon(
+              codigo: lst[index].codigo,
+              titulo: lst[index].tipo,
+              contenido: lst[index].contenido,
+              status: lst[index].estatus,
+              icono: lst[index].icono,
+              fecha: lst[index].fecha,
+              respuesta: lst[index].respuesta,
+              categoria: lst[index].categoria,
+              txtStatus: lst[index].txtEstatus,
+              fondo: lst[index].txtEstatus == "En Proceso"
+                  ? Color(0xFFE1E5E8)
+                  : Color(0xffe7ecf0),
+              border: Color(0xff83cacc),
+              img: lst[index].imagen))),
+    );
   }
 
   Column centro(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Image(
+        Image(
           image: AssetImage("assets/group/chatbot.png"),
           width: 300,
         ),
@@ -220,139 +177,10 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Container LstBuzon(String titulo, String img, String status, String txtStatus,
-      Color fondo, Color border) {
-    return Container(
-      padding: const EdgeInsets.all(1.0),
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: fondo,
-                border: Border.all(color: border),
-              ),
-              child: Row(children: [
-                Container(
-                  padding: const EdgeInsets.all(2.0),
-                  width: 100,
-                  height: 100,
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Image(
-                        image: AssetImage('assets/$img' + '_st.png'),
-                      ),
-                      const Text(
-                        "000-100",
-                        style: textNumber,
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(4),
-                  width: MediaQuery.of(context).size.width - 210,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "$titulo",
-                        style: textHome,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Quejas y Reclamos",
-                        style: textDescrip,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "Fecha: 23/07/1985",
-                        style: textDescrip,
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(1),
-                      width: 64,
-                      height: 64,
-                      child: Image(
-                        image: AssetImage('assets/estatus/$status.png'),
-                      ),
-                    ),
-                    Text(
-                      txtStatus,
-                      style: textStatus,
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                  ],
-                ),
-              ]),
-            )
-          ]),
-    );
-  }
-
-  Padding texto2(String texto) {
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Text(
-        texto,
-        textAlign: TextAlign.justify,
-        style: const TextStyle(
-            color: Colors.grey,
-            fontSize: 14,
-            fontFamily: 'Roboto',
-            fontStyle: FontStyle.normal),
-      ),
-    );
-  }
-
-  SizedBox imagen() {
-    return const SizedBox(
-      height: 140,
-      child: Image(
-        image: AssetImage('assets/group/chatbot.png'),
-        width: 128,
-        height: 128,
-      ),
-    );
-  }
-
-  void MapaGoogle() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const MapGoogle()),
-    );
-  }
-
   void initPage() {
-    Navigator.push(
+    Navigator.pop(
       context,
-      MaterialPageRoute(builder: (context) => Inicio()),
-    );
-  }
-
-  void ChatBot() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ChatHome()),
+      MaterialPageRoute(builder: (context) => const Inicio()),
     );
   }
 
@@ -371,6 +199,20 @@ class _HomeState extends State<Home> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const MakeReport()),
+    );
+  }
+
+  void chatBot() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ChatHome()),
+    );
+  }
+
+  void pefilPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const Perfil()),
     );
   }
 }

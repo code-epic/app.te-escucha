@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/comprobante.dart';
 import 'package:te_escucha/src/model/const.dart';
 import 'package:flutter/src/material/date_picker.dart';
 
 import 'package:intl/intl.dart';
+
+import '../model/cehttpclient.dart';
+import '../model/solicitud.dart';
 
 class MakeReportMsg extends StatefulWidget {
   final int accion;
@@ -33,6 +38,74 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
   String imagen = "tramites/Gente".toLowerCase();
   String contenido = "";
   Map<String, String> prsCliente = {};
+  late WKF_IDocumento document;
+
+  late WKF_IDocumentoDetalle detalle;
+
+  Future _setDocumento(String valores) async {
+    Map<String, dynamic> data = {
+      'funcion': 'WKF_IDocumento',
+      'parametros': '',
+      'valores': valores
+    };
+    var response = await CeHttpClient.xPOST(sPath, data);
+    var json = jsonDecode(response);
+    print(json);
+
+    String wkfDoc = json['msj'].toString();
+    String cedula = prsCliente['cedula'].toString();
+    String nombre = prsCliente['nombre'].toString();
+    List<String> fecha = prsCliente['fecha'].toString().split('/');
+    List<String> evento = prsCliente['evento'].toString().split('/');
+    String descripcion = prsCliente['descripcion'].toString();
+
+    detalle = WKF_IDocumentoDetalle(
+      wfdocumento: int.parse(wkfDoc),
+      privacidad: 1,
+      ncontrol: wkfDoc,
+      fcreacion: '${evento[2]}-${evento[1]}-${evento[0]}',
+      forigen: '${fecha[2]}-${fecha[1]}-${fecha[0]}',
+      norigen: nombre,
+      salida: cedula,
+      tipo: widget.tipo,
+      remitente: 'correo@hotmail.com',
+      unidad: widget.caso,
+      comando: '',
+      contenido: descripcion,
+      instrucciones: 'instrucciones',
+      codigo: 'codigo',
+      nexpediente: 'nexpediente',
+      archivo: 'archivo',
+      creador: 'correo',
+    );
+
+    data = {
+      'funcion': 'WKF_IDocumentoDetalle',
+      'parametros': '',
+      'valores': jsonEncode(detalle.toJson())
+    };
+    var xresponse = await CeHttpClient.xPOST(sPath, data);
+    var xjson = jsonDecode(xresponse);
+
+    print(xjson);
+
+    setState(() {
+      nextPage(0, widget.tipo, widget.caso, widget.producto, prsCliente);
+    });
+  }
+
+  void setDocWKF() {
+    int estaDestino = getEstadoWKF(prsCliente['categoria'].toString());
+    document = WKF_IDocumento(
+        nombre: widget.tipo,
+        workflow: 2,
+        observacion: widget.producto,
+        estado: estaDestino,
+        estatus: 1,
+        usuario: 'contol@hotmail.com');
+
+    _setDocumento(jsonEncode(document.toJson()));
+  }
 
   @override
   void initState() {
@@ -40,12 +113,12 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
     dateinput.text = "";
     imagen = widget.producto;
     contenido = widget.descripcion;
-    print(widget.tipo);
-    print(widget.producto);
-    print(widget.caso);
-    print(widget.accion);
-    print(widget.persona);
-    print(widget.descripcion);
+    // print(widget.tipo);
+    // print(widget.producto);
+    // print(widget.caso);
+    // print(widget.accion);
+    // print(widget.persona);
+    // print(widget.descripcion);
   }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -64,7 +137,7 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
           ),
         ),
         body: Stack(children: [
-          titulo(),
+          titulo(widget.tipo),
           barra_cargando(context),
           paginador(),
           Positioned(
@@ -76,14 +149,14 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Center(
-                    //   child: imagenSeleccion(context, imagen),
-                    // ),
-                    texto1(
-                        "Está realizando un reclamo por un incidente que tuviste"),
-                    texto2("Elige la fecha en la que ocurrieron los hechos"),
                     const SizedBox(
-                      height: 8,
+                      height: 10,
+                    ),
+                    texto1(
+                        "Suministre la siguiente información acerca del inconveniente presentado."),
+                    texto2("Fecha en la que ocurrieron los hechos"),
+                    const SizedBox(
+                      height: 10,
                     ),
                     TextFormField(
                       controller: dateinput,
@@ -136,9 +209,8 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
                     const SizedBox(
                       height: 8,
                     ),
-
                     texto2(
-                        "Especifica los hechos de manera clara y precisa, respondiendo a las siguientes interrogantes: ¿qué paso?, ¿dónde? y ¿cuándo? "),
+                        "Especifique los hechos de manera clara y precisa (responda las siguientes interrogantes ¿qué pasó? ¿cómo? ¿cuándo? ¿dónde? ¿quiénes participaron en la acción?)"),
                     const SizedBox(
                       height: 8,
                     ),
@@ -165,13 +237,13 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
         ]));
   }
 
-  Positioned titulo() {
+  Positioned titulo(String tipo) {
     return Positioned(
       top: 20,
       left: 45,
       child: Container(
-        child: const Text(
-          "Reporte personal",
+        child: Text(
+          tipo,
           style: textStyle,
         ),
       ),
@@ -265,7 +337,7 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
                     String cedula = widget.persona['cedula'].toString();
                     String nombre = widget.persona['nombre'].toString();
                     String fecha = widget.persona['fecha'].toString();
-
+                    mdlOk(context, nombre);
                     prsCliente = {
                       "cedula": cedula,
                       "nombre": nombre,
@@ -274,12 +346,12 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
                       "descripcion": xdescripcion.text,
                       "categoria": definirTipo(widget.descripcion)
                     };
-
-                    nextPage(0, widget.tipo, widget.caso, widget.producto,
-                        prsCliente);
+                    setDocWKF();
+                    // nextPage(0, widget.tipo, widget.caso, widget.producto,
+                    //     prsCliente);
                   },
                   child: const Text(
-                    'SIGUIENTE',
+                    'Enviar',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
@@ -291,6 +363,32 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
                 )
               ],
             )));
+  }
+
+  Future<String?> mdlOk(BuildContext context, nombre) {
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              texto1("\"INEA Te Escucha\" "),
+              const SizedBox(height: 8),
+              texto2("Estimado @$nombre"),
+              const SizedBox(
+                height: 2,
+              ),
+              texto2(
+                  "¡Hemos recibido tu reporte de manera satisfactoria! \n\nMuchas gracias por colaborar con nosotros para fomentar la mejora continua de nuestros trámites y servicios. Pronto nos estaremos comunicando con ud. para llevar a feliz término el caso planteado. Te sugerimos estar atento a la bandeja de correo para conocer el estatus de tu reporte."),
+              const SizedBox(height: 25),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   void nextPage(int accion, String tipo, String caso, String producto,

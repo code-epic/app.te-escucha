@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:te_escucha/src/gui/home.dart';
 import 'package:te_escucha/src/model/chatmessage.dart';
 
 class ChatUI extends StatefulWidget {
@@ -11,12 +12,19 @@ class ChatUI extends StatefulWidget {
 class _ChatUIState extends State<ChatUI> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-
     return Scaffold(
-      appBar: appBarCode(),
-      body: wIBody(context),
-    );
+        appBar: appBarCode(),
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/group/papel_tapiz.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: wIBody(context),
+        ));
   }
 
   Column wIBody(BuildContext context) {
@@ -56,8 +64,8 @@ class _ChatUIState extends State<ChatUI> {
                 decoration: BoxDecoration(
                     color: Colors.indigoAccent.withOpacity(0.05),
                     borderRadius: BorderRadius.circular(40)),
-                child: Row(
-                  children: const [
+                child: const Row(
+                  children: [
                     SizedBox(
                       width: 10,
                     ),
@@ -88,11 +96,12 @@ class _ChatUIState extends State<ChatUI> {
   AppBar appBarCode() {
     return AppBar(
       automaticallyImplyLeading: false,
-      backgroundColor: Color(0xff174076),
+      backgroundColor: Color(0xff02509c),
       title: const Row(children: [
         BackButton(),
         CircleAvatar(
-          backgroundImage: AssetImage("assets/group/chatbot.png"),
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          backgroundImage: AssetImage("assets/group/marina_avatar.png"),
         ),
         SizedBox(width: 8),
         Column(
@@ -109,6 +118,15 @@ class _ChatUIState extends State<ChatUI> {
           ],
         )
       ]),
+      actions: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.home),
+          tooltip: "Principal",
+          onPressed: () {
+            homePage();
+          },
+        ),
+      ],
     );
   }
 
@@ -125,6 +143,13 @@ class _ChatUIState extends State<ChatUI> {
           height: 30,
         ),
       ],
+    );
+  }
+
+  void homePage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const Home()),
     );
   }
 }

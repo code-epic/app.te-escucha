@@ -59,7 +59,7 @@ class _ChatHomeState extends State<ChatHome> {
   @override
   void initState() {
     super.initState();
-    _getCurrentLocation();
+    // _getCurrentLocation();
 
     //calculateDistance();
   }
@@ -67,68 +67,79 @@ class _ChatHomeState extends State<ChatHome> {
   @override
   Widget build(BuildContext context) {
     double ancho = MediaQuery.of(context).size.width;
+    double alto = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
-        // decoration: const BoxDecoration(
-        //   image: DecorationImage(
-        //     image: AssetImage("assets/group/fondo_app.png"),
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
+        height: MediaQuery.of(context).size.height,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/group/papel_marina.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // logoInea(),
+            logoInea(),
             SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    child: FadeInDown(
-                      child: centro(context),
-                      duration: Duration(seconds: 10),
-                    ),
-                    onTap: () {
-                      chatPage();
-                    },
-                  )
-                ],
+              height: (alto / 2) - 220,
+            ),
+            GestureDetector(
+              child: centro(context),
+              onTap: () => {chatPage()},
+            ),
+            Container(
+              // width: ancho - 100,
+              alignment: Alignment.bottomCenter,
+              child: const Image(
+                width: 200,
+                alignment: Alignment.bottomRight,
+                image: AssetImage('assets/group/titulo_chatbot.png'),
               ),
             ),
-
-            // GestureDetector(
-            //   child: SizedBox(
-            //     width: ancho - 10,
-            //     child: const Image(
-            //       image: AssetImage('assets/group/chatbot.png'),
-            //       width: 164,
-            //       height: 164,
-            //       alignment: Alignment.topRight,
-            //     ),
-            //   ),
-            //   onTap: () {
-            //     chatPage();
-            //   },
-            // )
+            buttomNext(context),
+            SizedBox(
+              height: ((alto / 2) - 180),
+            ),
+            Container(
+              width: 300,
+              alignment: Alignment.bottomCenter,
+              child: const Image(
+                alignment: Alignment.bottomRight,
+                image: AssetImage('assets/group/bottom_chatbot.png'),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
+  Container logoInea() {
+    return Container(
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.all(20),
+        child: const Row(
+          children: [
+            Image(
+              image: AssetImage("assets/group/te_escucha_chatbot.png"),
+              width: 120,
+            ),
+          ],
+        ));
+  }
+
   Column centro(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Image(
-          image: AssetImage("assets/group/chatbot.png"),
-          width: 200,
+        Image(
+          image: AssetImage("assets/group/marina_circulo.png"),
+          width: 150,
         ),
       ],
     );
@@ -148,17 +159,17 @@ class _ChatHomeState extends State<ChatHome> {
                     backgroundColor: Color(0xff174076),
                     shadowColor: Color(0xff174076), // background
                     foregroundColor: Colors.white, // foreground
-                    minimumSize: Size(140, 40),
-                    maximumSize: Size(140, 40),
+                    minimumSize: Size(150, 40),
+                    maximumSize: Size(150, 40),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
                   ),
                   onPressed: () {
-                    nextPage();
+                    chatPage();
                   },
                   child: const Text(
-                    'Buenas',
+                    'Chatear',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
@@ -170,6 +181,13 @@ class _ChatHomeState extends State<ChatHome> {
                 )
               ],
             )));
+  }
+
+  void ChatBot() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ChatHome()),
+    );
   }
 
   void nextPage() {

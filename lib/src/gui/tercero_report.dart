@@ -492,7 +492,7 @@ class _TerceroReportState extends State<TerceroReport> {
                         persona, widget.descripcion);
                   },
                   child: const Text(
-                    'SIGUIENTE',
+                    'Siguiente',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
