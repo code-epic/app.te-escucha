@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/material/date_picker.dart';
 import 'package:te_escucha/src/bloc/combo.dart';
 import 'package:te_escucha/src/gui/make_report_msg.dart';
@@ -63,7 +64,6 @@ class _PersonalReportState extends State<PersonalReport> {
     var json = jsonDecode(response);
     lst = json['Cuerpo'];
     setState(() {
-      print('Control de notas');
       cmbEstado = lstEstados[0];
       cmbMunicipio = lstMunicipio[0];
       cmbParroquia = lstParroquia[0];
@@ -156,6 +156,9 @@ class _PersonalReportState extends State<PersonalReport> {
                       style: textPersonal,
                       controller: cedula,
                       keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
                       decoration: const InputDecoration(
                         border: UnderlineInputBorder(),
                         labelText: 'Cédula',
@@ -215,61 +218,17 @@ class _PersonalReportState extends State<PersonalReport> {
                     TextFormField(
                       style: textPersonal,
                       controller: edad,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
                       decoration: const InputDecoration(
                         border: UnderlineInputBorder(),
                         labelText: 'Edad',
                       ),
                     ),
                     // TextFormField(
-                    //   style: textPersonal,
-                    //   decoration: const InputDecoration(
-                    //     border: UnderlineInputBorder(),
-                    //     labelText: 'Email',
-                    //     // suffixIcon: Icon(
-                    //     //   Icons.email_outlined,
-                    //     // ),
-                    //   ),
-                    // ),
-                    // TextFormField(
-                    //   style: textPersonal,
-                    //   decoration: const InputDecoration(
-                    //     border: UnderlineInputBorder(),
-                    //     labelText: 'Teléfono',
-                    //     // suffixIcon: Icon(
-                    //     //   Icons.phone_android_rounded,
-                    //     // ),
-                    //   ),
-                    // ),
-                    // const SizedBox(
-                    //   height: 10,
-                    // ),
-                    // setEstado(width),
-                    // const SizedBox(
-                    //   height: 10,
-                    // ),
-                    // setMunicipio(width),
-                    // const SizedBox(
-                    //   height: 10,
-                    // ),
-                    // setParroquia(width),
-                    // const SizedBox(
-                    //   height: 15,
-                    // ),
-                    // TextFormField(
-                    //   style: textPersonal,
-                    //   maxLines: 4,
-                    //   decoration: const InputDecoration(
-                    //     filled: true,
-                    //     fillColor: Color(0xffe7ecf0),
-                    //     contentPadding:
-                    //         EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                    //     border: OutlineInputBorder(
-                    //       borderSide: BorderSide(width: 0.1),
-                    //       borderRadius: BorderRadius.all(Radius.circular(20)),
-                    //     ),
-                    //     labelText: 'Direccion',
-                    //   ),
-                    // ),
+                   
                   ],
                 ),
               )),

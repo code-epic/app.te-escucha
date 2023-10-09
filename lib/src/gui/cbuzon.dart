@@ -1,3 +1,5 @@
+import 'dart:ui_web';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/ver_mensaje.dart';
@@ -16,8 +18,9 @@ class CBuzon extends StatelessWidget {
   final String fecha;
   final Color fondo;
   final Color border;
+  final String correo;
 
-  const CBuzon(
+  CBuzon(
       {super.key,
       required this.codigo,
       required this.titulo,
@@ -30,7 +33,12 @@ class CBuzon extends StatelessWidget {
       required this.contenido,
       required this.categoria,
       required this.respuesta,
-      required this.img});
+      required this.img,
+      required this.correo});
+
+  late String imagen = img == "group/g.g. operaciones"
+      ? "assets/group/sar_st.png"
+      : "assets/${img}_st.png";
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +71,7 @@ class CBuzon extends StatelessWidget {
                           height: 5,
                         ),
                         Image(
-                          image: AssetImage('assets/$img' '_st.png'),
+                          image: AssetImage(imagen),
                         ),
                         Text(
                           codigo,
@@ -142,14 +150,16 @@ class CBuzon extends StatelessWidget {
       context,
       MaterialPageRoute(
           builder: (context) => VerMensaje(
-              contenido: contenido,
-              tipo: tipo,
-              respuesta: respuesta,
-              categoria: categoria,
-              codigo: codigo,
-              estatus: estatus,
-              icono: icono,
-              img: img)),
+                contenido: contenido,
+                tipo: tipo,
+                respuesta: respuesta,
+                categoria: categoria,
+                codigo: codigo,
+                estatus: estatus,
+                icono: icono,
+                img: img,
+                correo: correo,
+              )),
     );
   }
 }

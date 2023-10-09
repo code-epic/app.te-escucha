@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:ui_web';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/cbuzon.dart';
@@ -17,14 +17,14 @@ import 'package:te_escucha/src/model/localstoragehelper.dart';
 import 'package:te_escucha/src/model/logingoogle.dart';
 import 'package:te_escucha/src/model/user_perfil.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class Historico extends StatefulWidget {
+  const Historico({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Historico> createState() => _HistoricoState();
 }
 
-class _HomeState extends State<Home> {
+class _HistoricoState extends State<Historico> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   late List<Buzon> lst = [];
@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
 
   Future<List<Buzon>> getDocWKF(String correo) async {
     Map<String, dynamic> data = {
-      'funcion': 'WKF_CDocumentoRemitente',
+      'funcion': 'WKF_CDocumentoRemitenteFinalizado',
       'parametros': correo,
       'valores': ''
     };
@@ -81,20 +81,11 @@ class _HomeState extends State<Home> {
       extendBodyBehindAppBar: true,
       key: scaffoldKey,
       drawer: const DrawBar(),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          // Add your onPressed code here!
-          makeReport();
-        },
-        label: const Text('Crear reporte'),
-        backgroundColor: Color.fromARGB(255, 58, 82, 161),
-        icon: const Icon(Icons.add),
-      ),
       appBar: AppBar(
         backgroundColor: const Color(0xff174076),
         elevation: 0.0,
         title: const Text(
-          "Hola, saludos",
+          "Historico de solicitudes",
           style: TextStyle(
               color: Colors.white,
               fontSize: 13,

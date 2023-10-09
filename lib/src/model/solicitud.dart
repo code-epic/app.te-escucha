@@ -86,7 +86,7 @@ class WKF_IDocumentoDetalle {
       };
 }
 
-int getEstadoWKF(String tipo) {
+int getEstadoWKF(String tipo, String caso) {
   int cadena = 1;
 
   switch (tipo) {
@@ -127,7 +127,8 @@ int getEstadoWKF(String tipo) {
       cadena = 12;
       break;
     default:
-      cadena = 1;
+      cadena = 13;
+      break;
   }
   return cadena;
 }

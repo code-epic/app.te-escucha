@@ -19,20 +19,11 @@ class ChatMessage {
 
 List demageChat = [
   ChatMessage(
-      text: "Bienvenidos al ChatBoot",
+      text:
+          "Bienvenidos a Inea Te Escucha, tu asistente virtual, soy Marina en que puedo ayudarte",
       type: ChatType.text,
       status: ChatStatus.visto,
       isAuthor: true),
-  ChatMessage(
-      text: "Estoy interesado en la ubicacion",
-      type: ChatType.text,
-      status: ChatStatus.no_enviado,
-      isAuthor: false),
-  ChatMessage(
-      text: "Que es el inea",
-      type: ChatType.text,
-      status: ChatStatus.no_visto,
-      isAuthor: false),
 ];
 
 class Chat extends StatelessWidget {
@@ -46,12 +37,15 @@ class Chat extends StatelessWidget {
             chat.isAuthor ? MainAxisAlignment.start : MainAxisAlignment.end,
         children: [
           Container(
-              margin: EdgeInsets.only(top: 5),
+              margin: EdgeInsets.only(top: 8),
+              width: MediaQuery.of(context).size.width - 60,
               padding: EdgeInsets.symmetric(horizontal: 9, vertical: 9),
               decoration: BoxDecoration(
                   color: chat.isAuthor ? Color(0xff83cacc) : Color(0xffb7c4d5),
                   borderRadius: BorderRadius.circular(10)),
-              child: Text(chat.text))
+              child: Wrap(
+                children: [Text(chat.text)],
+              ))
         ]);
   }
 }

@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/home.dart';
+import 'package:te_escucha/src/model/cehttpclient.dart';
 import 'package:te_escucha/src/model/chatmessage.dart';
+import 'package:te_escucha/src/model/const.dart';
 
 class ChatUI extends StatefulWidget {
   const ChatUI({super.key});
@@ -10,6 +14,7 @@ class ChatUI extends StatefulWidget {
 }
 
 class _ChatUIState extends State<ChatUI> {
+  TextEditingController txtMsj = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,23 +69,30 @@ class _ChatUIState extends State<ChatUI> {
                 decoration: BoxDecoration(
                     color: Colors.indigoAccent.withOpacity(0.05),
                     borderRadius: BorderRadius.circular(40)),
-                child: const Row(
+                child: Row(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Expanded(
-                        child: TextField(
-                      style: TextStyle(fontFamily: 'lato', fontSize: 13),
-                      decoration: InputDecoration(
+                        child: TextFormField(
+                      controller: txtMsj,
+                      onFieldSubmitted: (value) => {escribir()},
+                      style: const TextStyle(fontFamily: 'lato', fontSize: 13),
+                      decoration: const InputDecoration(
                           hintText: "Escribe tu pregunta",
                           border: InputBorder.none),
                     )),
-                    Icon(
-                      Icons.send,
-                      color: Colors.indigoAccent,
+                    GestureDetector(
+                      onTap: () {
+                        escribir();
+                      },
+                      child: const Icon(
+                        Icons.send,
+                        color: Colors.indigoAccent,
+                      ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     )
                   ],
@@ -91,6 +103,32 @@ class _ChatUIState extends State<ChatUI> {
         )
       ],
     );
+  }
+
+  Future escribir() async {
+    Map<String, dynamic> data = {
+      'funcion': '_SYS_CChatBotResponse',
+      'parametros': txtMsj.text,
+    };
+
+    var response = await CeHttpClient.xPOST(sPath, data);
+    var json = jsonDecode(response);
+    var respuesta = json['Cuerpo'][0]['respuesta'].toString();
+
+    setState(() {
+      demageChat.add(ChatMessage(
+          text: txtMsj.text,
+          type: ChatType.text,
+          status: ChatStatus.visto,
+          isAuthor: false));
+      demageChat.add(ChatMessage(
+          text: respuesta,
+          type: ChatType.text,
+          status: ChatStatus.visto,
+          isAuthor: true));
+
+      txtMsj.text = '';
+    });
   }
 
   AppBar appBarCode() {

@@ -1,27 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:te_escucha/src/gui/emergenciaestado.dart';
-import 'package:te_escucha/src/gui/emergenciafinal.dart';
-import 'package:te_escucha/src/gui/emergenciareport.dart';
+import 'package:te_escucha/src/gui/emergencia/emergenciapersonas.dart';
 import 'package:te_escucha/src/model/const.dart';
+import 'package:te_escucha/src/bloc/combo.dart';
 
-import '../bloc/combo.dart';
+class EmergenciaFinal extends StatefulWidget {
+  Map<String, String> oEmergencia;
+  Map<String, String> oPersona;
+  Map<String, String> oEmbarcacion;
 
-class EmergenciaPersona extends StatefulWidget {
-  const EmergenciaPersona({super.key});
+  EmergenciaFinal(
+      {super.key,
+      required this.oEmergencia,
+      required this.oPersona,
+      required this.oEmbarcacion});
 
   @override
-  State<EmergenciaPersona> createState() => _EmergenciaPersonaState();
+  State<EmergenciaFinal> createState() => _EmergenciaFinalState();
 }
 
-class _EmergenciaPersonaState extends State<EmergenciaPersona> {
+class _EmergenciaFinalState extends State<EmergenciaFinal> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  TextEditingController lugarsalida = TextEditingController();
+  TextEditingController fechahorasalida = TextEditingController();
+  TextEditingController lugarretorno = TextEditingController();
+  TextEditingController fechahoraretorno = TextEditingController();
+  TextEditingController lugardestino = TextEditingController();
+  TextEditingController actividad = TextEditingController();
 
-  CmbKeyValue? cmbParentesco;
+  @override
+  void initState() {
+    super.initState();
+    print(widget.oPersona);
+    print(widget.oEmergencia);
+    print(widget.oEmbarcacion);
+  }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-
     return Scaffold(
         extendBodyBehindAppBar: true,
         key: scaffoldKey,
@@ -38,73 +53,80 @@ class _EmergenciaPersonaState extends State<EmergenciaPersona> {
           barra_cargando(context),
           paginador(),
           ListView(
-              padding: EdgeInsets.only(left: 10, right: 20),
+              padding: const EdgeInsets.only(left: 10, right: 20),
               scrollDirection: Axis.vertical,
               children: [
                 const SizedBox(
                   height: 65,
                 ),
-                texto1("Ingresa los datos de las personas a bordo."),
-                texto2(
-                    "Los datos ayudarán en el proceso de búsqueda y salvamento"),
+                texto1("Datos para la búsqueda."),
+                texto2("Los datos ayudarán a ubicar la embarcación "),
                 const SizedBox(
                   height: 2,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    controller: lugarsalida,
                     style: textPersonal,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
-                      labelText: 'Número total de personas embarcadas',
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                texto1("Cantidad de personas masculinas."),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    style: textPersonal,
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
-                      labelText: 'Adultos',
+                      labelText: 'Lugar de la salida',
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    controller: fechahorasalida,
                     style: textPersonal,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
-                      labelText: 'Menores',
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                texto1("Cantidad de personas femeninas."),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    style: textPersonal,
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
-                      labelText: 'Adultas',
+                      labelText: 'Fecha y hora de la salida',
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    controller: lugarretorno,
                     style: textPersonal,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
-                      labelText: 'Menores',
+                      labelText: 'Lugar de retorno',
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: fechahoraretorno,
+                    style: textPersonal,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'Fecha y hora estimada de retorno',
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: lugardestino,
+                    style: textPersonal,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'Lugar de destino',
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: actividad,
+                    style: textPersonal,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'Actividad que iban a realizar',
                     ),
                   ),
                 ),
@@ -148,7 +170,7 @@ class _EmergenciaPersonaState extends State<EmergenciaPersona> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              "4/5",
+              "3/4",
               style: TextStyle(
                   color: Colors.grey,
                   fontSize: 14,
@@ -200,9 +222,23 @@ class _EmergenciaPersonaState extends State<EmergenciaPersona> {
   }
 
   void nextPage() {
+    Map<String, String> busquedad = {
+      "lugarsalida": lugarsalida.text,
+      "fechahorasalida": fechahorasalida.text,
+      "lugarretorno": lugarretorno.text,
+      "fechahoraretorno": fechahoraretorno.text,
+      "lugardestino": lugardestino.text,
+      "actividad": actividad.text
+    };
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const EmergenciaReport()),
+      MaterialPageRoute(
+          builder: (context) => EmergenciaPersona(
+                oEmbarcacion: widget.oEmbarcacion,
+                oEmergencia: widget.oEmergencia,
+                oPersona: widget.oPersona,
+                oBusqueda: busquedad,
+              )),
     );
   }
 

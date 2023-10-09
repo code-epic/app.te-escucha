@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:te_escucha/src/gui/emergenciafinal.dart';
+import 'package:te_escucha/src/gui/emergencia/emergenciafinal.dart';
 import 'package:te_escucha/src/model/const.dart';
-
-import '../bloc/combo.dart';
+import 'package:te_escucha/src/bloc/combo.dart';
 
 class EmergenciaEmbarcacion extends StatefulWidget {
-  const EmergenciaEmbarcacion({super.key});
+  Map<String, String> oEmergencia;
+  Map<String, String> oPersona;
+
+  EmergenciaEmbarcacion(
+      {super.key, required this.oEmergencia, required this.oPersona});
 
   @override
   State<EmergenciaEmbarcacion> createState() => _EmergenciaEmbarcacionState();
 }
 
 class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
-  @override
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
+  TextEditingController embarcacion = TextEditingController();
+  TextEditingController matricula = TextEditingController();
+  TextEditingController colorI = TextEditingController();
+  TextEditingController colorE = TextEditingController();
   CmbKeyValue? cmbTipoEmbarcaciones;
+
+  Map<String, String> embarcaiones = {};
 
   List<CmbKeyValue> lstTipoEmbarcaciones = <CmbKeyValue>[
     const CmbKeyValue('PA', 'PASAJE'),
@@ -31,6 +38,14 @@ class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
     const CmbKeyValue('TU', 'TURISMO'),
     const CmbKeyValue('AN', 'ACCESORIOS DE NAVEGACIÓN'),
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(widget.oEmergencia);
+    print(widget.oPersona);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +81,7 @@ class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    controller: embarcacion,
                     style: textPersonal,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
@@ -80,6 +96,7 @@ class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    controller: matricula,
                     style: textPersonal,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
@@ -90,6 +107,7 @@ class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    controller: colorE,
                     style: textPersonal,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
@@ -100,6 +118,7 @@ class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    controller: colorI,
                     style: textPersonal,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
@@ -199,9 +218,22 @@ class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
   }
 
   void nextPage() {
+    embarcaiones = {
+      "embarcacion": embarcacion.text,
+      "destinacion": cmbTipoEmbarcaciones!.id.toString(),
+      "matricula": matricula.text,
+      "colori": colorI.text,
+      "colore": colorE.text
+    };
+
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const EmergenciaFinal()),
+      MaterialPageRoute(
+          builder: (context) => EmergenciaFinal(
+                oEmbarcacion: embarcaiones,
+                oEmergencia: widget.oEmergencia,
+                oPersona: widget.oPersona,
+              )),
     );
   }
 

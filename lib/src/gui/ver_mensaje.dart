@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/drawbar.dart';
 import 'package:te_escucha/src/gui/home.dart';
+import 'package:te_escucha/src/model/cehttpclient.dart';
 import 'package:te_escucha/src/model/const.dart';
+import 'package:te_escucha/src/model/ranking.dart';
 
 class VerMensaje extends StatefulWidget {
   final String codigo;
@@ -12,6 +16,7 @@ class VerMensaje extends StatefulWidget {
   final String respuesta;
   final String categoria;
   final String img;
+  final String correo;
 
   const VerMensaje(
       {super.key,
@@ -22,7 +27,8 @@ class VerMensaje extends StatefulWidget {
       required this.icono,
       required this.respuesta,
       required this.categoria,
-      required this.img});
+      required this.img,
+      required this.correo});
 
   @override
   State<VerMensaje> createState() => _VerMensajeState();
@@ -33,12 +39,59 @@ class _VerMensajeState extends State<VerMensaje> {
 
   int selectedValue = 1;
   String imgMala = "assets/group/posicion.png";
+  String xContenido = '';
+
   int mala = 0;
   int buena = 0;
   int excelente = 0;
   int xmala = 0;
   int xbuena = 0;
   int xexcelente = 0;
+  int score_servicio = 1;
+  int score_respuesta = 1;
+  late WKF_IDocumentoRanking ranking;
+
+  setCalification(String correo) async {
+    ranking = WKF_IDocumentoRanking(
+        identificador: int.parse(widget.codigo),
+        clasificacion: score_servicio,
+        respuesta: score_respuesta,
+        score: 0);
+
+    Map<String, dynamic> data = {
+      'funcion': 'WKF_IDocumentoRanking',
+      'parametros': ' ',
+      'valores': jsonEncode(ranking.toJson())
+    };
+
+    print(data);
+    var respuesta = await CeHttpClient.xPOST(sPath, data);
+    var json = jsonDecode(respuesta);
+
+    setState(() {
+      homePage();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    xContenido = widget.contenido.toUpperCase();
+    print(xContenido);
+    if (validar) {
+      late Map<String, dynamic> control =
+          jsonDecode(widget.contenido.toString());
+
+      late Map<String, dynamic> busqueda = control['busqueda'];
+
+      xContenido = busqueda['actividad'].toUpperCase();
+    }
+  }
+
+  late bool validar = widget.img == "group/g.g. operaciones";
+
+  late String imagen =
+      validar ? "assets/group/sar_st.png" : "assets/${widget.img}_st.png";
 
   @override
   Widget build(BuildContext context) {
@@ -70,20 +123,10 @@ class _VerMensajeState extends State<VerMensaje> {
           Visibility(
             visible: widget.estatus != 3 ? false : true,
             child: IconButton(
-              icon: const Icon(Icons.thumb_up),
-              tooltip: "De acuerdo",
+              icon: const Icon(Icons.star),
+              tooltip: "Calificanos",
               onPressed: () {
                 mdlOk(context);
-              },
-            ),
-          ),
-          Visibility(
-            visible: widget.estatus != 3 ? false : true,
-            child: IconButton(
-              icon: const Icon(Icons.thumb_down),
-              tooltip: "En desacuerdo",
-              onPressed: () {
-                homePage();
               },
             ),
           ),
@@ -141,8 +184,7 @@ class _VerMensajeState extends State<VerMensaje> {
                                 height: 5,
                               ),
                               Image(
-                                image:
-                                    AssetImage('assets/${widget.img}_st.png'),
+                                image: AssetImage(imagen),
                               ),
                               Text(
                                 widget.codigo,
@@ -166,14 +208,14 @@ class _VerMensajeState extends State<VerMensaje> {
                     ),
                     const Divider(color: Color(0xff02509c)),
                     texto1("Detalle del reporte"),
-                    texto2(widget.contenido.toUpperCase()),
+                    texto2(xContenido),
                     const Divider(color: Color(0xff02509c)),
                     texto1("Respuesta"),
                     Visibility(
-                        visible: widget.estatus > 3 ? false : true,
+                        visible: widget.estatus == 3 ? true : false,
                         child: texto2(widget.respuesta)),
                     Visibility(
-                        visible: widget.estatus < 2 ? true : false,
+                        visible: widget.estatus != 3 ? true : false,
                         child: texto2('EN PROCESO...')),
                   ],
                 ),
@@ -215,6 +257,7 @@ class _VerMensajeState extends State<VerMensaje> {
   }
 
   void changeMala(int selEstatus) {
+    score_servicio = selEstatus;
     setState(() {
       switch (selEstatus) {
         case 1:
@@ -234,6 +277,7 @@ class _VerMensajeState extends State<VerMensaje> {
   }
 
   void changeCalifica(int selEstatus) {
+    score_respuesta = selEstatus;
     setState(() {
       switch (selEstatus) {
         case 1:
@@ -257,7 +301,7 @@ class _VerMensajeState extends State<VerMensaje> {
       context: context,
       builder: (BuildContext context) => Dialog(
         child: Padding(
-          padding: const EdgeInsets.all(6.0),
+          padding: const EdgeInsets.all(2.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -267,6 +311,7 @@ class _VerMensajeState extends State<VerMensaje> {
               texto1("¿Cuan satisfecho esta con el servicio prestado?"),
               const SizedBox(height: 20),
               Row(
+                mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -278,10 +323,11 @@ class _VerMensajeState extends State<VerMensaje> {
                         },
                         child: Image(
                           image: AssetImage(imgMala),
-                          width: 48,
+                          width: 52,
                         ),
                       ),
-                      const Text('Ninguno', style: textHome)
+                      const Text('Ninguno       ',
+                          style: textHome, textAlign: TextAlign.center)
                     ],
                   ),
                   SizedBox(width: 10),
@@ -293,10 +339,14 @@ class _VerMensajeState extends State<VerMensaje> {
                         },
                         child: Image(
                           image: AssetImage(imgMala),
-                          width: 48,
+                          width: 52,
                         ),
                       ),
-                      const Text('Bueno', style: textHome)
+                      const Text(
+                        'Bueno',
+                        style: textHome,
+                        textAlign: TextAlign.center,
+                      )
                     ],
                   ),
                   SizedBox(width: 10),
@@ -308,10 +358,11 @@ class _VerMensajeState extends State<VerMensaje> {
                         },
                         child: Image(
                           image: AssetImage(imgMala),
-                          width: 48,
+                          width: 52,
                         ),
                       ),
-                      const Text('Excelente', style: textHome)
+                      const Text('Excelente',
+                          style: textHome, textAlign: TextAlign.center)
                     ],
                   ),
                 ],
@@ -350,10 +401,11 @@ class _VerMensajeState extends State<VerMensaje> {
                         },
                         child: Image(
                           image: AssetImage(imgMala),
-                          width: 48,
+                          width: 52,
                         ),
                       ),
-                      const Text('Ninguno', style: textHome)
+                      const Text('Ninguno',
+                          style: textHome, textAlign: TextAlign.center)
                     ],
                   ),
                   SizedBox(width: 10),
@@ -365,10 +417,11 @@ class _VerMensajeState extends State<VerMensaje> {
                         },
                         child: Image(
                           image: AssetImage(imgMala),
-                          width: 48,
+                          width: 52,
                         ),
                       ),
-                      const Text('Bueno', style: textHome)
+                      const Text('Bueno',
+                          style: textHome, textAlign: TextAlign.center)
                     ],
                   ),
                   SizedBox(width: 10),
@@ -380,10 +433,11 @@ class _VerMensajeState extends State<VerMensaje> {
                         },
                         child: Image(
                           image: AssetImage(imgMala),
-                          width: 48,
+                          width: 52,
                         ),
                       ),
-                      const Text('Excelente', style: textHome)
+                      const Text('Excelente',
+                          style: textHome, textAlign: TextAlign.center)
                     ],
                   ),
                 ],
@@ -439,7 +493,7 @@ class _VerMensajeState extends State<VerMensaje> {
                     ),
                   ),
                   onPressed: () {
-                    homePage();
+                    setCalification(widget.correo);
                   },
                   child: const Text(
                     'Enviar datos',

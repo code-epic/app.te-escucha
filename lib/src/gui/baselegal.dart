@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:te_escucha/src/model/const.dart';
+
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:te_escucha/src/gui/home.dart';
+import 'dart:ui_web';
+import 'dart:ui' as ui;
+import 'dart:html' as html;
 
+// ignore: constant_identifier_names
 const MarkDownText = """
 #### **BASES LEGALES PARA EL SISTEMA DE ATENCIÓN AL CIUDADANO**
 ---

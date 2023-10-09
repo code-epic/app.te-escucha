@@ -10,6 +10,7 @@ import '../model/solicitud.dart';
 
 class MakeComprobante extends StatefulWidget {
   final int accion;
+  final String codigo;
   final String tipo;
   final String caso;
   final String producto;
@@ -17,6 +18,7 @@ class MakeComprobante extends StatefulWidget {
 
   const MakeComprobante(
       {super.key,
+      required this.codigo,
       required this.accion,
       required this.tipo,
       required this.caso,
@@ -29,6 +31,10 @@ class MakeComprobante extends StatefulWidget {
 
 class _MakeComprobanteState extends State<MakeComprobante> {
   List<String> lst = [];
+  String cedula = '';
+  String nombre = '';
+  String fecha = '';
+  String descripcion = '';
   String imagen = "tramites/Gente".toLowerCase();
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -42,6 +48,10 @@ class _MakeComprobanteState extends State<MakeComprobante> {
     // print(widget.caso);
     // print(widget.accion);
     // print(widget.persona);
+    cedula = widget.persona['cedula'].toString();
+    nombre = widget.persona['nombre'].toString();
+    fecha = widget.persona['fecha'].toString();
+    descripcion = widget.persona['descripcion'].toString();
   }
 
   @override
@@ -73,23 +83,29 @@ class _MakeComprobanteState extends State<MakeComprobante> {
                       child: imagenSeleccion(context, imagen),
                     ),
 
-                    texto1("Datos personales"),
-                    texto2("Cédula: "),
-                    texto2("Nombre completo: "),
-                    texto2("Edad: "),
-                    texto2("Correo: "),
-                    texto2("Teléfono: "),
-                    texto1("Detalle del reporte"),
-                    const Divider(color: Color(0xff02509c)),
+                    texto1("Nro. Reporte"),
+                    texto2(widget.codigo.padLeft(5, '0')),
+
                     texto1("Tipo de reporte"),
                     texto2(widget.tipo),
-                    texto1("Categoría"),
-                    texto2(widget.caso),
+                    Visibility(
+                      visible: widget.caso=="Seleccione"?false:true,
+                      child: texto1("Categoría")),
+                      Visibility(
+                      visible: widget.caso=="Seleccione"?false:true,
+                      child: texto2(widget.caso)),
+                    
+                    const Divider(color: Color(0xff02509c)),
+                    texto1("Datos personales"),
+                    texto2("Cédula: $cedula"),
+                    texto2("Nombre completo: $nombre"),
+
+                    const Divider(color: Color(0xff02509c)),
+                    texto1("Detalle del reporte"),
+                    texto2(descripcion),
+
                     // texto1("Subcategoria"),
                     // texto2("Gente de Mar"),
-                    texto1("Nro. Reporte"),
-                    texto2("0000000001"),
-                    const Divider(color: Color(0xff02509c)),
                   ],
                 ),
               )),
@@ -175,20 +191,20 @@ class _MakeComprobanteState extends State<MakeComprobante> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff174076),
-                    shadowColor: Color(0xff174076), // background
+                    backgroundColor: const Color(0xff174076),
+                    shadowColor: const Color(0xff174076), // background
                     foregroundColor: Colors.white, // foreground
-                    minimumSize: Size(180, 40),
-                    maximumSize: Size(180, 40),
+                    minimumSize: const Size(160, 40),
+                    maximumSize: const Size(160, 40),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
                   ),
                   onPressed: () {
-                    nextPage();
+                    homePage();
                   },
                   child: const Text(
-                    'Ok',
+                    'Ir al inicio',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
@@ -202,7 +218,10 @@ class _MakeComprobanteState extends State<MakeComprobante> {
             )));
   }
 
-  void nextPage() {
-    nextPage();
+  void homePage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const Home()),
+    );
   }
 }

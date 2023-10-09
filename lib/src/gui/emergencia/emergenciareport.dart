@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/home.dart';
-import 'package:te_escucha/src/gui/personal_report.dart';
 import 'package:te_escucha/src/model/const.dart';
 
 class EmergenciaReport extends StatefulWidget {
-  const EmergenciaReport({super.key});
+  Map<String, String> oEmergencia;
+  Map<String, String> oPersona;
+  Map<String, String> oEmbarcacion;
+  Map<String, String> oBusqueda;
+  Map<String, String> oCantidad;
+
+  EmergenciaReport(
+      {super.key,
+      required this.oEmergencia,
+      required this.oPersona,
+      required this.oEmbarcacion,
+      required this.oBusqueda,
+      required this.oCantidad});
 
   @override
   State<EmergenciaReport> createState() => _EmergenciaReportState();
@@ -22,7 +33,6 @@ class _EmergenciaReportState extends State<EmergenciaReport> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
         extendBodyBehindAppBar: true,
         key: scaffoldKey,
@@ -45,23 +55,17 @@ class _EmergenciaReportState extends State<EmergenciaReport> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Center(
-                    //   child: imagenSeleccion(context, imagen),
-                    // ),
                     texto1("Tipo de reporte"),
                     texto2("Emergencias de Embarcaciones"),
                     texto1("Categoría"),
                     texto2("SAR"),
-                    // texto1("Subcategoria"),
-                    // texto2("Gente de Mar"),
-                    texto1("Nro. Reporte"),
-                    texto2("0000000001"),
                     texto1("Reporte personal"),
                     const Divider(color: Color(0xff02509c)),
-                    texto2("Cédula: "),
-                    texto2("Teléfono #1: "),
-                    texto2("Teléfono #2: "),
+                    texto2("Cédula: ${widget.oPersona['cedula']}"),
+                    texto2("Teléfono #1: ${widget.oPersona['telefono1']}"),
+                    texto2("Teléfono #2: ${widget.oPersona['telefono2']}"),
                     texto1("Detalle del reporte"),
+                    texto2("${widget.oBusqueda['actividad']}"),
                     const Divider(color: Color(0xff02509c)),
                   ],
                 ),

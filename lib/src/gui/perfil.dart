@@ -38,7 +38,12 @@ class _PerfilState extends State<Perfil> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   late UserPerfil Usuario = UserPerfil(
-      nombre: 'Inea Te Escucha', correo: 'correo@inea.gob.ve', foto: '');
+      cedula: '',
+      nombre: '',
+      correo: '',
+      foto: '',
+      telefono: '',
+      direccion: '');
 
   Future<UserPerfil> getCurrentUserEmail() async {
     final user = FirebaseAuth.instance.currentUser;
@@ -47,9 +52,12 @@ class _PerfilState extends State<Perfil> {
     String? xfoto = user?.photoURL;
 
     return UserPerfil(
+        cedula: '',
         nombre: xnombre.toString(),
         correo: xcorreo.toString(),
-        foto: xfoto.toString());
+        foto: xfoto.toString(),
+        telefono: '',
+        direccion: '');
   }
 
   @override

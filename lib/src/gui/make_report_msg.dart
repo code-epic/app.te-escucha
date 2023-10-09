@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/comprobante.dart';
 import 'package:te_escucha/src/model/const.dart';
 import 'package:flutter/src/material/date_picker.dart';
 
 import 'package:intl/intl.dart';
+import 'package:te_escucha/src/model/localstoragehelper.dart';
+import 'package:te_escucha/src/model/user_perfil.dart';
 
 import '../model/cehttpclient.dart';
 import '../model/solicitud.dart';
@@ -32,6 +35,7 @@ class MakeReportMsg extends StatefulWidget {
 }
 
 class _MakeReportMsgState extends State<MakeReportMsg> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController dateinput = TextEditingController();
   TextEditingController xdescripcion = TextEditingController();
   List<String> lst = [];
@@ -39,8 +43,30 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
   String contenido = "";
   Map<String, String> prsCliente = {};
   late WKF_IDocumento document;
-
   late WKF_IDocumentoDetalle detalle;
+
+  late UserPerfil Usuario = UserPerfil(
+      cedula: '',
+      nombre: '',
+      correo: '',
+      foto: '',
+      telefono: '',
+      direccion: '');
+
+  Future<UserPerfil> getCurrentUserEmail() async {
+    final user = FirebaseAuth.instance.currentUser;
+    String? xnombre = user?.displayName;
+    String? xcorreo = user?.email;
+    String? xfoto = user?.photoURL;
+
+    return UserPerfil(
+        cedula: '',
+        nombre: xnombre.toString(),
+        correo: xcorreo.toString(),
+        foto: xfoto.toString(),
+        telefono: '',
+        direccion: '');
+  }
 
   Future _setDocumento(String valores) async {
     Map<String, dynamic> data = {
@@ -48,9 +74,9 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
       'parametros': '',
       'valores': valores
     };
+
     var response = await CeHttpClient.xPOST(sPath, data);
     var json = jsonDecode(response);
-    print(json);
 
     String wkfDoc = json['msj'].toString();
     String cedula = prsCliente['cedula'].toString();
@@ -58,7 +84,13 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
     List<String> fecha = prsCliente['fecha'].toString().split('/');
     List<String> evento = prsCliente['evento'].toString().split('/');
     String descripcion = prsCliente['descripcion'].toString();
+    var xcaso = widget.caso;
 
+    if (widget.tipo == "Denuncia") {
+      xcaso = "Denuncia";
+    } else if (widget.tipo == "Emergencias de Embarcaciones") {
+      xcaso = "Emergencias de Embarcaciones";
+    }
     detalle = WKF_IDocumentoDetalle(
       wfdocumento: int.parse(wkfDoc),
       privacidad: 1,
@@ -68,15 +100,15 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
       norigen: nombre,
       salida: cedula,
       tipo: widget.tipo,
-      remitente: 'correo@hotmail.com',
-      unidad: widget.caso,
+      remitente: Usuario.correo,
+      unidad: xcaso,
       comando: '',
       contenido: descripcion,
-      instrucciones: 'instrucciones',
+      instrucciones: '',
       codigo: 'codigo',
-      nexpediente: 'nexpediente',
-      archivo: 'archivo',
-      creador: 'correo',
+      nexpediente: Usuario.foto,
+      archivo: Usuario.nombre,
+      creador: '',
     );
 
     data = {
@@ -86,23 +118,25 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
     };
     var xresponse = await CeHttpClient.xPOST(sPath, data);
     var xjson = jsonDecode(xresponse);
-
-    print(xjson);
+    var datos = xjson;
 
     setState(() {
-      nextPage(0, widget.tipo, widget.caso, widget.producto, prsCliente);
+      print(datos);
+      nextPage(datos['msj'], 0, widget.tipo, widget.caso, widget.producto,
+          prsCliente);
     });
   }
 
   void setDocWKF() {
-    int estaDestino = getEstadoWKF(prsCliente['categoria'].toString());
+    int estaDestino =
+        getEstadoWKF(prsCliente['categoria'].toString(), widget.tipo);
     document = WKF_IDocumento(
         nombre: widget.tipo,
         workflow: 2,
         observacion: widget.producto,
         estado: estaDestino,
         estatus: 1,
-        usuario: 'contol@hotmail.com');
+        usuario: Usuario.correo);
 
     _setDocumento(jsonEncode(document.toJson()));
   }
@@ -110,21 +144,21 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
   @override
   void initState() {
     super.initState();
+    if (LocalStorageHelper().getValue('token_wkf_inea') == null) {
+    } else {
+      getCurrentUserEmail().then((value) {
+        setState(() {
+          Usuario = value;
+        });
+      });
+    }
     dateinput.text = "";
     imagen = widget.producto;
     contenido = widget.descripcion;
-    // print(widget.tipo);
-    // print(widget.producto);
-    // print(widget.caso);
-    // print(widget.accion);
-    // print(widget.persona);
-    // print(widget.descripcion);
   }
 
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
         extendBodyBehindAppBar: true,
         key: scaffoldKey,
@@ -391,12 +425,13 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
     );
   }
 
-  void nextPage(int accion, String tipo, String caso, String producto,
-      Map<String, String> persona) {
+  void nextPage(String codigo, int accion, String tipo, String caso,
+      String producto, Map<String, String> persona) {
     Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) => MakeComprobante(
+                codigo: codigo,
                 accion: accion,
                 tipo: tipo,
                 caso: caso,

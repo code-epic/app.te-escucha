@@ -1,14 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:te_escucha/src/gui/emergenciaembarcacion.dart';
+import 'package:flutter/services.dart';
+import 'package:te_escucha/src/gui/emergencia/emergenciaembarcacion.dart';
 import 'package:te_escucha/src/model/const.dart';
-
-import '../bloc/combo.dart';
+import 'package:te_escucha/src/bloc/combo.dart';
 import 'package:intl/intl.dart';
 
 class EmergenciaMenor extends StatefulWidget {
-  const EmergenciaMenor({super.key});
+  final Map<String, String> oEmergencia;
+
+  const EmergenciaMenor({super.key, required this.oEmergencia});
 
   @override
   State<EmergenciaMenor> createState() => _EmergenciaMenorState();
@@ -37,6 +39,13 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
     const CmbKeyValue('4', 'VECINO / VECINA'),
     const CmbKeyValue('5', 'OTRO '),
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(widget.oEmergencia);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +88,10 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
                   child: TextFormField(
                     controller: cedula,
                     style: textPersonal,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: 'Cédula ',
@@ -132,7 +145,7 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
                     controller: nombre,
                     style: textPersonal,
@@ -152,6 +165,7 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
                 Visibility(
                   visible: blOtro,
                   child: TextFormField(
+                    controller: otro,
                     style: textPersonal,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
@@ -163,6 +177,11 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    controller: tel1,
                     style: textPersonal,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
@@ -173,6 +192,11 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    controller: tel2,
                     style: textPersonal,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
@@ -348,9 +372,23 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
   }
 
   void nextPage() {
+    prsCliente = {
+      "cedula": cedula.text,
+      "fecha": dateinput.text,
+      "nombre": nombre.text,
+      "parentesco": cmbParentesco!.id.toString(),
+      "otro": otro.text,
+      "telefono1": tel1.text,
+      "telefono2": tel2.text
+    };
+
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const EmergenciaEmbarcacion()),
+      MaterialPageRoute(
+          builder: (context) => EmergenciaEmbarcacion(
+                oEmergencia: widget.oEmergencia,
+                oPersona: prsCliente,
+              )),
     );
   }
 }

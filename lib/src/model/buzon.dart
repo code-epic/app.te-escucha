@@ -30,7 +30,7 @@ class Buzon {
       required this.icono});
 
   Buzon.fromJson(Map<String, dynamic> json)
-      : codigo = json['id'].padLeft(5, '0'),
+      : codigo = json['wfd'].padLeft(5, '0'),
         nombre = json['nori'],
         fecha = json['fech'],
         estatus = int.parse(json['estatus']),
@@ -43,7 +43,7 @@ class Buzon {
         tipo = json['estado'] != 'Atencion'
             ? json['desestado']
             : "Atención al ciudadano",
-        imagen = udep(json['udep'], json['estado']),
+        imagen = udep(json['desestado'], json['estado']),
         icono = icons(int.parse(json['estatus']));
 }
 
@@ -101,15 +101,14 @@ String txtStatus(int estatus) {
 }
 
 String udep(String name, String img) {
+  final tipo = name.split('/');
+
   String cadena = "";
-  switch (name) {
-    case "Servicios":
+  switch (tipo[0].toString().toLowerCase().trim()) {
+    case "servicios":
       cadena = "servicios";
       break;
-    case "Tramites":
-      cadena = "tramites";
-      break;
-    case "TrÃmites":
+    case "tramites":
       cadena = "tramites";
       break;
     default:

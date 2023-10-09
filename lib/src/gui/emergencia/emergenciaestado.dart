@@ -1,11 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:te_escucha/src/gui/emergenciamenor.dart';
+import 'package:te_escucha/src/gui/emergencia/emergenciamenor.dart';
 import 'package:te_escucha/src/model/const.dart';
 import 'package:te_escucha/src/model/cehttpclient.dart';
-
-import '../bloc/combo.dart';
+import 'package:te_escucha/src/bloc/combo.dart';
 
 class EmergenciaEstado extends StatefulWidget {
   const EmergenciaEstado({super.key});
@@ -17,6 +16,10 @@ class EmergenciaEstado extends StatefulWidget {
 class _EmergenciaEstadoState extends State<EmergenciaEstado> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
+  TextEditingController txtDireccion = TextEditingController();
+
+  Map<String, String> oEmergencia = {};
+
   CmbKeyValue? cmbEstado;
   CmbKeyValue? cmbCiudad;
   CmbKeyValue? cmbMunicipio;
@@ -25,19 +28,19 @@ class _EmergenciaEstadoState extends State<EmergenciaEstado> {
   List<dynamic> lst = [];
 
   List<CmbKeyValue> lstEstados = <CmbKeyValue>[
-    const CmbKeyValue('0', 'Estado* ')
+    const CmbKeyValue('0', 'Estado * ')
   ];
 
   List<CmbKeyValue> lstCiudad = <CmbKeyValue>[
-    const CmbKeyValue('0', 'Ciudad* ')
+    const CmbKeyValue('0', 'Ciudad * ')
   ];
 
   List<CmbKeyValue> lstMunicipio = <CmbKeyValue>[
-    const CmbKeyValue('0', 'Municipio* ')
+    const CmbKeyValue('0', 'Municipio * ')
   ];
 
   List<CmbKeyValue> lstParroquia = <CmbKeyValue>[
-    const CmbKeyValue('0', 'Parroquia* ')
+    const CmbKeyValue('0', 'Parroquia * ')
   ];
 
   Future obtenerEstados() async {
@@ -161,6 +164,7 @@ class _EmergenciaEstadoState extends State<EmergenciaEstado> {
                   height: 15,
                 ),
                 TextFormField(
+                  controller: txtDireccion,
                   style: textPersonal,
                   maxLines: 4,
                   decoration: const InputDecoration(
@@ -267,9 +271,21 @@ class _EmergenciaEstadoState extends State<EmergenciaEstado> {
   }
 
   void nextPage() {
+    oEmergencia = {
+      "estado": cmbEstado!.id.toString(),
+      "cidudad": cmbCiudad!.id.toString(),
+      'municipio': cmbMunicipio!.id.toString(),
+      'parroquia': cmbParroquia!.id.toString(),
+      'direccion': txtDireccion.text,
+      'latitud': '',
+      'logintud': '',
+    };
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const EmergenciaMenor()),
+      MaterialPageRoute(
+          builder: (context) => EmergenciaMenor(
+                oEmergencia: oEmergencia,
+              )),
     );
   }
 

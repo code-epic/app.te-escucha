@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:googleapis/datastore/v1.dart';
 import 'package:te_escucha/src/gui/ayuda.dart';
 import 'package:te_escucha/src/gui/baselegal.dart';
-import 'package:te_escucha/src/gui/chat.dart';
 import 'package:te_escucha/src/gui/chat_home.dart';
-import 'package:te_escucha/src/gui/emergenciapersonas.dart';
+import 'package:te_escucha/src/gui/chat.dart';
+import 'package:te_escucha/src/gui/emergencia/emergenciapersonas.dart';
+import 'package:te_escucha/src/gui/historico.dart';
 import 'package:te_escucha/src/gui/home.dart';
 import 'package:te_escucha/src/gui/inicio.dart';
 import 'package:te_escucha/src/gui/make_report.dart';
@@ -261,17 +261,24 @@ definirTipo(String tipo) {
 }
 
 final routers = {
-  '/': (context) => const SplashScreen(),
+  '/splash': (context) => const SplashScreen(),
   '/incio': (context) => const Inicio(),
   '/homw': (context) => const Home(),
   '/perfil': (context) => const Perfil(),
+  '/historico': (context) => const Historico(),
   '/maps': (context) => const MapGoogle(),
   '/chat': (context) => const ChatHome(),
+  '/': (context) => const ChatUI(),
   '/ayuda': (context) => const Ayuda(),
   '/baselegal': (context) => const BaseLegal(),
   '/makereport': (context) => const MakeReport(),
   '/politicas': (context) => const Politicas(),
-  '/emergencia': (context) => const EmergenciaPersona(),
+  '/emergencia': (context) => EmergenciaPersona(
+        oBusqueda: {},
+        oEmbarcacion: {},
+        oEmergencia: {},
+        oPersona: {},
+      ),
 };
 
 const cmbGeneral = TextStyle(

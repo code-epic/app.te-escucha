@@ -1,15 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:material_dialogs/material_dialogs.dart';
-import 'package:material_dialogs/widgets/buttons/icon_button.dart';
-import 'package:te_escucha/src/gui/emergenciaestado.dart';
-import 'package:te_escucha/src/gui/emergenciamenor.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:te_escucha/src/gui/emergencia/emergenciaestado.dart';
+import 'package:te_escucha/src/gui/emergencia/emergenciamenor.dart';
 import 'package:te_escucha/src/gui/home.dart';
-import 'package:te_escucha/src/gui/make_report_who.dart';
 import 'package:te_escucha/src/gui/personal_report.dart';
 import 'package:te_escucha/src/model/const.dart';
 
-import '../bloc/combo.dart';
+import 'package:te_escucha/src/bloc/combo.dart';
 
 class MakeReport extends StatefulWidget {
   const MakeReport({super.key});
@@ -19,12 +17,14 @@ class MakeReport extends StatefulWidget {
 }
 
 class _MakeReportState extends State<MakeReport> {
+  Map<String, String> oEmergencia = {};
   String tipo = "Seleccione";
   String caso = selectList.first;
   String producto = "";
   String descripcion = "";
   String imagen = "tramites/Gente".toLowerCase();
   CmbKeyValue? cmbReporteEmergencia;
+  late Capitania capitania;
 
   List<CmbKeyValue> lstReporteEmergencia = <CmbKeyValue>[
     const CmbKeyValue('1', 'Ubicación Actual'),
@@ -40,10 +40,36 @@ class _MakeReportState extends State<MakeReport> {
   bool bImg = false;
   bool bSar = false;
   bool bSarX = false;
+  late Position position;
+
+  Future<Position> getCurrentLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    return position;
+    //calculateDistance(position.latitude, position.longitude);
+  }
 
   @override
   void initState() {
     super.initState();
+
+    getCurrentLocation().then((value) {
+      setState(() {
+        position = value;
+        print(position);
+        // gps.calculateDistance(p.latitude, p.longitude).then((val) => {
+        //       setState(
+        //         () {
+        //           capitania = val;
+        //           print(p);
+        //           print(capitania.ubicacion);
+        //           print(capitania.nombre);
+        //         },
+        //       )
+        //     });
+      });
+    });
   }
 
   @override
@@ -414,10 +440,22 @@ class _MakeReportState extends State<MakeReport> {
                 builder: (context) => const EmergenciaEstado(),
               ));
         } else {
+          oEmergencia = {
+            "estado": '',
+            "cidudad": '',
+            'municipio': '',
+            'parroquia': '',
+            'direccion': '',
+            'ubicacion':
+                "lat: ${position.latitude}, long: ${position.longitude}",
+            'destino': "TODAS",
+          };
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const EmergenciaMenor(),
+                builder: (context) => EmergenciaMenor(
+                  oEmergencia: oEmergencia,
+                ),
               ));
         }
       } else {

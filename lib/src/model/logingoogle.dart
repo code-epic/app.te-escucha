@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:te_escucha/src/model/localstoragehelper.dart';
+import 'package:te_escucha/src/model/user_perfil.dart';
 
 /// The scopes required by this application.
 const List<String> scopes = <String>[
@@ -59,4 +60,19 @@ class LoginGoogle {
   //     print(error);
   //   }
   // }
+
+  Future<UserPerfil> getCurrentUserEmail() async {
+    final user = FirebaseAuth.instance.currentUser;
+    String? xnombre = user?.displayName;
+    String? xcorreo = user?.email;
+    String? xfoto = user?.photoURL;
+
+    return UserPerfil(
+        cedula: '',
+        nombre: xnombre.toString(),
+        correo: xcorreo.toString(),
+        foto: xfoto.toString(),
+        telefono: '',
+        direccion: '');
+  }
 }

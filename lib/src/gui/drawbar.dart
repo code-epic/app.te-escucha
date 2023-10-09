@@ -14,7 +14,12 @@ class DrawBar extends StatefulWidget {
 
 class _DrawBarState extends State<DrawBar> {
   late UserPerfil Usuario = UserPerfil(
-      nombre: 'Inea Te Escucha', correo: 'correo@inea.gob.ve', foto: '');
+      cedula: '',
+      nombre: '',
+      correo: '',
+      foto: '',
+      telefono: '',
+      direccion: '');
 
   Future<UserPerfil> getCurrentUserEmail() async {
     final user = FirebaseAuth.instance.currentUser;
@@ -23,9 +28,12 @@ class _DrawBarState extends State<DrawBar> {
     String? xfoto = user?.photoURL;
 
     return UserPerfil(
+        cedula: '',
         nombre: xnombre.toString(),
         correo: xcorreo.toString(),
-        foto: xfoto.toString());
+        foto: xfoto.toString(),
+        telefono: '',
+        direccion: '');
   }
 
   @override
@@ -119,16 +127,16 @@ class _DrawBarState extends State<DrawBar> {
             ListTile(
               textColor: Color(0xff174076),
               iconColor: Color(0xff174076),
-              leading: const Icon(Icons.ballot_outlined),
+              leading: const Icon(Icons.history),
               title: const Text(
-                "Encuestas",
+                "Historico",
                 style: TextStyle(
                     fontSize: 14,
                     fontFamily: 'Lato',
                     color: Color(0xff174076),
                     fontWeight: FontWeight.bold),
               ),
-              onTap: () => {Navigator.pushNamed(context, '/tramites')},
+              onTap: () => {Navigator.pushNamed(context, '/historico')},
             ),
             const Divider(),
             ListTile(
