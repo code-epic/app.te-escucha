@@ -34,15 +34,18 @@ class CeHttpClient {
         Uri.parse('https://localhost$path'),
         // Uri.parse('https://code-epic.com$path'),
         headers: {
-          'Content-type': 'application/json;charset=utf-8',
+          'Content-type': 'application/json',
+          'charset': 'UTF-8',
           HttpHeaders.authorizationHeader: 'Bearer $token',
         },
-        encoding: Encoding.getByName("utf-8"),
+        encoding: Encoding.getByName("UTF-8"),
         body: jsonEncode(xdata),
       );
-      // print(response.body);
-
-      return response.body;
+      String stringResponse =
+          const Utf8Decoder().convert(response.body.codeUnits);
+      // print(stringResponse);
+      return stringResponse;
+      // return response.body;
     } finally {}
   }
 }

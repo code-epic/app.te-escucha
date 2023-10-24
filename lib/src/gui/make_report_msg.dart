@@ -368,21 +368,21 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
                     ),
                   ),
                   onPressed: () {
-                    String cedula = widget.persona['cedula'].toString();
-                    String nombre = widget.persona['nombre'].toString();
-                    String fecha = widget.persona['fecha'].toString();
-                    mdlOk(context, nombre);
-                    prsCliente = {
-                      "cedula": cedula,
-                      "nombre": nombre,
-                      "fecha": fecha,
-                      "evento": dateinput.text,
-                      "descripcion": xdescripcion.text,
-                      "categoria": definirTipo(widget.descripcion)
-                    };
-                    setDocWKF();
-                    // nextPage(0, widget.tipo, widget.caso, widget.producto,
-                    //     prsCliente);
+                    if (xdescripcion.text != '' && dateinput.text != '') {
+                      String cedula = widget.persona['cedula'].toString();
+                      String nombre = widget.persona['nombre'].toString();
+                      String fecha = widget.persona['fecha'].toString();
+                      mdlOk(context, nombre);
+                      prsCliente = {
+                        "cedula": cedula,
+                        "nombre": nombre,
+                        "fecha": fecha,
+                        "evento": dateinput.text,
+                        "descripcion": xdescripcion.text,
+                        "categoria": definirTipo(widget.descripcion)
+                      };
+                      setDocWKF();
+                    }
                   },
                   child: const Text(
                     'Enviar',

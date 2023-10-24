@@ -10,8 +10,10 @@ import 'package:te_escucha/src/gui/inicio.dart';
 import 'package:te_escucha/src/gui/make_report.dart';
 import 'package:te_escucha/src/gui/map_google.dart';
 import 'package:te_escucha/src/gui/perfil.dart';
+import 'package:te_escucha/src/gui/personal_report.dart';
 import 'package:te_escucha/src/gui/politicas.dart';
 import 'package:te_escucha/src/gui/splashscreen.dart';
+import 'package:te_escucha/src/gui/comprobante.dart';
 
 String title = 'Sistema de Denuncias';
 
@@ -262,13 +264,28 @@ definirTipo(String tipo) {
 
 final routers = {
   '/splash': (context) => const SplashScreen(),
-  '/incio': (context) => const Inicio(),
-  '/homw': (context) => const Home(),
+  '/inicio': (context) => const Inicio(),
+  '/personal': (context) => const PersonalReport(
+        accion: 0,
+        tipo: '',
+        caso: '',
+        producto: '',
+        descripcion: '',
+      ),
+  '/home': (context) => const Home(),
   '/perfil': (context) => const Perfil(),
   '/historico': (context) => const Historico(),
   '/maps': (context) => const MapGoogle(),
-  '/chat': (context) => const ChatHome(),
-  '/': (context) => const ChatUI(),
+  '/': (context) => const ChatHome(),
+  '/gui': (context) => const ChatUI(),
+  '/comprobante': (context) => const MakeComprobante(
+        codigo: '',
+        tipo: '',
+        accion: 0,
+        producto: '',
+        caso: '',
+        persona: {},
+      ),
   '/ayuda': (context) => const Ayuda(),
   '/baselegal': (context) => const BaseLegal(),
   '/makereport': (context) => const MakeReport(),

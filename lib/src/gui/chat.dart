@@ -15,6 +15,25 @@ class ChatUI extends StatefulWidget {
 
 class _ChatUIState extends State<ChatUI> {
   TextEditingController txtMsj = TextEditingController();
+
+  final ScrollController _controller = ScrollController();
+  // This is what you're looking for!
+
+  void _scrollDown() {
+    Future.delayed(const Duration(milliseconds: 500), () {
+// Here you can write your code
+
+      setState(() {
+        // Here you can write your code for open new view
+        _controller.animateTo(
+          _controller.position.maxScrollExtent,
+          duration: Duration(seconds: 2),
+          curve: Curves.fastOutSlowIn,
+        );
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +58,7 @@ class _ChatUIState extends State<ChatUI> {
             child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListView.builder(
+              controller: _controller,
               itemCount: demageChat.length,
               itemBuilder: ((context, index) => Chat(chat: demageChat[index]))),
         )),
@@ -114,7 +134,8 @@ class _ChatUIState extends State<ChatUI> {
     var response = await CeHttpClient.xPOST(sPath, data);
     var json = jsonDecode(response);
     var respuesta = json['Cuerpo'][0]['respuesta'].toString();
-
+    var texto =
+        '$respuesta\n\nEspero haberte ayudado, estoy atenta a cualquier otra inquietud. Sigamos construyendo la vía para nuestra Venezuela Azul.';
     setState(() {
       demageChat.add(ChatMessage(
           text: txtMsj.text,
@@ -122,10 +143,11 @@ class _ChatUIState extends State<ChatUI> {
           status: ChatStatus.visto,
           isAuthor: false));
       demageChat.add(ChatMessage(
-          text: respuesta,
+          text: texto,
           type: ChatType.text,
           status: ChatStatus.visto,
           isAuthor: true));
+      _scrollDown();
 
       txtMsj.text = '';
     });

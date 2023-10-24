@@ -42,6 +42,8 @@ class _PersonalReportState extends State<PersonalReport> {
   CmbKeyValue? cmbMunicipio;
   CmbKeyValue? cmbParroquia;
 
+  late bool blEdad = false;
+
   List<dynamic> lst = [];
 
   List<CmbKeyValue> lstEstados = <CmbKeyValue>[
@@ -103,6 +105,44 @@ class _PersonalReportState extends State<PersonalReport> {
         lstParroquia.add(CmbKeyValue(e['id_parroquia'], e['parroquia']));
       }
     });
+  }
+
+  Future obtenerDatosPersonales(String cedula, String fechaNacimiento) async {
+    blEdad = false;
+    Map<String, dynamic> data = {
+      'funcion': 'INEA_CCedula',
+      'parametros': '$cedula,$fechaNacimiento'
+    };
+    var response = await CeHttpClient.xPOST(sPath, data);
+    var json = jsonDecode(response);
+    lst = json['Cuerpo'];
+    setState(() {
+      if (lst.isNotEmpty) {
+        for (var e in lst) {
+          //12385797
+          //1975-10-26
+          //sigla1 | nombre1 | nombre2 | apellido1 | apellido2
+          var nomb = '${e['nombre1']} ${e['nombre2']}';
+          var apel = '${e['apellido1']} ${e['apellido2']}';
+          nombre.text = '$nomb $apel'.toUpperCase();
+          blEdad = true;
+        }
+      } else {
+        mdlOk(context);
+      }
+    });
+  }
+
+  calcularEdad(DateTime birthDate) {
+    DateTime currentDate = DateTime.now();
+    int age = currentDate.year - birthDate.year;
+
+    if (currentDate.month < birthDate.month ||
+        (currentDate.month == birthDate.month &&
+            currentDate.day < birthDate.day)) {
+      age--;
+    }
+    edad.text = age.toString();
   }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -197,38 +237,49 @@ class _PersonalReportState extends State<PersonalReport> {
                           print(
                               formattedDate); //formatted date output using intl package =>  2021-03-16
                           //you can implement different kind of Date Format here according to your requirement
-
+                          String fechaNacimiento =
+                              DateFormat('yyyy-MM-dd').format(pickedDate);
                           setState(() {
                             dateinput.text =
                                 formattedDate; //set output date to TextField value.
+                            calcularEdad(pickedDate);
+                            obtenerDatosPersonales(
+                                cedula.text, fechaNacimiento);
                           });
                         } else {
                           print("Date is not selected");
                         }
                       },
                     ),
-                    TextFormField(
-                      style: textPersonal,
-                      controller: nombre,
-                      decoration: const InputDecoration(
-                        border: UnderlineInputBorder(),
-                        labelText: 'Nombre completo',
+                    Visibility(
+                      visible: blEdad,
+                      child: TextFormField(
+                        style: textPersonal,
+                        enabled: true,
+                        controller: nombre,
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          labelText: 'Nombre completo',
+                        ),
                       ),
                     ),
-                    TextFormField(
-                      style: textPersonal,
-                      controller: edad,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      decoration: const InputDecoration(
-                        border: UnderlineInputBorder(),
-                        labelText: 'Edad',
+                    Visibility(
+                      visible: blEdad,
+                      child: TextFormField(
+                        style: textPersonal,
+                        controller: edad,
+                        enabled: true,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          labelText: 'Edad',
+                        ),
                       ),
-                    ),
+                    )
                     // TextFormField(
-                   
                   ],
                 ),
               )),
@@ -465,15 +516,15 @@ class _PersonalReportState extends State<PersonalReport> {
                     ),
                   ),
                   onPressed: () {
-                    print(cedula.text);
                     persona = {
                       "cedula": cedula.text,
                       "fecha": dateinput.text,
                       "nombre": nombre.text,
                     };
-
-                    nextPage(widget.accion, widget.tipo, widget.caso,
-                        widget.producto, persona, widget.descripcion);
+                    if (cedula.text != '') {
+                      nextPage(widget.accion, widget.tipo, widget.caso,
+                          widget.producto, persona, widget.descripcion);
+                    }
                   },
                   child: const Text(
                     'Siguiente',
@@ -518,5 +569,46 @@ class _PersonalReportState extends State<PersonalReport> {
                 )),
       );
     }
+  }
+
+  Future<String?> mdlOk(BuildContext context) {
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              texto3("\"INEA Te Escucha\" "),
+              const SizedBox(height: 8),
+              texto2("Estimado usuario verifique"),
+              const SizedBox(
+                height: 2,
+              ),
+              texto2("La cédula o el campo fecha no coiciden."),
+              const SizedBox(height: 25),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Padding texto3(String text) {
+    return Padding(
+      padding: EdgeInsets.all(5.0),
+      child: Text(
+        text,
+        textAlign: TextAlign.justify,
+        style: const TextStyle(
+            color: Colors.black,
+            fontSize: 13,
+            fontFamily: 'Roboto',
+            fontStyle: FontStyle.normal,
+            fontWeight: FontWeight.bold),
+      ),
+    );
   }
 }

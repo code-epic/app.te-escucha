@@ -2,11 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/home.dart';
-import 'package:te_escucha/src/gui/personal_report.dart';
 import 'package:te_escucha/src/model/const.dart';
-
-import '../model/cehttpclient.dart';
-import '../model/solicitud.dart';
 
 class MakeComprobante extends StatefulWidget {
   final int accion;
@@ -43,11 +39,6 @@ class _MakeComprobanteState extends State<MakeComprobante> {
   void initState() {
     super.initState();
     imagen = widget.producto;
-    // print(widget.tipo);
-    // print(widget.producto);
-    // print(widget.caso);
-    // print(widget.accion);
-    // print(widget.persona);
     cedula = widget.persona['cedula'].toString();
     nombre = widget.persona['nombre'].toString();
     fecha = widget.persona['fecha'].toString();
@@ -56,17 +47,12 @@ class _MakeComprobanteState extends State<MakeComprobante> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
         extendBodyBehindAppBar: true,
         key: scaffoldKey,
-        // drawer: const NavBar(),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0.0,
-          leading: const BackButton(
-            color: Color(0xff174076),
-          ),
         ),
         body: Stack(children: [
           titulo(),
@@ -82,30 +68,23 @@ class _MakeComprobanteState extends State<MakeComprobante> {
                     Center(
                       child: imagenSeleccion(context, imagen),
                     ),
-
                     texto1("Nro. Reporte"),
                     texto2(widget.codigo.padLeft(5, '0')),
-
                     texto1("Tipo de reporte"),
                     texto2(widget.tipo),
                     Visibility(
-                      visible: widget.caso=="Seleccione"?false:true,
-                      child: texto1("Categoría")),
-                      Visibility(
-                      visible: widget.caso=="Seleccione"?false:true,
-                      child: texto2(widget.caso)),
-                    
+                        visible: widget.caso == "Seleccione" ? false : true,
+                        child: texto1("Categoría")),
+                    Visibility(
+                        visible: widget.caso == "Seleccione" ? false : true,
+                        child: texto2(widget.caso)),
                     const Divider(color: Color(0xff02509c)),
                     texto1("Datos personales"),
                     texto2("Cédula: $cedula"),
                     texto2("Nombre completo: $nombre"),
-
                     const Divider(color: Color(0xff02509c)),
                     texto1("Detalle del reporte"),
                     texto2(descripcion),
-
-                    // texto1("Subcategoria"),
-                    // texto2("Gente de Mar"),
                   ],
                 ),
               )),
