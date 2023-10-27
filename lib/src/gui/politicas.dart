@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:te_escucha/src/gui/home.dart';
 import 'dart:ui' as ui;
+import 'dart:ui_web';
 import 'dart:html' as html;
 
 import '../model/const.dart';

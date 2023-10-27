@@ -1,3 +1,4 @@
+import 'dart:ui_web';
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/ayuda.dart';
 import 'package:te_escucha/src/gui/baselegal.dart';
@@ -264,7 +265,7 @@ definirTipo(String tipo) {
 }
 
 final routers = {
-  '/splash': (context) => const SplashScreen(),
+  '/': (context) => const SplashScreen(),
   '/inicio': (context) => const Inicio(),
   '/personal': (context) => const PersonalReport(
         accion: 0,
@@ -273,7 +274,7 @@ final routers = {
         producto: '',
         descripcion: '',
       ),
-  '/': (context) => const Home(),
+  '/home': (context) => const Home(),
   '/perfil': (context) => const Perfil(),
   '/historico': (context) => const Historico(),
   '/maps': (context) => const MapGoogle(),

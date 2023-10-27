@@ -1,7 +1,7 @@
 // import 'dart:convert';
 
 import 'dart:convert';
-
+import 'dart:ui_web';
 import 'package:flutter/material.dart';
 // import 'package:flutter/src/widgets/framework.dart';
 // import 'package:flutter/src/widgets/placeholder.dart';
@@ -77,16 +77,7 @@ class _InicioState extends State<Inicio> {
   // }
 
   @override
-  void initState() {
-    super.initState();
-    btnLogin = false;
-    // print(LocalStorageHelper().getValue('token_wkf_inea'));
-    if (LocalStorageHelper().getValue('token_wkf_inea') != null) {
-      btnLogin = true;
-      //const Home();
-      // LocalStorageHelper().setValue("token_wkf_inea", "testing");
-    }
-  }
+  void initState() {}
 
   @override
   Widget build(BuildContext context) {
