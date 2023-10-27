@@ -521,7 +521,7 @@ class _PersonalReportState extends State<PersonalReport> {
                       "fecha": dateinput.text,
                       "nombre": nombre.text,
                     };
-                    if (cedula.text != '') {
+                    if (cedula.text != '' && nombre.text != '') {
                       nextPage(widget.accion, widget.tipo, widget.caso,
                           widget.producto, persona, widget.descripcion);
                     }

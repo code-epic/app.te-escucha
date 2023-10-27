@@ -3,6 +3,7 @@ import 'package:te_escucha/src/gui/ayuda.dart';
 import 'package:te_escucha/src/gui/baselegal.dart';
 import 'package:te_escucha/src/gui/chat_home.dart';
 import 'package:te_escucha/src/gui/chat.dart';
+import 'package:te_escucha/src/gui/emergencia/emergenciafinal.dart';
 import 'package:te_escucha/src/gui/emergencia/emergenciapersonas.dart';
 import 'package:te_escucha/src/gui/historico.dart';
 import 'package:te_escucha/src/gui/home.dart';
@@ -272,11 +273,11 @@ final routers = {
         producto: '',
         descripcion: '',
       ),
-  '/home': (context) => const Home(),
+  '/': (context) => const Home(),
   '/perfil': (context) => const Perfil(),
   '/historico': (context) => const Historico(),
   '/maps': (context) => const MapGoogle(),
-  '/': (context) => const ChatHome(),
+  '/chat': (context) => const ChatHome(),
   '/gui': (context) => const ChatUI(),
   '/comprobante': (context) => const MakeComprobante(
         codigo: '',
@@ -290,8 +291,13 @@ final routers = {
   '/baselegal': (context) => const BaseLegal(),
   '/makereport': (context) => const MakeReport(),
   '/politicas': (context) => const Politicas(),
-  '/emergencia': (context) => EmergenciaPersona(
+  '/persona': (context) => EmergenciaPersona(
         oBusqueda: {},
+        oEmbarcacion: {},
+        oEmergencia: {},
+        oPersona: {},
+      ),
+  '/emergenciafinal': (context) => EmergenciaFinal(
         oEmbarcacion: {},
         oEmergencia: {},
         oPersona: {},

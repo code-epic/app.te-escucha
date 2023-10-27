@@ -200,7 +200,11 @@ class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
                     ),
                   ),
                   onPressed: () {
-                    nextPage();
+                    if (embarcacion.text != '' &&
+                        colorI.text != '' &&
+                        colorE.text != '') {
+                      nextPage();
+                    }
                   },
                   child: const Text(
                     'SIGUIENTE',

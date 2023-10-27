@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
 enum ChatType { audio, text, image }
@@ -44,7 +45,29 @@ class Chat extends StatelessWidget {
                   color: chat.isAuthor ? Color(0xff83cacc) : Color(0xffb7c4d5),
                   borderRadius: BorderRadius.circular(10)),
               child: Wrap(
-                children: [Text(chat.text)],
+                children: [
+                  chat.isAuthor
+                      ? AnimatedTextKit(
+                          animatedTexts: [
+                            TypewriterAnimatedText(
+                              chat.text,
+                              textStyle: const TextStyle(
+                                fontSize: 11.5,
+                                fontWeight: FontWeight.normal,
+                              ),
+                              speed: const Duration(milliseconds: 50),
+                            ),
+                          ],
+                          totalRepeatCount: 1,
+                          pause: const Duration(milliseconds: 1000),
+                          displayFullTextOnTap: true,
+                          stopPauseOnTap: true,
+                        )
+                      : Text(
+                          chat.text,
+                          style: const TextStyle(fontSize: 11.5),
+                        )
+                ],
               ))
         ]);
   }

@@ -47,55 +47,56 @@ class _MakeComprobanteState extends State<MakeComprobante> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        extendBodyBehindAppBar: true,
-        key: scaffoldKey,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-        ),
-        body: Stack(children: [
-          titulo(),
-          Positioned(
-              top: 40,
-              width: MediaQuery.of(context).size.width,
-              child: Container(
-                padding: EdgeInsets.all(15.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: imagenSeleccion(context, imagen),
-                    ),
-                    texto1("Nro. Reporte"),
-                    texto2(widget.codigo.padLeft(5, '0')),
-                    texto1("Tipo de reporte"),
-                    texto2(widget.tipo),
-                    Visibility(
-                        visible: widget.caso == "Seleccione" ? false : true,
-                        child: texto1("Categoría")),
-                    Visibility(
-                        visible: widget.caso == "Seleccione" ? false : true,
-                        child: texto2(widget.caso)),
-                    const Divider(color: Color(0xff02509c)),
-                    texto1("Datos personales"),
-                    texto2("Cédula: $cedula"),
-                    texto2("Nombre completo: $nombre"),
-                    const Divider(color: Color(0xff02509c)),
-                    texto1("Detalle del reporte"),
-                    texto2(descripcion),
-                  ],
-                ),
-              )),
-          buttomNext(context),
-        ]));
+    return WillPopScope(
+      child: Scaffold(
+          extendBodyBehindAppBar: true,
+          key: scaffoldKey,
+          body: Stack(children: [
+            titulo(),
+            Positioned(
+                top: 40,
+                width: MediaQuery.of(context).size.width,
+                child: Container(
+                  padding: EdgeInsets.all(15.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: imagenSeleccion(context, imagen),
+                      ),
+                      texto1("Nro. Reporte"),
+                      texto2(widget.codigo.padLeft(5, '0')),
+                      texto1("Tipo de reporte"),
+                      texto2(widget.tipo),
+                      Visibility(
+                          visible: widget.caso == "Seleccione" ? false : true,
+                          child: texto1("Categoría")),
+                      Visibility(
+                          visible: widget.caso == "Seleccione" ? false : true,
+                          child: texto2(widget.caso)),
+                      const Divider(color: Color(0xff02509c)),
+                      texto1("Datos personales"),
+                      texto2("Cédula: $cedula"),
+                      texto2("Nombre completo: $nombre"),
+                      const Divider(color: Color(0xff02509c)),
+                      texto1("Detalle del reporte"),
+                      texto2(descripcion),
+                    ],
+                  ),
+                )),
+            buttomNext(context),
+          ])),
+      onWillPop: () async {
+        return false;
+      },
+    );
   }
 
   Positioned titulo() {
     return Positioned(
       top: 20,
-      left: 45,
+      left: 15,
       child: Container(
         child: const Text(
           "Comprobante de reporte personal",

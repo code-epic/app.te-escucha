@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:te_escucha/src/gui/emergencia/emergenciaembarcacion.dart';
+import 'package:te_escucha/src/model/cehttpclient.dart';
 import 'package:te_escucha/src/model/const.dart';
 import 'package:te_escucha/src/bloc/combo.dart';
 import 'package:intl/intl.dart';
@@ -31,6 +32,8 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
 
   CmbKeyValue? cmbParentesco;
   bool blOtro = false;
+  late bool blEdad = false;
+  List<dynamic> lst = [];
 
   List<CmbKeyValue> lstParentesco = <CmbKeyValue>[
     const CmbKeyValue('1', 'MADRE / PADRE '),
@@ -39,6 +42,44 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
     const CmbKeyValue('4', 'VECINO / VECINA'),
     const CmbKeyValue('5', 'OTRO '),
   ];
+
+  Future obtenerDatosPersonales(String cedula, String fechaNacimiento) async {
+    blEdad = false;
+    Map<String, dynamic> data = {
+      'funcion': 'INEA_CCedula',
+      'parametros': '$cedula,$fechaNacimiento'
+    };
+    var response = await CeHttpClient.xPOST(sPath, data);
+    var json = jsonDecode(response);
+    lst = json['Cuerpo'];
+    setState(() {
+      if (lst.isNotEmpty) {
+        for (var e in lst) {
+          //12385797
+          //1975-10-26
+          //sigla1 | nombre1 | nombre2 | apellido1 | apellido2
+          var nomb = '${e['nombre1']} ${e['nombre2']}';
+          var apel = '${e['apellido1']} ${e['apellido2']}';
+          nombre.text = '$nomb $apel'.toUpperCase();
+          blEdad = true;
+        }
+      } else {
+        mdlOk(context);
+      }
+    });
+  }
+
+  calcularEdad(DateTime birthDate) {
+    DateTime currentDate = DateTime.now();
+    int age = currentDate.year - birthDate.year;
+
+    if (currentDate.month < birthDate.month ||
+        (currentDate.month == birthDate.month &&
+            currentDate.day < birthDate.day)) {
+      age--;
+    }
+    edad.text = age.toString();
+  }
 
   @override
   void initState() {
@@ -133,10 +174,13 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
                         print(
                             formattedDate); //formatted date output using intl package =>  2021-03-16
                         //you can implement different kind of Date Format here according to your requirement
-
+                        String fechaNacimiento =
+                            DateFormat('yyyy-MM-dd').format(pickedDate);
                         setState(() {
                           dateinput.text =
                               formattedDate; //set output date to TextField value.
+                          calcularEdad(pickedDate);
+                          obtenerDatosPersonales(cedula.text, fechaNacimiento);
                         });
                       } else {
                         print("Date is not selected");
@@ -149,6 +193,7 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
                   child: TextFormField(
                     controller: nombre,
                     style: textPersonal,
+                    enabled: false,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: 'Nombre completo',
@@ -321,7 +366,7 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
       child: Text(
         texto,
         textAlign: TextAlign.justify,
-        style: TextStyle(
+        style: const TextStyle(
             color: Colors.black,
             fontSize: 13,
             fontFamily: 'Roboto',
@@ -353,8 +398,9 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
                     ),
                   ),
                   onPressed: () {
-                    debugPrint('Probando');
-                    nextPage();
+                    if (nombre.text != '' && tel1.text != '') {
+                      nextPage();
+                    }
                   },
                   child: const Text(
                     'Siguiente',
@@ -389,6 +435,47 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
                 oEmergencia: widget.oEmergencia,
                 oPersona: prsCliente,
               )),
+    );
+  }
+
+  Future<String?> mdlOk(BuildContext context) {
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              texto3("\"INEA Te Escucha\" "),
+              const SizedBox(height: 8),
+              texto2("Estimado usuario verifique"),
+              const SizedBox(
+                height: 2,
+              ),
+              texto2("La cédula o el campo fecha no coiciden."),
+              const SizedBox(height: 25),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Padding texto3(String text) {
+    return Padding(
+      padding: EdgeInsets.all(5.0),
+      child: Text(
+        text,
+        textAlign: TextAlign.justify,
+        style: const TextStyle(
+            color: Colors.black,
+            fontSize: 13,
+            fontFamily: 'Roboto',
+            fontStyle: FontStyle.normal,
+            fontWeight: FontWeight.bold),
+      ),
     );
   }
 }

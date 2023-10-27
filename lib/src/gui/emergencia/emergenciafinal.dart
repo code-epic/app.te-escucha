@@ -26,6 +26,9 @@ class _EmergenciaFinalState extends State<EmergenciaFinal> {
   TextEditingController fechahoraretorno = TextEditingController();
   TextEditingController lugardestino = TextEditingController();
   TextEditingController actividad = TextEditingController();
+  DateTime dateTime = DateTime.now();
+  String horas = '';
+  String minutos = '';
 
   @override
   void initState() {
@@ -37,6 +40,8 @@ class _EmergenciaFinalState extends State<EmergenciaFinal> {
 
   @override
   Widget build(BuildContext context) {
+    horas = dateTime.hour.toString().padLeft(2, '0');
+    minutos = dateTime.minute.toString().padLeft(2, '0');
     return Scaffold(
         extendBodyBehindAppBar: true,
         key: scaffoldKey,
@@ -78,6 +83,7 @@ class _EmergenciaFinalState extends State<EmergenciaFinal> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    onTap: () => {pickDateTime()},
                     controller: fechahorasalida,
                     style: textPersonal,
                     decoration: const InputDecoration(
@@ -102,6 +108,7 @@ class _EmergenciaFinalState extends State<EmergenciaFinal> {
                   child: TextFormField(
                     controller: fechahoraretorno,
                     style: textPersonal,
+                    onTap: () => {pickDateTimeF()},
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: 'Fecha y hora estimada de retorno',
@@ -134,6 +141,42 @@ class _EmergenciaFinalState extends State<EmergenciaFinal> {
           buttomNext(context),
         ]));
   }
+
+  Future pickDateTime() async {
+    DateTime? date = await pickDate();
+    if (date == null) return false;
+    TimeOfDay? time = await pickTime();
+    if (time == null) return false;
+    final dateTime =
+        DateTime(date.year, date.month, date.day, time.hour, time.minute);
+    setState(() {
+      fechahorasalida.text =
+          "${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute}";
+    });
+  }
+
+  Future pickDateTimeF() async {
+    DateTime? date = await pickDate();
+    if (date == null) return false;
+    TimeOfDay? time = await pickTime();
+    if (time == null) return false;
+    final dateTime =
+        DateTime(date.year, date.month, date.day, time.hour, time.minute);
+    setState(() {
+      fechahoraretorno.text =
+          "${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute}";
+    });
+  }
+
+  Future<DateTime?> pickDate() => showDatePicker(
+      context: context,
+      initialDate: dateTime,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2024));
+
+  Future<TimeOfDay?> pickTime() => showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(hour: dateTime.hour, minute: dateTime.minute));
 
   Positioned titulo() {
     return Positioned(
@@ -204,7 +247,12 @@ class _EmergenciaFinalState extends State<EmergenciaFinal> {
                     ),
                   ),
                   onPressed: () {
-                    nextPage();
+                    if (lugardestino.text != '' &&
+                        lugarretorno.text != '' &&
+                        actividad.text != '' &&
+                        fechahoraretorno.text != '') {
+                      nextPage();
+                    }
                   },
                   child: const Text(
                     'SIGUIENTE',

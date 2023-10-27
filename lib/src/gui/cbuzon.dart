@@ -1,5 +1,3 @@
-import 'dart:ui_web';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/ver_mensaje.dart';

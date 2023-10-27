@@ -96,7 +96,7 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
       privacidad: 1,
       ncontrol: wkfDoc,
       fcreacion: '${evento[2]}-${evento[1]}-${evento[0]}',
-      forigen: '${fecha[2]}-${fecha[1]}-${fecha[0]}',
+      forigen: '${evento[2]}-${evento[1]}-${evento[0]}',
       norigen: nombre,
       salida: cedula,
       tipo: widget.tipo,
@@ -105,9 +105,9 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
       comando: '',
       contenido: descripcion,
       instrucciones: '',
-      codigo: 'codigo',
-      nexpediente: Usuario.foto,
-      archivo: Usuario.nombre,
+      codigo: '${fecha[2]}-${fecha[1]}-${fecha[0]}',
+      nexpediente: Usuario.nombre,
+      archivo: Usuario.foto,
       creador: '',
     );
 
@@ -122,8 +122,8 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
 
     setState(() {
       print(datos);
-      nextPage(datos['msj'], 0, widget.tipo, widget.caso, widget.producto,
-          prsCliente);
+      nextPage(
+          wkfDoc, 0, widget.tipo, widget.caso, widget.producto, prsCliente);
     });
   }
 

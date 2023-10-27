@@ -18,6 +18,7 @@ class _ChatUIState extends State<ChatUI> {
 
   final ScrollController _controller = ScrollController();
   // This is what you're looking for!
+  String txtEstatus = 'Servicio Activo';
 
   void _scrollDown() {
     Future.delayed(const Duration(milliseconds: 500), () {
@@ -97,7 +98,8 @@ class _ChatUIState extends State<ChatUI> {
                     Expanded(
                         child: TextFormField(
                       controller: txtMsj,
-                      onFieldSubmitted: (value) => {escribir()},
+                      onFieldSubmitted: (value) =>
+                          {escribirSolicitud(), escribir()},
                       style: const TextStyle(fontFamily: 'lato', fontSize: 13),
                       decoration: const InputDecoration(
                           hintText: "Escribe tu pregunta",
@@ -105,6 +107,7 @@ class _ChatUIState extends State<ChatUI> {
                     )),
                     GestureDetector(
                       onTap: () {
+                        escribirSolicitud();
                         escribir();
                       },
                       child: const Icon(
@@ -125,31 +128,44 @@ class _ChatUIState extends State<ChatUI> {
     );
   }
 
-  Future escribir() async {
-    Map<String, dynamic> data = {
-      'funcion': '_SYS_CChatBotResponse',
-      'parametros': txtMsj.text,
-    };
-
-    var response = await CeHttpClient.xPOST(sPath, data);
-    var json = jsonDecode(response);
-    var respuesta = json['Cuerpo'][0]['respuesta'].toString();
-    var texto =
-        '$respuesta\n\nEspero haberte ayudado, estoy atenta a cualquier otra inquietud. Sigamos construyendo la vía para nuestra Venezuela Azul.';
+  Future<void> escribirSolicitud() async {
     setState(() {
       demageChat.add(ChatMessage(
           text: txtMsj.text,
           type: ChatType.text,
           status: ChatStatus.visto,
           isAuthor: false));
+      txtEstatus = 'Escribiendo...';
+    });
+  }
+
+  Future<void> escribir() async {
+    Map<String, dynamic> data = {
+      'funcion': '_SYS_CChatBotResponse',
+      'parametros': txtMsj.text,
+    };
+    txtMsj.text = '';
+    var response = await CeHttpClient.xPOST(sPath, data);
+    var json = jsonDecode(response);
+    var respuesta = '';
+    var texto =
+        'Ups, lo sentimos aun no tengo una respuesta para su pregunta. Intente más tarde.';
+
+    if (json['Cuerpo'].length > 0) {
+      respuesta = json['Cuerpo'][0]['respuesta'].toString();
+      texto =
+          '$respuesta\n\nEspero haberte ayudado, estoy atenta a cualquier otra inquietud. Sigamos construyendo la vía para nuestra Venezuela Azul.';
+    }
+    await Future.delayed(const Duration(seconds: 1));
+
+    setState(() {
       demageChat.add(ChatMessage(
           text: texto,
           type: ChatType.text,
           status: ChatStatus.visto,
           isAuthor: true));
+      txtEstatus = 'Servicio Activo';
       _scrollDown();
-
-      txtMsj.text = '';
     });
   }
 
@@ -157,9 +173,9 @@ class _ChatUIState extends State<ChatUI> {
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: Color(0xff02509c),
-      title: const Row(children: [
+      title: Row(children: [
         BackButton(),
-        CircleAvatar(
+        const CircleAvatar(
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           backgroundImage: AssetImage("assets/group/marina_avatar.png"),
         ),
@@ -167,12 +183,12 @@ class _ChatUIState extends State<ChatUI> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Inea Te Escucha",
               style: TextStyle(fontSize: 14),
             ),
             Text(
-              "Servicio Activo",
+              txtEstatus,
               style: TextStyle(fontSize: 11),
             )
           ],

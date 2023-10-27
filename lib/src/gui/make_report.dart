@@ -28,7 +28,7 @@ class _MakeReportState extends State<MakeReport> {
 
   List<CmbKeyValue> lstReporteEmergencia = <CmbKeyValue>[
     const CmbKeyValue('1', 'Ubicación Actual'),
-    const CmbKeyValue('2', 'Desde otro lugar'),
+    // const CmbKeyValue('2', 'Desde otro lugar'),
   ];
 
   List<String> lst = [];
@@ -57,7 +57,8 @@ class _MakeReportState extends State<MakeReport> {
     getCurrentLocation().then((value) {
       setState(() {
         position = value;
-        print(position);
+        // print("Conectando inicio : " + descripcion);
+        // print(position);
         // gps.calculateDistance(p.latitude, p.longitude).then((val) => {
         //       setState(
         //         () {
@@ -128,6 +129,7 @@ class _MakeReportState extends State<MakeReport> {
                                 xsolicitud = false;
                                 bSar = false;
                                 contenido = false;
+                                descripcion = '';
                                 if (tipo == 'Denuncias') {
                                   imagen = "group/denuncias";
                                   bImg = true;
@@ -430,48 +432,53 @@ class _MakeReportState extends State<MakeReport> {
   }
 
   void nextPage(String tipo, String caso, String producto, String descripcion) {
-    if (tipo == "Seleccione") {
-    } else {
-      if (tipo == 'Emergencias de Embarcaciones') {
-        if (cmbReporteEmergencia!.id == "2") {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const EmergenciaEstado(),
-              ));
-        } else {
-          oEmergencia = {
-            "estado": '',
-            "cidudad": '',
-            'municipio': '',
-            'parroquia': '',
-            'direccion': '',
-            'ubicacion':
-                "lat: ${position.latitude}, long: ${position.longitude}",
-            'destino': "TODAS",
-          };
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => EmergenciaMenor(
-                  oEmergencia: oEmergencia,
-                ),
-              ));
-        }
-      } else {
+    if (tipo == 'Emergencias de Embarcaciones') {
+      if (cmbReporteEmergencia!.id == "2") {
         Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => PersonalReport(
-                    accion: 0,
-                    tipo: tipo,
-                    caso: caso,
-                    producto: producto,
-                    descripcion: descripcion,
-                  )),
-        );
+            context,
+            MaterialPageRoute(
+              builder: (context) => const EmergenciaEstado(),
+            ));
+      } else {
+        oEmergencia = {
+          "estado": '',
+          "cidudad": '',
+          'municipio': '',
+          'parroquia': '',
+          'direccion': '',
+          'ubicacion': "lat: ${position.latitude}, long: ${position.longitude}",
+          'destino': "TODAS",
+        };
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EmergenciaMenor(
+                oEmergencia: oEmergencia,
+              ),
+            ));
+      }
+    } else {
+      if (tipo == "Denuncias") {
+        continuar();
+      } else if (descripcion != "") {
+        print(descripcion);
+        continuar();
       }
     }
+  }
+
+  void continuar() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => PersonalReport(
+                accion: 0,
+                tipo: tipo,
+                caso: caso,
+                producto: producto,
+                descripcion: descripcion,
+              )),
+    );
   }
 
   Future<String?> mdlOk(BuildContext context) {

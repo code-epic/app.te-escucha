@@ -33,51 +33,48 @@ class _EmergenciaReportState extends State<EmergenciaReport> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        extendBodyBehindAppBar: true,
-        key: scaffoldKey,
-        // drawer: const NavBar(),
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          leading: const BackButton(
-            color: Color(0xff174076),
-          ),
-        ),
-        body: Stack(children: [
-          titulo(),
-          Positioned(
-              top: 40,
-              width: MediaQuery.of(context).size.width,
-              child: Container(
-                padding: EdgeInsets.all(15.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    texto1("Tipo de reporte"),
-                    texto2("Emergencias de Embarcaciones"),
-                    texto1("Categoría"),
-                    texto2("SAR"),
-                    texto1("Reporte personal"),
-                    const Divider(color: Color(0xff02509c)),
-                    texto2("Cédula: ${widget.oPersona['cedula']}"),
-                    texto2("Teléfono #1: ${widget.oPersona['telefono1']}"),
-                    texto2("Teléfono #2: ${widget.oPersona['telefono2']}"),
-                    texto1("Detalle del reporte"),
-                    texto2("${widget.oBusqueda['actividad']}"),
-                    const Divider(color: Color(0xff02509c)),
-                  ],
-                ),
-              )),
-          buttomNext(context),
-        ]));
+    return WillPopScope(
+      child: Scaffold(
+          extendBodyBehindAppBar: true,
+          key: scaffoldKey,
+          body: Stack(children: [
+            titulo(),
+            Positioned(
+                top: 40,
+                width: MediaQuery.of(context).size.width,
+                child: Container(
+                  padding: EdgeInsets.all(15.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      texto1("Tipo de reporte"),
+                      texto2("Emergencias de Embarcaciones"),
+                      texto1("Categoría"),
+                      texto2("SAR"),
+                      texto1("Reporte personal"),
+                      const Divider(color: Color(0xff02509c)),
+                      texto2("Cédula: ${widget.oPersona['cedula']}"),
+                      texto2("Teléfono #1: ${widget.oPersona['telefono1']}"),
+                      texto2("Teléfono #2: ${widget.oPersona['telefono2']}"),
+                      texto1("Detalle del reporte"),
+                      texto2("${widget.oBusqueda['actividad']}"),
+                      const Divider(color: Color(0xff02509c)),
+                    ],
+                  ),
+                )),
+            buttomNext(context),
+          ])),
+      onWillPop: () async {
+        return false;
+      },
+    );
   }
 
   Positioned titulo() {
     return Positioned(
       top: 20,
-      left: 45,
+      left: 15,
       child: Container(
         child: const Text(
           "Comprobante de reporte personal",
@@ -99,12 +96,12 @@ class _EmergenciaReportState extends State<EmergenciaReport> {
   }
 
   Positioned paginador() {
-    return Positioned(
+    return const Positioned(
         top: 54,
         right: 15,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: const [
+          children: [
             Text(
               "4/4",
               style: TextStyle(

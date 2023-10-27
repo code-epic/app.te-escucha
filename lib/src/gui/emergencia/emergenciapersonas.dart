@@ -340,10 +340,11 @@ class _EmergenciaPersonaState extends State<EmergenciaPersona> {
                     ),
                   ),
                   onPressed: () {
-                    // mdlOk(context, "Persona natural");
-                    mdlOk(context, widget.oPersona['nombre']);
+                    if (total.text != '') {
+                      mdlOk(context, widget.oPersona['nombre']);
 
-                    setDocWKF();
+                      setDocWKF();
+                    }
                   },
                   child: const Text(
                     'SIGUIENTE',
