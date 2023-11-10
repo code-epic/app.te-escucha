@@ -43,7 +43,7 @@ class _EmergenciaReportState extends State<EmergenciaReport> {
                 top: 40,
                 width: MediaQuery.of(context).size.width,
                 child: Container(
-                  padding: EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,13 +117,13 @@ class _EmergenciaReportState extends State<EmergenciaReport> {
 
   Padding texto2(String texto) {
     return Padding(
-        padding: EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(5.0),
         child: Text(texto, textAlign: TextAlign.justify, style: textJustify));
   }
 
   Padding texto1(String text) {
     return Padding(
-      padding: EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(5.0),
       child: Text(
         text,
         textAlign: TextAlign.justify,
@@ -149,11 +149,11 @@ class _EmergenciaReportState extends State<EmergenciaReport> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff174076),
-                    shadowColor: Color(0xff174076), // background
+                    backgroundColor: const Color(0xff174076),
+                    shadowColor: const Color(0xff174076), // background
                     foregroundColor: Colors.white, // foreground
-                    minimumSize: Size(180, 40),
-                    maximumSize: Size(180, 40),
+                    minimumSize: const Size(180, 40),
+                    maximumSize: const Size(180, 40),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),

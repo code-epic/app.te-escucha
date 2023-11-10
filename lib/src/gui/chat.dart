@@ -28,7 +28,7 @@ class _ChatUIState extends State<ChatUI> {
         // Here you can write your code for open new view
         _controller.animateTo(
           _controller.position.maxScrollExtent,
-          duration: Duration(seconds: 2),
+          duration: const Duration(seconds: 2),
           curve: Curves.fastOutSlowIn,
         );
       });
@@ -69,7 +69,7 @@ class _ChatUIState extends State<ChatUI> {
               color: Theme.of(context).scaffoldBackgroundColor,
               boxShadow: [
                 BoxShadow(
-                    offset: Offset(0, 4),
+                    offset: const Offset(0, 4),
                     blurRadius: 18,
                     color: Colors.green.shade100)
               ]),
@@ -172,14 +172,14 @@ class _ChatUIState extends State<ChatUI> {
   AppBar appBarCode() {
     return AppBar(
       automaticallyImplyLeading: false,
-      backgroundColor: Color(0xff02509c),
+      backgroundColor: const Color(0xff02509c),
       title: Row(children: [
-        BackButton(),
+        const BackButton(),
         const CircleAvatar(
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           backgroundImage: AssetImage("assets/group/marina_avatar.png"),
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -189,7 +189,7 @@ class _ChatUIState extends State<ChatUI> {
             ),
             Text(
               txtEstatus,
-              style: TextStyle(fontSize: 11),
+              style: const TextStyle(fontSize: 11),
             )
           ],
         )

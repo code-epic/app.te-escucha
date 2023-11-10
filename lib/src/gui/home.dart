@@ -1,19 +1,15 @@
 import 'dart:convert';
-import 'dart:ui_web';
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/cbuzon.dart';
-import 'package:te_escucha/src/gui/chat.dart';
 import 'package:te_escucha/src/gui/chat_home.dart';
 import 'package:te_escucha/src/gui/drawbar.dart';
+import 'package:te_escucha/src/gui/inicio.dart';
 import 'package:te_escucha/src/gui/make_report.dart';
-import 'package:te_escucha/src/gui/map_google.dart';
 import 'package:te_escucha/src/gui/perfil.dart';
 import 'package:te_escucha/src/gui/splashscreen.dart';
 import 'package:te_escucha/src/model/buzon.dart';
 import 'package:te_escucha/src/model/cehttpclient.dart';
 import 'package:te_escucha/src/model/const.dart';
-import 'package:te_escucha/src/gui/inicio.dart';
 import 'package:te_escucha/src/model/localstoragehelper.dart';
 import 'package:te_escucha/src/model/logingoogle.dart';
 import 'package:te_escucha/src/model/user_perfil.dart';
@@ -88,7 +84,7 @@ class _HomeState extends State<Home> {
           makeReport();
         },
         label: const Text('Crear reporte'),
-        backgroundColor: Color.fromARGB(255, 58, 82, 161),
+        backgroundColor: const Color.fromARGB(255, 58, 82, 161),
         icon: const Icon(Icons.add),
       ),
       appBar: AppBar(
@@ -173,9 +169,9 @@ class _HomeState extends State<Home> {
               categoria: lst[index].categoria,
               txtStatus: lst[index].txtEstatus,
               fondo: lst[index].txtEstatus == "Cerrado"
-                  ? Color(0xFFD7D8DA)
-                  : Color(0xFFE6E8EB),
-              border: Color(0xFF83ABCC),
+                  ? const Color(0xFFD7D8DA)
+                  : const Color(0xFFE6E8EB),
+              border: const Color(0xFF83ABCC),
               img: lst[index].imagen))),
     );
   }
@@ -197,7 +193,7 @@ class _HomeState extends State<Home> {
     print('Cambiando pagina');
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const SplashScreen()),
+      MaterialPageRoute(builder: (context) => const Inicio()),
     );
   }
 

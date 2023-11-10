@@ -1,4 +1,3 @@
-import 'dart:ui_web';
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/ayuda.dart';
 import 'package:te_escucha/src/gui/baselegal.dart';
@@ -293,15 +292,15 @@ final routers = {
   '/makereport': (context) => const MakeReport(),
   '/politicas': (context) => const Politicas(),
   '/persona': (context) => EmergenciaPersona(
-        oBusqueda: {},
-        oEmbarcacion: {},
-        oEmergencia: {},
-        oPersona: {},
+        oBusqueda: const {},
+        oEmbarcacion: const {},
+        oEmergencia: const {},
+        oPersona: const {},
       ),
   '/emergenciafinal': (context) => EmergenciaFinal(
-        oEmbarcacion: {},
-        oEmergencia: {},
-        oPersona: {},
+        oEmbarcacion: const {},
+        oEmergencia: const {},
+        oPersona: const {},
       ),
 };
 
@@ -313,9 +312,9 @@ const cmbGeneral = TextStyle(
     fontWeight: FontWeight.bold);
 
 var boxDecoration = BoxDecoration(
-    borderRadius: BorderRadius.all(Radius.circular(15)),
-    color: Color(0xffe7ecf0),
-    border: Border.all(color: Color(0xff174076)));
+    borderRadius: const BorderRadius.all(Radius.circular(15)),
+    color: const Color(0xffe7ecf0),
+    border: Border.all(color: const Color(0xff174076)));
 
 const txtDraw = TextStyle(
     fontSize: 13,
@@ -434,11 +433,11 @@ const normalTituloFuente = TextStyle(
     fontWeight: FontWeight.normal);
 
 final ButtonStyle btnStyle = ElevatedButton.styleFrom(
-  backgroundColor: Color(0xff174076),
-  shadowColor: Color(0xff174076), // background
+  backgroundColor: const Color(0xff174076),
+  shadowColor: const Color(0xff174076), // background
   foregroundColor: Colors.white, // foreground
-  minimumSize: Size(180, 40),
-  maximumSize: Size(180, 40),
+  minimumSize: const Size(180, 40),
+  maximumSize: const Size(180, 40),
   shape: const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(Radius.circular(15)),
   ),

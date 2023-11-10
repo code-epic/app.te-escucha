@@ -1,4 +1,4 @@
 void main() {
-  var fecha = new DateTime.now().toString();
+  var fecha = DateTime.now().toString();
   print(fecha);
 }

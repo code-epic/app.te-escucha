@@ -32,13 +32,13 @@ class _SplashScreenState extends State<SplashScreen> {
       future: SharedPreferences.getInstance(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          if (isLoggedIn) {
-            return const Home();
-          } else {
-            return const Inicio();
-          }
+          // if (isLoggedIn) {
+          //   return const Home();
+          // } else {
+          return const Inicio();
+          // }
         } else {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
       },
     );

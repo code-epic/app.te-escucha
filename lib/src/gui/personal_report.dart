@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/material/date_picker.dart';
 import 'package:te_escucha/src/bloc/combo.dart';
 import 'package:te_escucha/src/gui/make_report_msg.dart';
 import 'package:te_escucha/src/gui/tercero_report.dart';
@@ -598,7 +597,7 @@ class _PersonalReportState extends State<PersonalReport> {
 
   Padding texto3(String text) {
     return Padding(
-      padding: EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(5.0),
       child: Text(
         text,
         textAlign: TextAlign.justify,

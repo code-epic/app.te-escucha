@@ -67,7 +67,7 @@ class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
           barra_cargando(context),
           paginador(),
           ListView(
-              padding: EdgeInsets.only(left: 10, right: 20),
+              padding: const EdgeInsets.only(left: 10, right: 20),
               scrollDirection: Axis.vertical,
               children: [
                 const SizedBox(
@@ -190,11 +190,11 @@ class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff174076),
-                    shadowColor: Color(0xff174076), // background
+                    backgroundColor: const Color(0xff174076),
+                    shadowColor: const Color(0xff174076), // background
                     foregroundColor: Colors.white, // foreground
-                    minimumSize: Size(180, 40),
-                    maximumSize: Size(180, 40),
+                    minimumSize: const Size(180, 40),
+                    maximumSize: const Size(180, 40),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
@@ -243,7 +243,7 @@ class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
 
   Padding texto2(String texto) {
     return Padding(
-      padding: EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(5.0),
       child: Text(
         texto,
         textAlign: TextAlign.justify,
@@ -258,11 +258,11 @@ class _EmergenciaEmbarcacionState extends State<EmergenciaEmbarcacion> {
 
   Padding texto1(String texto) {
     return Padding(
-      padding: EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(5.0),
       child: Text(
         texto,
         textAlign: TextAlign.justify,
-        style: TextStyle(
+        style: const TextStyle(
             color: Colors.black,
             fontSize: 13,
             fontFamily: 'Roboto',

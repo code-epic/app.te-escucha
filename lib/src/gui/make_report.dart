@@ -85,7 +85,7 @@ class _MakeReportState extends State<MakeReport> {
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           leading: BackButton(
-            color: Color(0xff174076),
+            color: const Color(0xff174076),
             onPressed: () => {homePage()},
           ),
         ),
@@ -97,7 +97,7 @@ class _MakeReportState extends State<MakeReport> {
               top: 60,
               width: MediaQuery.of(context).size.width,
               child: Container(
-                padding: EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(15.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,9 +110,9 @@ class _MakeReportState extends State<MakeReport> {
                       height: 5,
                     ),
                     Padding(
-                      padding: EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(5.0),
                       child: Container(
-                          padding: EdgeInsets.only(left: 9, right: 3),
+                          padding: const EdgeInsets.only(left: 9, right: 3),
                           height: 40,
                           width: width,
                           // color: Color(0xff83cacc),
@@ -180,9 +180,9 @@ class _MakeReportState extends State<MakeReport> {
                     Visibility(
                       visible: xsolicitud,
                       child: Padding(
-                        padding: EdgeInsets.all(5.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: Container(
-                            padding: EdgeInsets.only(left: 9, right: 3),
+                            padding: const EdgeInsets.only(left: 9, right: 3),
                             height: 40,
                             width: width,
                             // color: Color(0xff83cacc),
@@ -227,9 +227,9 @@ class _MakeReportState extends State<MakeReport> {
                     Visibility(
                       visible: contenido,
                       child: Padding(
-                        padding: EdgeInsets.all(5.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: Container(
-                            padding: EdgeInsets.only(left: 9, right: 3),
+                            padding: const EdgeInsets.only(left: 9, right: 3),
                             height: 40,
                             width: width,
                             // color: Color(0xff83cacc),
@@ -275,7 +275,7 @@ class _MakeReportState extends State<MakeReport> {
                     Visibility(
                       visible: bSar,
                       child: Padding(
-                        padding: EdgeInsets.all(5.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: reporteEmergencia(width),
                       ),
                     ),
@@ -363,7 +363,7 @@ class _MakeReportState extends State<MakeReport> {
 
   Padding texto2(String texto) {
     return Padding(
-      padding: EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(5.0),
       child: Text(
         texto,
         textAlign: TextAlign.justify,
@@ -378,7 +378,7 @@ class _MakeReportState extends State<MakeReport> {
 
   Padding texto1(String texto) {
     return Padding(
-      padding: EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(5.0),
       child: Text(
         texto,
         textAlign: TextAlign.justify,
@@ -404,11 +404,11 @@ class _MakeReportState extends State<MakeReport> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff174076),
-                    shadowColor: Color(0xff174076), // background
+                    backgroundColor: const Color(0xff174076),
+                    shadowColor: const Color(0xff174076), // background
                     foregroundColor: Colors.white, // foreground
-                    minimumSize: Size(180, 40),
-                    maximumSize: Size(180, 40),
+                    minimumSize: const Size(180, 40),
+                    maximumSize: const Size(180, 40),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
@@ -520,11 +520,11 @@ class _MakeReportState extends State<MakeReport> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff174076),
-                    shadowColor: Color(0xff174076), // background
+                    backgroundColor: const Color(0xff174076),
+                    shadowColor: const Color(0xff174076), // background
                     foregroundColor: Colors.white, // foreground
-                    minimumSize: Size(120, 40),
-                    maximumSize: Size(120, 40),
+                    minimumSize: const Size(120, 40),
+                    maximumSize: const Size(120, 40),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),

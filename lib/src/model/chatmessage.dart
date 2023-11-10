@@ -38,11 +38,11 @@ class Chat extends StatelessWidget {
             chat.isAuthor ? MainAxisAlignment.start : MainAxisAlignment.end,
         children: [
           Container(
-              margin: EdgeInsets.only(top: 8),
+              margin: const EdgeInsets.only(top: 8),
               width: MediaQuery.of(context).size.width - 60,
-              padding: EdgeInsets.symmetric(horizontal: 9, vertical: 9),
+              padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 9),
               decoration: BoxDecoration(
-                  color: chat.isAuthor ? Color(0xff83cacc) : Color(0xffb7c4d5),
+                  color: chat.isAuthor ? const Color(0xff83cacc) : const Color(0xffb7c4d5),
                   borderRadius: BorderRadius.circular(10)),
               child: Wrap(
                 children: [

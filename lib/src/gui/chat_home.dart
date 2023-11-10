@@ -1,14 +1,8 @@
-import 'dart:convert';
 
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:te_escucha/src/gui/chat.dart';
 import 'package:te_escucha/src/gui/home.dart';
 import 'package:te_escucha/src/gui/make_report.dart';
-import 'package:te_escucha/src/model/cehttpclient.dart';
-import 'package:te_escucha/src/model/chatmessage.dart';
 
 import 'package:geolocator/geolocator.dart';
 
@@ -156,11 +150,11 @@ class _ChatHomeState extends State<ChatHome> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff174076),
-                    shadowColor: Color(0xff174076), // background
+                    backgroundColor: const Color(0xff174076),
+                    shadowColor: const Color(0xff174076), // background
                     foregroundColor: Colors.white, // foreground
-                    minimumSize: Size(150, 40),
-                    maximumSize: Size(150, 40),
+                    minimumSize: const Size(150, 40),
+                    maximumSize: const Size(150, 40),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),

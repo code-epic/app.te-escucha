@@ -108,7 +108,7 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
           barra_cargando(context),
           paginador(),
           ListView(
-              padding: EdgeInsets.only(left: 10, right: 20),
+              padding: const EdgeInsets.only(left: 10, right: 20),
               scrollDirection: Axis.vertical,
               children: [
                 const SizedBox(
@@ -347,7 +347,7 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
 
   Padding texto2(String texto) {
     return Padding(
-      padding: EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(5.0),
       child: Text(
         texto,
         textAlign: TextAlign.justify,
@@ -362,7 +362,7 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
 
   Padding texto1(String texto) {
     return Padding(
-      padding: EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(5.0),
       child: Text(
         texto,
         textAlign: TextAlign.justify,
@@ -388,11 +388,11 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff174076),
-                    shadowColor: Color(0xff174076), // background
+                    backgroundColor: const Color(0xff174076),
+                    shadowColor: const Color(0xff174076), // background
                     foregroundColor: Colors.white, // foreground
-                    minimumSize: Size(180, 40),
-                    maximumSize: Size(180, 40),
+                    minimumSize: const Size(180, 40),
+                    maximumSize: const Size(180, 40),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
@@ -465,7 +465,7 @@ class _EmergenciaMenorState extends State<EmergenciaMenor> {
 
   Padding texto3(String text) {
     return Padding(
-      padding: EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(5.0),
       child: Text(
         text,
         textAlign: TextAlign.justify,

@@ -1,1 +1,1 @@
-final String BaseLegal = "";
+const String BaseLegal = "";

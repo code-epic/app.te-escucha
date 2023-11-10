@@ -1,5 +1,4 @@
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps/google_maps.dart';
 import 'package:te_escucha/src/model/const.dart';
 
 // Permite realizar la ubicacion GPS
@@ -7,7 +6,7 @@ class UbicacionGPS {
   late Position posicion;
   late double distanceInMeters;
 
-  UbicacionGPS() {}
+  UbicacionGPS();
 
   Future<Position> getCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(

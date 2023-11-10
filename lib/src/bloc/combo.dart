@@ -28,9 +28,9 @@ class _ComboState extends State<Combo> {
     // dropdownValue = widget.lst.first;
 
     return Padding(
-      padding: EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(5.0),
       child: Container(
-          padding: EdgeInsets.only(left: 9, right: 3),
+          padding: const EdgeInsets.only(left: 9, right: 3),
           height: 40,
           width: widget.width,
           // color: Color(0xff83cacc),

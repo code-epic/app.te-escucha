@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/make_report_msg.dart';
-import 'package:te_escucha/src/gui/personal_report.dart';
 import 'package:te_escucha/src/model/const.dart';
 
 class GrupoReport extends StatefulWidget {
@@ -57,7 +56,7 @@ class _GrupoReportState extends State<GrupoReport> {
               top: 60,
               width: MediaQuery.of(context).size.width,
               child: Container(
-                padding: EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(15.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,10 +85,10 @@ class _GrupoReportState extends State<GrupoReport> {
                     const SizedBox(
                       height: 15,
                     ),
-                    Container(
+                    SizedBox(
                       width: width,
                       child: DataTable(
-                          border: TableBorder(
+                          border: const TableBorder(
                               horizontalInside: BorderSide(
                                   width: 0.5,
                                   color: Color(0xff83cacc),
@@ -163,17 +162,17 @@ class _GrupoReportState extends State<GrupoReport> {
 
   List<DataColumn> createColumns() {
     return [
-      DataColumn(label: Text('Nombre completo', style: textJustify)),
-      DataColumn(label: Text('Cedula', style: textJustify)),
-      DataColumn(label: Text(' '))
+      const DataColumn(label: Text('Nombre completo', style: textJustify)),
+      const DataColumn(label: Text('Cedula', style: textJustify)),
+      const DataColumn(label: Text(' '))
     ];
   }
 
   List<DataRow> createRows() {
     return [
       DataRow(cells: [
-        DataCell(Text('1. CARLOS ENRIQUE PENA ALBARRAN', style: textJustify)),
-        DataCell(
+        const DataCell(Text('1. CARLOS ENRIQUE PENA ALBARRAN', style: textJustify)),
+        const DataCell(
             Text('17522251', style: textJustify, textAlign: TextAlign.start)),
         DataCell(
           IconButton(
@@ -183,8 +182,8 @@ class _GrupoReportState extends State<GrupoReport> {
         )
       ]),
       DataRow(cells: [
-        DataCell(Text('2. CARLOS ENRIQUE PENA ALBARRAN', style: textJustify)),
-        DataCell(
+        const DataCell(Text('2. CARLOS ENRIQUE PENA ALBARRAN', style: textJustify)),
+        const DataCell(
             Text('17522251', style: textJustify, textAlign: TextAlign.right)),
         DataCell(
           IconButton(
@@ -219,12 +218,12 @@ class _GrupoReportState extends State<GrupoReport> {
   }
 
   Positioned paginador() {
-    return Positioned(
+    return const Positioned(
         top: 54,
         right: 15,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: const [
+          children: [
             Text(
               "3/4",
               style: TextStyle(
@@ -240,13 +239,13 @@ class _GrupoReportState extends State<GrupoReport> {
 
   Padding texto2(String texto) {
     return Padding(
-        padding: EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(5.0),
         child: Text(texto, textAlign: TextAlign.justify, style: textJustify));
   }
 
   Container texto1(String texto) {
     return Container(
-      padding: EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(5.0),
       child: Text(
         texto,
         textAlign: TextAlign.justify,
@@ -272,11 +271,11 @@ class _GrupoReportState extends State<GrupoReport> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff174076),
-                    shadowColor: Color(0xff174076), // background
+                    backgroundColor: const Color(0xff174076),
+                    shadowColor: const Color(0xff174076), // background
                     foregroundColor: Colors.white, // foreground
-                    minimumSize: Size(180, 40),
-                    maximumSize: Size(180, 40),
+                    minimumSize: const Size(180, 40),
+                    maximumSize: const Size(180, 40),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
@@ -311,11 +310,11 @@ class _GrupoReportState extends State<GrupoReport> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff174076),
-                    shadowColor: Color(0xff174076), // background
+                    backgroundColor: const Color(0xff174076),
+                    shadowColor: const Color(0xff174076), // background
                     foregroundColor: Colors.white, // foreground
-                    minimumSize: Size(180, 40),
-                    maximumSize: Size(180, 40),
+                    minimumSize: const Size(180, 40),
+                    maximumSize: const Size(180, 40),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),

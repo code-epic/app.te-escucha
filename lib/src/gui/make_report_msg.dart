@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/comprobante.dart';
 import 'package:te_escucha/src/model/const.dart';
-import 'package:flutter/src/material/date_picker.dart';
 
 import 'package:intl/intl.dart';
 import 'package:te_escucha/src/model/localstoragehelper.dart';
@@ -326,13 +325,13 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
 
   Padding texto2(String texto) {
     return Padding(
-        padding: EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(5.0),
         child: Text(texto, textAlign: TextAlign.justify, style: textJustify));
   }
 
   Padding texto1(String text) {
     return Padding(
-      padding: EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(5.0),
       child: Text(
         text,
         textAlign: TextAlign.justify,
@@ -358,11 +357,11 @@ class _MakeReportMsgState extends State<MakeReportMsg> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff174076),
-                    shadowColor: Color(0xff174076), // background
+                    backgroundColor: const Color(0xff174076),
+                    shadowColor: const Color(0xff174076), // background
                     foregroundColor: Colors.white, // foreground
-                    minimumSize: Size(180, 40),
-                    maximumSize: Size(180, 40),
+                    minimumSize: const Size(180, 40),
+                    maximumSize: const Size(180, 40),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),

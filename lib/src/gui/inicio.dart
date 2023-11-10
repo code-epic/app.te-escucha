@@ -1,12 +1,10 @@
 // import 'dart:convert';
 
-import 'dart:convert';
-import 'dart:ui_web';
 import 'package:flutter/material.dart';
+import 'package:te_escucha/src/gui/home.dart';
 // import 'package:flutter/src/widgets/framework.dart';
 // import 'package:flutter/src/widgets/placeholder.dart';
 // import 'package:te_escucha/src/gui/chat.dart';
-import 'package:te_escucha/src/gui/home.dart';
 import 'package:te_escucha/src/gui/make_report.dart';
 import 'package:te_escucha/src/model/localstoragehelper.dart';
 // import 'package:te_escucha/src/gui/make_report.dart';
@@ -77,7 +75,15 @@ class _InicioState extends State<Inicio> {
   // }
 
   @override
-  void initState() {}
+  void initState() {
+    if (LocalStorageHelper().getValue('token_wkf_inea') != null) {
+      LoginGoogle().getCurrentUserEmail().then((value) {
+        setState(() {
+          btnLogin = true;
+        });
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,11 +104,11 @@ class _InicioState extends State<Inicio> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             logoInea(),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             centro(context),
-            SizedBox(
+            const SizedBox(
               height: 80,
             ),
             // GestureDetector(
@@ -120,7 +126,7 @@ class _InicioState extends State<Inicio> {
               // width: ancho - 100,
               alignment: Alignment.bottomCenter,
               height: 200,
-              child: Image(
+              child: const Image(
                 alignment: Alignment.bottomRight,
                 image: AssetImage('assets/group/comprometidos.png'),
               ),
@@ -145,9 +151,9 @@ class _InicioState extends State<Inicio> {
               width: MediaQuery.of(context).size.width - 80,
             ),
             GestureDetector(
-              child: Image(
+              child: const Image(
                 image: AssetImage("assets/group/sobre.png"),
-                width: 30,
+                width: 40,
               ),
               onTap: () {
                 homePage();
@@ -184,17 +190,17 @@ class _InicioState extends State<Inicio> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff174076),
-                    shadowColor: Color(0xff174076), // background
+                    backgroundColor: const Color(0xff174076),
+                    shadowColor: const Color(0xff174076), // background
                     foregroundColor: Colors.white, // foreground
-                    minimumSize: Size(150, 40),
-                    maximumSize: Size(150, 40),
+                    minimumSize: const Size(150, 40),
+                    maximumSize: const Size(150, 40),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
                   ),
                   onPressed: () {
-                    homePage();
+                    makeReport();
                   },
                   child: const Text(
                     'Crear Reporte',
@@ -222,11 +228,11 @@ class _InicioState extends State<Inicio> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff174076),
-                    shadowColor: Color(0xff174076), // background
+                    backgroundColor: const Color(0xff174076),
+                    shadowColor: const Color(0xff174076), // background
                     foregroundColor: Colors.white, // foreground
-                    minimumSize: Size(150, 40),
-                    maximumSize: Size(150, 40),
+                    minimumSize: const Size(150, 40),
+                    maximumSize: const Size(150, 40),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
@@ -234,7 +240,7 @@ class _InicioState extends State<Inicio> {
                   onPressed: () {
                     LoginGoogle()
                         .singInWithGoogle()
-                        .then((value) => {homePage()});
+                        .then((value) => {makeReport()});
 
                     // localStorage().setValue("token_wkf_inea", data)
 
@@ -266,10 +272,17 @@ class _InicioState extends State<Inicio> {
             )));
   }
 
-  void homePage() {
+  void makeReport() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const MakeReport()),
+    );
+  }
+
+  void homePage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const Home()),
     );
   }
 }

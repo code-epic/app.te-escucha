@@ -54,7 +54,7 @@ class _MakeReportWhoState extends State<MakeReportWho> {
               top: 60,
               width: MediaQuery.of(context).size.width,
               child: Container(
-                padding: EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(15.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,7 +91,7 @@ class _MakeReportWhoState extends State<MakeReportWho> {
     return Container(
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(15)),
-          border: Border.all(color: Color(0xff02509c))),
+          border: Border.all(color: const Color(0xff02509c))),
       child: Column(
         children: [
           Container(
@@ -103,7 +103,7 @@ class _MakeReportWhoState extends State<MakeReportWho> {
                   width: 100,
                   height: 100,
                 ),
-                Container(
+                SizedBox(
                   width: width - 160,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -187,7 +187,7 @@ class _MakeReportWhoState extends State<MakeReportWho> {
 
   Padding texto2(String texto) {
     return Padding(
-        padding: EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(5.0),
         child: Text(texto, textAlign: TextAlign.justify, style: textJustify));
   }
 
@@ -219,11 +219,11 @@ class _MakeReportWhoState extends State<MakeReportWho> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff174076),
-                    shadowColor: Color(0xff174076), // background
+                    backgroundColor: const Color(0xff174076),
+                    shadowColor: const Color(0xff174076), // background
                     foregroundColor: Colors.white, // foreground
-                    minimumSize: Size(180, 40),
-                    maximumSize: Size(180, 40),
+                    minimumSize: const Size(180, 40),
+                    maximumSize: const Size(180, 40),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),

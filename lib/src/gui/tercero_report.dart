@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ui_web';
 import 'package:flutter/material.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
@@ -60,8 +59,9 @@ class _TerceroReportState extends State<TerceroReport> {
       cmbEstado = lstEstados[0];
       cmbMunicipio = lstMunicipio[0];
       cmbParroquia = lstParroquia[0];
-      lst.forEach(
-          (e) => {lstEstados.add(CmbKeyValue(e['id_estado'], e['estado']))});
+      for (var e in lst) {
+        lstEstados.add(CmbKeyValue(e['id_estado'], e['estado']));
+      }
     });
   }
 
@@ -77,8 +77,9 @@ class _TerceroReportState extends State<TerceroReport> {
 
     setState(() {
       cmbMunicipio = lstMunicipio[0];
-      lst.forEach((e) =>
-          {lstMunicipio.add(CmbKeyValue(e['id_municipio'], e['municipio']))});
+      for (var e in lst) {
+        lstMunicipio.add(CmbKeyValue(e['id_municipio'], e['municipio']));
+      }
     });
   }
 
@@ -94,8 +95,9 @@ class _TerceroReportState extends State<TerceroReport> {
 
     setState(() {
       cmbParroquia = lstParroquia[0];
-      lst.forEach((e) =>
-          {lstParroquia.add(CmbKeyValue(e['id_parroquia'], e['parroquia']))});
+      for (var e in lst) {
+        lstParroquia.add(CmbKeyValue(e['id_parroquia'], e['parroquia']));
+      }
     });
   }
 
@@ -425,12 +427,12 @@ class _TerceroReportState extends State<TerceroReport> {
   }
 
   Positioned paginador() {
-    return Positioned(
+    return const Positioned(
         top: 54,
         right: 15,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: const [
+          children: [
             Text(
               "3/4",
               style: TextStyle(

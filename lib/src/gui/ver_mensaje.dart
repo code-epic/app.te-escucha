@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ui_web';
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/drawbar.dart';
 import 'package:te_escucha/src/gui/home.dart';
@@ -330,7 +329,7 @@ class _VerMensajeState extends State<VerMensaje> {
                           style: textHome, textAlign: TextAlign.center)
                     ],
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Column(
                     children: [
                       GestureDetector(
@@ -349,7 +348,7 @@ class _VerMensajeState extends State<VerMensaje> {
                       )
                     ],
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Column(
                     children: [
                       GestureDetector(
@@ -408,7 +407,7 @@ class _VerMensajeState extends State<VerMensaje> {
                           style: textHome, textAlign: TextAlign.center)
                     ],
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Column(
                     children: [
                       GestureDetector(
@@ -424,7 +423,7 @@ class _VerMensajeState extends State<VerMensaje> {
                           style: textHome, textAlign: TextAlign.center)
                     ],
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Column(
                     children: [
                       GestureDetector(

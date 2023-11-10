@@ -1,24 +1,16 @@
-import 'dart:convert';
-import 'dart:ui_web';
-import 'package:animate_do/animate_do.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:te_escucha/src/gui/cbuzon.dart';
-import 'package:te_escucha/src/gui/chat.dart';
 import 'package:te_escucha/src/gui/chat_home.dart';
 import 'package:te_escucha/src/gui/drawbar.dart';
 import 'package:te_escucha/src/gui/home.dart';
 import 'package:te_escucha/src/gui/make_report.dart';
 import 'package:te_escucha/src/gui/map_google.dart';
-import 'package:te_escucha/src/gui/ver_mensaje.dart';
-import 'package:te_escucha/src/model/buzon.dart';
 import 'package:te_escucha/src/model/cehttpclient.dart';
 import 'package:te_escucha/src/model/const.dart';
 import 'package:te_escucha/src/gui/inicio.dart';
 import 'package:te_escucha/src/model/user_perfil.dart';
 
 import '../model/localstoragehelper.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class Perfil extends StatefulWidget {
   const Perfil({super.key});
@@ -243,11 +235,11 @@ class _PerfilState extends State<Perfil> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff174076),
-                    shadowColor: Color(0xff174076), // background
+                    backgroundColor: const Color(0xff174076),
+                    shadowColor: const Color(0xff174076), // background
                     foregroundColor: Colors.white, // foreground
-                    minimumSize: Size(120, 40),
-                    maximumSize: Size(120, 40),
+                    minimumSize: const Size(120, 40),
+                    maximumSize: const Size(120, 40),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),

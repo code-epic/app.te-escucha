@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:te_escucha/src/gui/home.dart';
+import 'package:te_escucha/src/gui/inicio.dart';
 import 'package:te_escucha/src/model/const.dart';
 import 'package:te_escucha/src/model/localstoragehelper.dart';
 import 'package:te_escucha/src/model/user_perfil.dart';
@@ -52,7 +53,7 @@ class _DrawBarState extends State<DrawBar> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-        backgroundColor: Color.fromARGB(255, 243, 242, 242),
+        backgroundColor: const Color.fromARGB(255, 243, 242, 242),
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -63,7 +64,7 @@ class _DrawBarState extends State<DrawBar> {
                 style: txtDraw,
               ),
               currentAccountPicture: CircleAvatar(
-                  backgroundColor: Color(0xff174076),
+                  backgroundColor: const Color(0xff174076),
                   child: ClipOval(
                     child: Usuario.foto != "null"
                         ? Image.network(
@@ -83,8 +84,8 @@ class _DrawBarState extends State<DrawBar> {
               ),
             ),
             ListTile(
-              textColor: Color(0xff174076),
-              iconColor: Color(0xff174076),
+              textColor: const Color(0xff174076),
+              iconColor: const Color(0xff174076),
               leading: const Icon(Icons.home),
               title: const Text(
                 "Principal",
@@ -97,8 +98,8 @@ class _DrawBarState extends State<DrawBar> {
               onTap: () => {homePage()},
             ),
             ListTile(
-              textColor: Color(0xff174076),
-              iconColor: Color(0xff174076),
+              textColor: const Color(0xff174076),
+              iconColor: const Color(0xff174076),
               leading: const Icon(Icons.balance),
               title: const Text(
                 "Bases legales",
@@ -111,8 +112,8 @@ class _DrawBarState extends State<DrawBar> {
               onTap: () => {Navigator.pushNamed(context, '/baselegal')},
             ),
             ListTile(
-              textColor: Color(0xff174076),
-              iconColor: Color(0xff174076),
+              textColor: const Color(0xff174076),
+              iconColor: const Color(0xff174076),
               leading: const Icon(Icons.notifications_active),
               title: const Text(
                 "Notificaciones",
@@ -125,8 +126,8 @@ class _DrawBarState extends State<DrawBar> {
               onTap: () => {Navigator.pushNamed(context, '/tramites')},
             ),
             ListTile(
-              textColor: Color(0xff174076),
-              iconColor: Color(0xff174076),
+              textColor: const Color(0xff174076),
+              iconColor: const Color(0xff174076),
               leading: const Icon(Icons.history),
               title: const Text(
                 "Historico",
@@ -140,8 +141,8 @@ class _DrawBarState extends State<DrawBar> {
             ),
             const Divider(),
             ListTile(
-              textColor: Color(0xff174076),
-              iconColor: Color(0xff174076),
+              textColor: const Color(0xff174076),
+              iconColor: const Color(0xff174076),
               leading: const Icon(Icons.mark_unread_chat_alt),
               title: const Text(
                 "Asistente Virtual",
@@ -154,8 +155,8 @@ class _DrawBarState extends State<DrawBar> {
               onTap: () => {Navigator.pushNamed(context, '/tramites')},
             ),
             ListTile(
-              textColor: Color(0xff174076),
-              iconColor: Color(0xff174076),
+              textColor: const Color(0xff174076),
+              iconColor: const Color(0xff174076),
               leading: const Icon(Icons.policy),
               title: const Text(
                 "Políticas de Privacidad",
@@ -167,20 +168,20 @@ class _DrawBarState extends State<DrawBar> {
               ),
               onTap: () => {Navigator.pushNamed(context, '/politicas')},
             ),
-            ListTile(
-              textColor: Color(0xff174076),
-              iconColor: Color(0xff174076),
-              leading: const Icon(Icons.hearing),
-              title: const Text(
-                "Ayuda",
-                style: TextStyle(
-                    fontSize: 14,
-                    fontFamily: 'Lato',
-                    color: Color(0xff174076),
-                    fontWeight: FontWeight.bold),
-              ),
-              onTap: () => {Navigator.pushNamed(context, '/tramites')},
-            ),
+            // ListTile(
+            //   textColor: const Color(0xff174076),
+            //   iconColor: const Color(0xff174076),
+            //   leading: const Icon(Icons.hearing),
+            //   title: const Text(
+            //     "Ayuda",
+            //     style: TextStyle(
+            //         fontSize: 14,
+            //         fontFamily: 'Lato',
+            //         color: Color(0xff174076),
+            //         fontWeight: FontWeight.bold),
+            //   ),
+            //   onTap: () => {Navigator.pushNamed(context, '/tramites')},
+            // ),
             ListTile(
               textColor: Colors.red,
               iconColor: Colors.red,
@@ -193,7 +194,7 @@ class _DrawBarState extends State<DrawBar> {
                     color: Colors.red,
                     fontWeight: FontWeight.bold),
               ),
-              onTap: () => {Navigator.pushNamed(context, '/')},
+              onTap: () => {initPage()},
             ),
           ],
         ));
@@ -203,6 +204,13 @@ class _DrawBarState extends State<DrawBar> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const Home()),
+    );
+  }
+
+  void initPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const Inicio()),
     );
   }
 }
